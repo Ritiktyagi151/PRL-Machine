@@ -9,16 +9,33 @@ const isValidObjectId = (id) => {
 // Add new machine
 exports.createMachine = async (req, res) => {
   try {
-    const { name, description, images, videos, specifications, technicalDrawing, technicalDrawingFront, technicalDrawingSide, faq, code, id, inStock } = req.body;
-    
+    const {
+      name,
+      description,
+      images,
+      videos,
+      specifications,
+      technicalDrawing,
+      technicalDrawingFront,
+      technicalDrawingSide,
+      faq,
+      code,
+      id,
+      inStock,
+    } = req.body;
+
     if (!name || !code || !id) {
-      return res.status(400).json({ success: false, message: "ID, Name, and Code are required" });
+      return res
+        .status(400)
+        .json({ success: false, message: "ID, Name, and Code are required" });
     }
 
     // Check for duplicate id or code
     const existing = await AluminumMachine.findOne({ $or: [{ id }, { code }] });
     if (existing) {
-      return res.status(400).json({ success: false, message: "ID or Code already exists" });
+      return res
+        .status(400)
+        .json({ success: false, message: "ID or Code already exists" });
     }
 
     const machine = new AluminumMachine({
@@ -41,7 +58,13 @@ exports.createMachine = async (req, res) => {
     res.status(201).json(machine);
   } catch (error) {
     console.error("Create Error:", error.message, error.stack);
-    res.status(500).json({ success: false, message: `Error creating machine: ${error.message}`, error });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: `Error creating machine: ${error.message}`,
+        error,
+      });
   }
 };
 
@@ -53,7 +76,13 @@ exports.getMachines = async (req, res) => {
     res.json(machines);
   } catch (error) {
     console.error("Fetch Error:", error.message, error.stack);
-    res.status(500).json({ success: false, message: `Error fetching machines: ${error.message}`, error });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: `Error fetching machines: ${error.message}`,
+        error,
+      });
   }
 };
 
@@ -66,12 +95,20 @@ exports.getMachineById = async (req, res) => {
     const machine = await AluminumMachine.findOne(query);
     if (!machine) {
       console.log("Machine not found for ID:", id);
-      return res.status(404).json({ success: false, message: "Machine not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Machine not found" });
     }
     res.json(machine);
   } catch (error) {
     console.error("Fetch by ID Error:", error.message, error.stack);
-    res.status(500).json({ success: false, message: `Error fetching machine: ${error.message}`, error });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: `Error fetching machine: ${error.message}`,
+        error,
+      });
   }
 };
 
@@ -88,13 +125,21 @@ exports.updateMachine = async (req, res) => {
     );
     if (!machine) {
       console.log("Machine not found for update, ID:", id);
-      return res.status(404).json({ success: false, message: "Machine not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Machine not found" });
     }
     console.log("Updated machine:", machine);
     res.json(machine);
   } catch (error) {
     console.error("Update Error:", error.message, error.stack);
-    res.status(500).json({ success: false, message: `Error updating machine: ${error.message}`, error });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: `Error updating machine: ${error.message}`,
+        error,
+      });
   }
 };
 
@@ -107,13 +152,21 @@ exports.deleteMachine = async (req, res) => {
     const machine = await AluminumMachine.findOneAndDelete(query);
     if (!machine) {
       console.log("Machine not found for deletion, ID:", id);
-      return res.status(404).json({ success: false, message: "Machine not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Machine not found" });
     }
     console.log("Deleted machine:", machine);
     res.json({ success: true, message: "Machine deleted successfully" });
   } catch (error) {
     console.error("Delete Error:", error.message, error.stack);
-    res.status(500).json({ success: false, message: `Error deleting machine: ${error.message}`, error });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: `Error deleting machine: ${error.message}`,
+        error,
+      });
   }
 };
 
@@ -124,11 +177,19 @@ exports.getMachineByCode = async (req, res) => {
     const machine = await AluminumMachine.findOne({ code: req.params.code });
     if (!machine) {
       console.log("Machine not found for code:", req.params.code);
-      return res.status(404).json({ success: false, message: "Machine not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Machine not found" });
     }
     res.json(machine);
   } catch (error) {
     console.error("Fetch by Code Error:", error.message, error.stack);
-    res.status(500).json({ success: false, message: `Error fetching machine: ${error.message}`, error });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: `Error fetching machine: ${error.message}`,
+        error,
+      });
   }
 };
