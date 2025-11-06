@@ -37,14 +37,14 @@ import OurCompanyPage from "../pages/ourcompany/OurCompany";
 import Blogspage from "../pages/ourcompany/OurBlogs";
 
 // 🛠️ Admin Pages
-import DashboardPage from "../admin/sidebaarpages/DashboardPage";
-import Adminblog from "../admin/sidebaarpages/Adminblog";
-import AdminContact from "../admin/sidebaarpages/AdminContact";
-import AdminFooter from "../admin/sidebaarpages/AdminFooter";
-import AdminNarbar from "../admin/sidebaarpages/AdminNarbar";
-import AdminProducts from "../admin/sidebaarpages/adminProducts";
-import AdminUpvcProducts from "../admin/sidebaarpages/AdminProductspages/AdminUpvcProducts";
-import AdminAluminumProducts from "../admin/sidebaarpages/AdminProductspages/AdminAluminumProducts";
+import DashboardPage from "../admin/sidebarpages/DashboardPage";
+import Adminblog from "../admin/sidebarpages/Adminblog";
+import AdminContact from "../admin/sidebarpages/AdminContact";
+import AdminFooter from "../admin/sidebarpages/AdminFooter";
+import AdminNarbar from "../admin/sidebarpages/AdminNarbar";
+import AdminProducts from "../admin/sidebarpages/adminProducts";
+import AdminUpvcProducts from "../admin/sidebarpages/AdminProductspages/AdminUpvcProducts";
+import AdminAluminumProducts from "../admin/sidebarpages/AdminProductspages/AdminAluminumProducts";
 import AdminProfile from "../admin/adminnavorfootersidebar/AdminProfile";
 import AdminSettings from "../admin/adminnavorfootersidebar/AdminSettings";
 
