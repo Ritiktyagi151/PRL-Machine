@@ -1,0 +1,530 @@
+[
+        {
+            "id": "slc-300al",
+            "name": "Single Head Cutting Machine 350MM (SLC-300AL)",
+            "description": "Precision aluminum profile single head cutting machine with 350mm blade.",
+            "images": [
+                "https://t4.ftcdn.net/jpg/12/66/89/59/240_F_1266895916_Cml8RDIHhrlYKqy9YNx5kI5myDYnrQqK.jpg",
+                "https://t4.ftcdn.net/jpg/12/66/89/59/240_F_1266895916_Cml8RDIHhrlYKqy9YNx5kI5myDYnrQqK.jpg",
+                "https://t3.ftcdn.net/jpg/16/12/81/96/240_F_1612819674_nFugFl1haPjUG3APngn8yklWRaaDpzRj.jpg"
+            ],
+            "videos": [
+                "https://v.ftcdn.net/07/82/09/58/240_F_782095880_jJwC5F24BSnaVmyMR58V4tmMEmih7db7_ST.mp4"
+            ],
+            "specifications": {
+                "Blade Diameter": "350 mm",
+                "Operation": "Semi-Automatic",
+                "Motor Power": "2.2 kW",
+                "Voltage": "220V / 50Hz",
+                "Cutting Speed": "30-60 cuts/min",
+                "Machine Dimensions": "1200×800×1100 mm",
+                "Weight": "250 kg",
+                "Accuracy": "±0.2 mm"
+            },
+            "technicalDrawing": "https://www.shutterstock.com/image-vector/lathe-concept-vector-rendering-3d-260nw-1186097335.jpg",
+            "technicalDrawingFront": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1_XoZFNdNPS5su4zzDYYJDBLyZIGJ3IONvwvJAq5MxsrlselNyYisW0-hbtde_7ikCZY&usqp=CAU",
+            "technicalDrawingSide": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaX48xVsyWRjESNF2FZRRc3tkww5DgSoblVpNjUqScMvEujDkKOYO_TrMYt7dRvsB1Sls&usqp=CAU",
+            "faq": [
+                {
+                    "question": "What is the maximum profile width this machine can handle?",
+                    "answer": "The SLC-300AL can handle aluminum profiles up to 350mm in width."
+                }
+            ],
+            "price": 9500,
+            "inStock": true,
+            "code": "AL-SLC300"
+        },
+    {
+        "id": "roxx-600al",
+        "name": "Double Head Semi-Automatic Cutting 450MM (ROXX-600AL)",
+        "description": "Semi-automatic double head cutting machine for aluminum profiles with 450mm blades.",
+        "images": [
+            "https://images.unsplash.com/photo-1605152276897-4f618f831968?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.pexels.com/photos/159306/construction-site-build-construction-work-159306.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.unsplash.com/photo-1581093450021-4a7360e9aab5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+        ],
+        "videos": [
+            "https://assets.mixkit.co/videos/preview/mixkit-factory-machine-cutting-metal-15805-large.mp4"
+        ],
+        "specifications": {
+            "Blade Diameter": "450 mm",
+            "Operation": "Semi-Automatic",
+            "Motor Power": "3.0 kW",
+            "Voltage": "380V / 50Hz",
+            "Cutting Speed": "40-80 cuts/min",
+            "Machine Dimensions": "3000×1500×1600 mm",
+            "Weight": "650 kg",
+            "Accuracy": "±0.2 mm"
+        },
+        "technicalDrawing": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingFront": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingSide": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "faq": [
+            {
+                "question": "Can both cutting heads operate independently?",
+                "answer": "Yes, each cutting head can be operated independently for maximum flexibility."
+            }
+        ],
+        "price": 14500,
+        "inStock": true,
+        "code": "AL-ROXX600"
+    },
+    {
+        "id": "roxx-600aal",
+        "name": "Double Head Automatic Cutting 450MM (ROXX-600AAL)",
+        "description": "Fully automatic double head cutting machine for aluminum profiles with 450mm blades.",
+        "images": [
+            "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.pexels.com/photos/6476808/pexels-photo-6476808.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.unsplash.com/photo-1603732551658-5fabbafa84eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+        ],
+        "videos": [
+            "https://assets.mixkit.co/videos/preview/mixkit-automated-metal-cutting-machine-39739-large.mp4"
+        ],
+        "specifications": {
+            "Blade Diameter": "450 mm",
+            "Operation": "Automatic",
+            "Motor Power": "3.0 kW",
+            "Voltage": "380V / 50Hz",
+            "Cutting Speed": "60-120 cuts/min",
+            "Machine Dimensions": "3200×1600×1700 mm",
+            "Weight": "750 kg",
+            "Accuracy": "±0.1 mm"
+        },
+        "technicalDrawing": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingFront": "https://images.unsplash.com/photo-1605152276897-4f618f831968?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingSide": "https://images.unsplash.com/photo-1581093450021-4a7360e9aab5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "faq": [],
+        "price": 18500,
+        "inStock": true,
+        "code": "AL-ROXX600A"
+    },
+    {
+        "id": "roxx-900al",
+        "name": "Double Head Semi-Automatic Cutting 500MM (ROXX-900AL)",
+        "description": "Semi-automatic double head cutting machine with 500mm blades for large aluminum profiles.",
+        "images": [
+            "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.pexels.com/photos/6476812/pexels-photo-6476812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.unsplash.com/photo-1603732551681-2e91159b9dc2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+        ],
+        "videos": [
+            "https://assets.mixkit.co/videos/preview/mixkit-heavy-industrial-metal-cutting-39738-large.mp4"
+        ],
+        "specifications": {
+            "Blade Diameter": "500 mm",
+            "Operation": "Semi-Automatic",
+            "Motor Power": "3.5 kW",
+            "Voltage": "380V / 50Hz",
+            "Cutting Speed": "30-60 cuts/min",
+            "Machine Dimensions": "3500×1800×1800 mm",
+            "Weight": "850 kg",
+            "Accuracy": "±0.2 mm"
+        },
+        "technicalDrawing": "https://images.unsplash.com/photo-1581093057305-241fce5b8d0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingFront": "https://images.unsplash.com/photo-1581093057305-241fce5b8d0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingSide": "https://images.unsplash.com/photo-1581093057305-241fce5b8d0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "faq": [
+            {
+                "question": "What's the maximum cutting length for this machine?",
+                "answer": "The ROXX-900AL can handle aluminum profiles up to 6 meters in length."
+            },
+            {
+                "question": "Does it include a material feeding system?",
+                "answer": "Yes, it comes with a semi-automatic roller feeding system as standard."
+            }
+        ],
+        "price": 16500,
+        "inStock": true,
+        "code": "AL-ROXX900"
+    },
+    {
+        "id": "roxx-900ala",
+        "name": "Double Head Automatic Cutting 500MM (ROXX-900ALA)",
+        "description": "Fully automatic double head cutting machine with 500mm blades for high-volume aluminum cutting.",
+        "images": [
+            "https://images.unsplash.com/photo-1605152276897-4f618f831968?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.pexels.com/photos/6476806/pexels-photo-6476806.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+        ],
+        "videos": [
+            "https://assets.mixkit.co/videos/preview/mixkit-automated-metal-cutting-machine-39739-large.mp4"
+        ],
+        "specifications": {
+            "Blade Diameter": "500 mm",
+            "Operation": "Automatic",
+            "Motor Power": "3.5 kW",
+            "Voltage": "380V / 50Hz",
+            "Cutting Speed": "50-100 cuts/min",
+            "Machine Dimensions": "3700×1900×1900 mm",
+            "Weight": "950 kg",
+            "Accuracy": "±0.1 mm"
+        },
+        "technicalDrawing": "https://images.unsplash.com/photo-1581093057305-241fce5b8d0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingFront": "https://images.unsplash.com/photo-1581093057305-241fce5b8d0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingSide": "https://images.unsplash.com/photo-1581093057305-241fce5b8d0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "faq": [
+            {
+                "question": "What production capacity can this machine handle?",
+                "answer": "The ROXX-900ALA can process up to 1,200 cuts per hour in optimal conditions."
+            },
+            {
+                "question": "Does it include automatic lubrication?",
+                "answer": "Yes, it features an automatic lubrication system for continuous operation."
+            }
+        ],
+        "price": 21500,
+        "inStock": true,
+        "code": "AL-ROXX900A"
+    },
+    {
+        "id": "roxx-1000",
+        "name": "Double Head Automatic Cutting 600MM (ROXX-1000)",
+        "description": "Heavy-duty automatic double head cutting machine with 600mm blades for extra-large aluminum profiles.",
+        "images": [
+            "https://images.unsplash.com/photo-1603732551658-5fabbafa84eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.pexels.com/photos/6476808/pexels-photo-6476808.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+        ],
+        "videos": [
+            "https://assets.mixkit.co/videos/preview/mixkit-heavy-industrial-metal-cutting-39738-large.mp4"
+        ],
+        "specifications": {
+            "Blade Diameter": "600 mm",
+            "Operation": "Automatic",
+            "Motor Power": "4.0 kW",
+            "Voltage": "380V / 50Hz",
+            "Cutting Speed": "40-80 cuts/min",
+            "Machine Dimensions": "4000×2000×2000 mm",
+            "Weight": "1200 kg",
+            "Accuracy": "±0.1 mm"
+        },
+        "technicalDrawing": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingFront": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingSide": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "faq": [
+            {
+                "question": "What's the maximum profile weight this machine can handle?",
+                "answer": "The ROXX-1000 can process aluminum profiles weighing up to 150kg per linear meter."
+            },
+            {
+                "question": "Is the cutting angle adjustable?",
+                "answer": "Yes, it features ±45° adjustable cutting heads for angled cuts."
+            }
+        ],
+        "price": 24500,
+        "inStock": true,
+        "code": "AL-ROXX1000"
+    },
+    {
+        "id": "cro-900al",
+        "name": "CNC Copy Router Lock Hole Machine (CRO-900AL)",
+        "description": "CNC aluminum lock hole copy router for precision milling and slotting.",
+        "images": [
+            "https://images.unsplash.com/photo-1605152276897-4f618f831968?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.pexels.com/photos/6476809/pexels-photo-6476809.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.unsplash.com/photo-1603732551681-2e91159b9dc2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+        ],
+        "videos": [
+            "https://assets.mixkit.co/videos/preview/mixkit-cnc-machine-cutting-metal-39740-large.mp4"
+        ],
+        "specifications": {
+            "Operation": "CNC",
+            "Motor Power": "2.2 kW",
+            "Spindle Speed": "12000 rpm",
+            "Voltage": "380V / 50Hz",
+            "Milling Depth": "0-50 mm",
+            "Milling Width": "5-30 mm",
+            "Machine Dimensions": "1400×1000×1300 mm",
+            "Weight": "350 kg",
+            "Accuracy": "±0.05 mm"
+        },
+        "technicalDrawing": "https://images.unsplash.com/photo-1581093450021-4a7360e9aab5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingFront": "https://images.unsplash.com/photo-1581093450021-4a7360e9aab5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingSide": "https://images.unsplash.com/photo-1581093450021-4a7360e9aab5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "faq": [
+            {
+                "question": "What file formats does the CNC system support?",
+                "answer": "The machine supports standard G-code as well as DXF and DWG file formats."
+            },
+            {
+                "question": "Can it perform 3D milling operations?",
+                "answer": "Yes, it supports 3-axis simultaneous milling for complex profiles."
+            }
+        ],
+        "price": 14800,
+        "inStock": true,
+        "code": "AL-CRO900"
+    },
+    {
+        "id": "cro-600al",
+        "name": "Heavy Duty Lock Hole Copy Router Machine (CRO-600AL)",
+        "description": "Heavy-duty aluminum lock hole copy router for large-scale fabrication.",
+        "images": [
+            "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.pexels.com/photos/6476810/pexels-photo-6476810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.unsplash.com/photo-1603732551658-5fabbafa84eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+        ],
+        "videos": [
+            "https://assets.mixkit.co/videos/preview/mixkit-industrial-drilling-machine-39737-large.mp4"
+        ],
+        "specifications": {
+            "Operation": "Manual",
+            "Motor Power": "2.5 kW",
+            "Spindle Speed": "11000 rpm",
+            "Voltage": "380V / 50Hz",
+            "Milling Depth": "0-60 mm",
+            "Milling Width": "5-40 mm",
+            "Machine Dimensions": "1600×1200×1400 mm",
+            "Weight": "480 kg",
+            "Accuracy": "±0.1 mm"
+        },
+        "technicalDrawing": "https://images.unsplash.com/photo-1581093057305-241fce5b8d0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingFront": "https://images.unsplash.com/photo-1581093057305-241fce5b8d0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingSide": "https://images.unsplash.com/photo-1581093057305-241fce5b8d0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "faq": [
+            {
+                "question": "What's the maximum template thickness for copying?",
+                "answer": "The machine can accommodate templates up to 20mm thick."
+            },
+            {
+                "question": "Does it include a vacuum table?",
+                "answer": "Yes, it comes with a 6-zone vacuum table as standard equipment."
+            }
+        ],
+        "price": 10800,
+        "inStock": true,
+        "code": "AL-CRO600"
+    },
+    {
+        "id": "cro-300al",
+        "name": "Portable Manual Copy Router Machine (CRO-300AL)",
+        "description": "Compact and portable aluminum copy router machine for on-site work.",
+        "images": [
+            "https://images.pexels.com/photos/6476811/pexels-photo-6476811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.unsplash.com/photo-1603732551681-2e91159b9dc2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.pexels.com/photos/6476813/pexels-photo-6476813.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        ],
+        "videos": [
+            "https://assets.mixkit.co/videos/preview/mixkit-portable-drilling-machine-39736-large.mp4"
+        ],
+        "specifications": {
+            "Operation": "Manual",
+            "Motor Power": "1.5 kW",
+            "Spindle Speed": "10000 rpm",
+            "Voltage": "220V / 50Hz",
+            "Milling Depth": "0-40 mm",
+            "Milling Width": "5-30 mm",
+            "Machine Dimensions": "800×600×500 mm",
+            "Weight": "85 kg",
+            "Accuracy": "±0.2 mm"
+        },
+        "technicalDrawing": "https://images.unsplash.com/photo-1581093057305-241fce5b8d0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingFront": "https://images.unsplash.com/photo-1581093057305-241fce5b8d0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingSide": "https://images.unsplash.com/photo-1581093057305-241fce5b8d0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "faq": [
+            {
+                "question": "What's the maximum workpiece size for this portable router?",
+                "answer": "The CRO-300AL can handle workpieces up to 600mm in length and 400mm in width."
+            },
+            {
+                "question": "Does it include a carrying case?",
+                "answer": "Yes, it comes with a durable aluminum carrying case with foam padding."
+            }
+        ],
+        "price": 5500,
+        "inStock": true,
+        "code": "AL-CRO300"
+    },
+    {
+        "id": "mca-600al",
+        "name": "Automatic Mullion Cutting Machine (MCA-600AL)",
+        "description": "Automatic aluminum mullion cutting machine with high precision and speed.",
+        "images": [
+            "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.pexels.com/photos/6476807/pexels-photo-6476807.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.unsplash.com/photo-1603732551658-5fabbafa84eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+        ],
+        "videos": [
+            "https://assets.mixkit.co/videos/preview/mixkit-automatic-metal-cutting-machine-39735-large.mp4"
+        ],
+        "specifications": {
+            "Blade Diameter": "450 mm",
+            "Operation": "Automatic",
+            "Motor Power": "3.0 kW",
+            "Voltage": "380V / 50Hz",
+            "Cutting Speed": "40-80 cuts/min",
+            "Machine Dimensions": "1600×1200×1400 mm",
+            "Weight": "450 kg",
+            "Accuracy": "±0.1 mm"
+        },
+        "technicalDrawing": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingFront": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingSide": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "faq": [
+            {
+                "question": "What types of mullion profiles can this machine cut?",
+                "answer": "It can process all standard aluminum mullion profiles up to 150mm in width."
+            },
+            {
+                "question": "Does it include automatic measurement?",
+                "answer": "Yes, it features laser measurement for precise cutting lengths."
+            }
+        ],
+        "price": 16800,
+        "inStock": true,
+        "code": "AL-MCA600"
+    },
+    {
+        "id": "muc-300al",
+        "name": "Manual Mullion Cutting (MUC-300AL)",
+        "description": "Manual aluminum mullion cutting machine suitable for small-scale production.",
+        "images": [
+            "https://images.pexels.com/photos/6476805/pexels-photo-6476805.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.unsplash.com/photo-1605152276897-4f618f831968?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.pexels.com/photos/6476809/pexels-photo-6476809.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        ],
+        "videos": [
+            "https://assets.mixkit.co/videos/preview/mixkit-manual-metal-cutting-machine-39734-large.mp4"
+        ],
+        "specifications": {
+            "Blade Diameter": "350 mm",
+            "Operation": "Manual",
+            "Motor Power": "2.0 kW",
+            "Voltage": "220V / 50Hz",
+            "Cutting Speed": "20-40 cuts/min",
+            "Machine Dimensions": "1000×800×900 mm",
+            "Weight": "180 kg",
+            "Accuracy": "±0.2 mm"
+        },
+        "technicalDrawing": "https://images.unsplash.com/photo-1581093450021-4a7360e9aab5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingFront": "https://images.unsplash.com/photo-1581093450021-4a7360e9aab5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingSide": "https://images.unsplash.com/photo-1581093450021-4a7360e9aab5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "faq": [
+            {
+                "question": "What safety features does this machine have?",
+                "answer": "It includes emergency stop, blade guard, and two-hand operation for safety."
+            },
+            {
+                "question": "Can it cut stainless steel mullions?",
+                "answer": "No, this model is designed specifically for aluminum profiles only."
+            }
+        ],
+        "price": 5200,
+        "inStock": true,
+        "code": "AL-MUC300"
+    },
+    {
+        "id": "puc-300",
+        "name": "Corner 4 Punch Machine (PUC-300)",
+        "description": "Four-corner aluminum punching machine for frame assembly.",
+        "images": [
+            "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.pexels.com/photos/6476810/pexels-photo-6476810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.unsplash.com/photo-1603732551681-2e91159b9dc2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+        ],
+        "videos": [
+            "https://assets.mixkit.co/videos/preview/mixkit-hydraulic-punching-machine-39733-large.mp4"
+        ],
+        "specifications": {
+            "Operation": "Hydraulic",
+            "Punch Force": "30 kN",
+            "Air Pressure": "0.6 MPa",
+            "Punching Speed": "20-40 punches/min",
+            "Machine Dimensions": "1200×1000×1100 mm",
+            "Weight": "350 kg",
+            "Accuracy": "±0.2 mm"
+        },
+        "technicalDrawing": "https://images.unsplash.com/photo-1581093057305-241fce5b8d0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingFront": "https://images.unsplash.com/photo-1581093057305-241fce5b8d0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingSide": "https://images.unsplash.com/photo-1581093057305-241fce5b8d0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "faq": [
+            {
+                "question": "What punch sizes are included?",
+                "answer": "The standard package includes 5mm, 6mm, and 8mm punch sets."
+            },
+            {
+                "question": "Can it punch through 3mm aluminum?",
+                "answer": "Yes, it can punch through aluminum up to 4mm thickness."
+            }
+        ],
+        "price": 8500,
+        "inStock": true,
+        "code": "AL-PUC300"
+    },
+    {
+        "id": "puc-600",
+        "name": "Corner 8 Punch Machine (PUC-600)",
+        "description": "Eight-corner aluminum punching machine for complex frame production.",
+        "images": [
+            "https://images.unsplash.com/photo-1603732551658-5fabbafa84eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.pexels.com/photos/6476808/pexels-photo-6476808.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+        ],
+        "videos": [
+            "https://assets.mixkit.co/videos/preview/mixkit-industrial-punching-machine-39732-large.mp4"
+        ],
+        "specifications": {
+            "Operation": "Hydraulic",
+            "Punch Force": "50 kN",
+            "Air Pressure": "0.6 MPa",
+            "Punching Speed": "15-30 punches/min",
+            "Machine Dimensions": "1500×1200×1300 mm",
+            "Weight": "500 kg",
+            "Accuracy": "±0.2 mm"
+        },
+        "technicalDrawing": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingFront": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingSide": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "faq": [
+            {
+                "question": "How many different punch patterns can it store?",
+                "answer": "The machine can store up to 20 different punching patterns in memory."
+            },
+            {
+                "question": "Is automatic material feeding available?",
+                "answer": "Yes, an optional automatic feeding system is available."
+            }
+        ],
+        "price": 12500,
+        "inStock": true,
+        "code": "AL-PUC600"
+    },
+    {
+        "id": "ccm-600",
+        "name": "Corner Crimping Machine (CCM-600)",
+        "description": "Aluminum corner crimping machine for strong and accurate joint connections.",
+        "images": [
+            "https://images.unsplash.com/photo-1605152276897-4f618f831968?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.pexels.com/photos/6476806/pexels-photo-6476806.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+        ],
+        "videos": [
+            "https://assets.mixkit.co/videos/preview/mixkit-metal-crimping-machine-39731-large.mp4"
+        ],
+        "specifications": {
+            "Crimping Force": "60 kN",
+            "Air Pressure": "0.6 MPa",
+            "Weight": "500 kg",
+            "Crimping Speed": "20-40 crimps/min",
+            "Machine Dimensions": "1400×1100×1200 mm",
+            "Accuracy": "±0.1 mm"
+        },
+        "technicalDrawing": "https://images.unsplash.com/photo-1581093450021-4a7360e9aab5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingFront": "https://images.unsplash.com/photo-1581093450021-4a7360e9aab5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "technicalDrawingSide": "https://images.unsplash.com/photo-1581093450021-4a7360e9aab5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "faq": [
+            {
+                "question": "What profile thickness can this machine crimp?",
+                "answer": "It can crimp aluminum profiles from 1mm to 3mm thickness."
+            },
+            {
+                "question": "Does it require special tooling for different profiles?",
+                "answer": "Yes, interchangeable crimping dies are available for different profile shapes."
+            }
+        ],
+        "price": 9800,
+        "inStock": true,
+        "code": "AL-CCM600"
+    }
+]

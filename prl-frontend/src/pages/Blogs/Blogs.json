@@ -1,0 +1,104 @@
+[
+    {
+        "id": 1,
+        "title": "Advanced UPVC Window Manufacturing Machines",
+        "excerpt": "Discover Parida Red Lion's cutting-edge automated solutions for UPVC window production.",
+        "content": "<h2>UPVC-3000 Window Profile Welding Machine</h2><p>At Parida Red Lion, we take pride in delivering innovative window manufacturing machinery that sets new benchmarks in efficiency, automation, and precision. Our <strong>UPVC-3000 Profile Welding Machine</strong> stands at the forefront of modern window fabrication technology. Engineered to meet the demanding needs of window manufacturers, this machine offers a perfect blend of performance, reliability, and versatility.</p><h3>High-Speed Production with Precision</h3><p>The UPVC-3000 is designed for high-speed operation, capable of welding up to <strong>120 corners per hour</strong>. This makes it an ideal solution for companies looking to scale their operations without compromising on accuracy. The machine achieves <strong>±0.2mm welding accuracy</strong>, ensuring perfect window frame alignment every time.</p><h3>Built for Versatility</h3><p>One of the standout features of the UPVC-3000 is its versatility. It can handle a wide range of UPVC profiles, from <strong>50mm to 120mm</strong>, making it suitable for various window types including casement, sliding, and tilt-and-turn windows.</p><h3>Integrated Smart Technology</h3><p>This machine is equipped with an <strong>integrated vision inspection system</strong> that ensures each weld meets quality standards. The <strong>servo-driven motion control</strong> delivers smooth, accurate movements during the welding process, reducing wear and tear and extending machine life.</p><h3>Technical Specifications</h3><ul><li><strong>Dimensions:</strong> 2500 × 1500 × 1800 mm</li><li><strong>Weight:</strong> 2200 kg</li><li><strong>Power Requirement:</strong> 7.5 kW, 380V, 50Hz</li><li><strong>Production Capacity:</strong> 120 corners/hour</li></ul>",
+        "date": "2023-05-15",
+        "author": "Rajesh Parida",
+        "image": "/assets/Blogsimg/UPVC-Window-Machines.png",
+        "category": "UPVC Technology",
+        "specifications": {
+            "Dimensions": "2500×1500×1800mm",
+            "Weight": "2200kg",
+            "Power": "7.5kW, 380V 50Hz",
+            "Production Capacity": "120 corners/hour",
+            "Profile Range": "50-120mm"
+        }
+    },
+    {
+        "id": 2,
+        "title": "Energy-Efficient Window Manufacturing Solutions",
+        "excerpt": "Sustainable production with our GreenLine series of window machines",
+        "content": "<h2>GreenLine Eco-Window Systems</h2><p>As global industries move toward sustainability, Parida Red Lion leads the charge with our innovative <strong>GreenLine Eco-Window Systems</strong>. These specialized machines are engineered to support eco-friendly window manufacturing with reduced energy consumption and material waste.</p><h3>Energy-Efficient Technology</h3><p>The GreenLine systems feature <strong>low-energy welding technology</strong>, which minimizes electricity usage during operation. With a built-in <strong>energy monitoring system</strong>, operators can track consumption in real time, ensuring efficient operation.</p><h3>Material Optimization</h3><p>Our precision cutting systems ensure <strong>15% material savings</strong> compared to conventional machines, reducing UPVC waste and supporting sustainable manufacturing practices.</p><h3>Technical Specifications</h3><ul><li><strong>Dimensions:</strong> 2400×1400×1700mm</li><li><strong>Weight:</strong> 2100kg</li><li><strong>Power:</strong> 6.5kW, 380V 50Hz</li><li><strong>Energy Savings:</strong> Up to 30%</li></ul>",
+        "date": "2023-04-28",
+        "author": "Sunita Reddy",
+        "image": "/assets/Blogsimg/Energy-Sustainable-Window.png",
+        "category": "Sustainability",
+        "specifications": {
+            "Dimensions": "2400×1400×1700mm",
+            "Weight": "2100kg",
+            "Power": "6.5kW, 380V 50Hz",
+            "Energy Savings": "Up to 30%",
+            "Material Savings": "15% reduction"
+        }
+    },
+    {
+        "id": 3,
+        "title": "High-Speed Aluminum Window Production Line",
+        "excerpt": "Parida Red Lion's UltraSpeed series redefines aluminum window manufacturing efficiency",
+        "content": "<h2>AluSpeed 500 Production Line</h2><p>The <strong>AluSpeed 500</strong> from Parida Red Lion's UltraSpeed series is designed for manufacturers who demand speed, precision, and reliability in aluminum window production. Capable of processing up to <strong>200 window frames per shift</strong>, this system sets a new industry benchmark.</p><h3>Advanced Cutting and Machining</h3><p>The AluSpeed 500 features <strong>CNC-controlled cutting</strong> with ±0.1mm accuracy and automatic corner cleaning for perfect joints. The integrated <strong>multi-head machining center</strong> drills, mills, and cuts in a single setup.</p><h3>Technical Specifications</h3><ul><li><strong>Dimensions:</strong> 3000×2000×2200mm</li><li><strong>Weight:</strong> 3500kg</li><li><strong>Power:</strong> 10kW, 380V, 50Hz</li><li><strong>Production Capacity:</strong> 200 frames/shift</li></ul>",
+        "date": "2023-06-10",
+        "author": "Vikram Singh",
+        "image": "/assets/Blogsimg/Aluminum-Window-Manufacturing.png",
+        "category": "Aluminum Technology",
+        "specifications": {
+            "Dimensions": "3000×2000×2200mm",
+            "Weight": "3500kg",
+            "Power": "10kW, 380V 50Hz",
+            "Production Capacity": "200 frames/shift",
+            "Accuracy": "±0.1mm"
+        }
+    },
+    {
+        "id": 4,
+        "title": "Compact Window Machine for Small Manufacturers",
+        "excerpt": "Affordable, space-saving solution for small window businesses",
+        "content": "<h2>MiniWindow 100</h2><p>The <strong>MiniWindow 100</strong> is Parida Red Lion's most compact window manufacturing solution, specially designed for small businesses and startups. With a footprint of just <strong>4 square meters</strong>, this machine delivers professional-grade performance.</p><h3>Simple Operation</h3><p>Featuring <strong>one-button operation</strong> and intuitive controls, the MiniWindow 100 is perfect for businesses with limited technical staff. It can produce up to <strong>50 window frames per day</strong>, handling both UPVC and aluminum profiles.</p><h3>Technical Specifications</h3><ul><li><strong>Dimensions:</strong> 2000×1200×1600mm</li><li><strong>Weight:</strong> 1500kg</li><li><strong>Power:</strong> 4.5kW, 380V, 50Hz</li><li><strong>Daily Output:</strong> 50 frames</li></ul>",
+        "date": "2023-07-05",
+        "author": "Priya Sharma",
+        "image": "/assets/Blogsimg/MiniWindow-100-Machine.png",
+        "category": "Compact",
+        "specifications": {
+            "Dimensions": "2000×1200×1600mm",
+            "Weight": "1500kg",
+            "Power": "4.5kW, 380V 50Hz",
+            "Daily Output": "50 frames",
+            "Profile Types": "UPVC & Aluminum"
+        }
+    },
+    {
+        "id": 5,
+        "title": "Smart Window Factory 4.0 Solutions",
+        "excerpt": "IoT-enabled window machines with predictive maintenance",
+        "content": "<h2>ConnectedWindow System</h2><p>The <strong>ConnectedWindow System</strong> by Parida Red Lion is a state-of-the-art solution designed for Industry 4.0. With fully integrated IoT capabilities, this system enables data-driven window manufacturing with real-time monitoring and predictive maintenance.</p><h3>Smart Features</h3><p>The system provides <strong>real-time production monitoring</strong> and <strong>predictive maintenance alerts</strong>, reducing downtime by up to 30%. Cloud integration allows remote access to production data from anywhere.</p><h3>Technical Specifications</h3><ul><li><strong>Dimensions:</strong> 2500×1500×2000mm</li><li><strong>Weight:</strong> 2400kg</li><li><strong>Power:</strong> 8.5kW, 380V, 50Hz</li><li><strong>Connectivity:</strong> OPC UA, MQTT</li></ul>",
+        "date": "2023-08-12",
+        "author": "Amit Patel",
+        "image": "/assets/Blogsimg/Smart-Window-Factory.png",
+        "category": "Smart Manufacturing",
+        "specifications": {
+            "Dimensions": "2500×1500×2000mm",
+            "Weight": "2400kg",
+            "Power": "8.5kW, 380V 50Hz",
+            "Connectivity": "OPC UA, MQTT",
+            "Downtime Reduction": "Up to 30%"
+        }
+    },
+    {
+        "id": 6,
+        "title": "Multi-Station Window Production System",
+        "excerpt": "High-capacity parallel processing for maximum output",
+        "content": "<h2>MultiWindow 8XL</h2><p>The <strong>MultiWindow 8XL</strong> from Parida Red Lion is the ultimate solution for high-output window manufacturing. Featuring eight fully independent workstations, this system can produce over <strong>500 window frames per shift</strong>.</p><h3>Advanced Automation</h3><p>Each station is equipped with <strong>servo-driven technology</strong> for precise operations. The centralized control system allows operators to monitor all stations simultaneously.</p><h3>Technical Specifications</h3><ul><li><strong>Dimensions:</strong> 6000×3000×2500mm</li><li><strong>Weight:</strong> 5800kg</li><li><strong>Power:</strong> 20kW, 380V, 50Hz</li><li><strong>Production Capacity:</strong> 500 frames/shift</li></ul>",
+        "date": "2023-09-01",
+        "author": "Neha Gupta",
+        "image": "/assets/Blogsimg/Window-Production-System.png",
+        "category": "Industrial",
+        "specifications": {
+            "Dimensions": "6000×3000×2500mm",
+            "Weight": "5800kg",
+            "Power": "20kW, 380V 50Hz",
+            "Production Capacity": "500 frames/shift",
+            "Workstations": "8 independent"
+        }
+    }
+]

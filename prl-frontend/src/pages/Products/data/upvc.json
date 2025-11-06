@@ -1,0 +1,831 @@
+[
+  {
+    "id": "sld-300",
+    "name": "uPVC Single Head Welding Machine (SLD-300)",
+    "description": "A reliable single-head welding machine designed for precision welding of uPVC window profiles with high durability and efficiency.",
+    "images": [
+      "https://images.pexels.com/photos/123456/industrial-welding-machine.jpg",
+      "https://unsplash.com/photos/789012/factory-workshop.jpg",
+      "https://images.pexels.com/photos/234567/precision-machinery.jpg",
+      "https://unsplash.com/photos/345678/upvc-profile-welding.jpg",
+      "https://images.pexels.com/photos/456789/manufacturing-line.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/sld-300-overview.mp4",
+      "https://example.com/videos/upvc/random/demo-process.mp4"
+    ],
+    "specifications": {
+      "Welding Range": "400–3500 mm",
+      "Power Consumption": "2.5 kW",
+      "Voltage": "220V / 50Hz",
+      "Welding Temperature": "240–280°C",
+      "Welding Time": "20–60 seconds",
+      "Cooling Time": "30–90 seconds",
+      "Machine Dimensions": "1500×800×1200 mm",
+      "Weight": "280 kg",
+      "Air Pressure": "6 bar",
+      "Air Consumption": "50 L/min"
+    },
+    "technicalDrawing": "/drawings/upvc/sld-300.pdf",
+    "technicalDrawingFront": "/images/upvc/sld-300/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/sld-300/drawing-side.jpg",
+    "faq": [
+      {
+        "question": "What is the maximum profile width this machine can handle?",
+        "answer": "The SLD-300 can handle profiles up to 120mm in width."
+      },
+      {
+        "question": "Does this machine include a welding plate?",
+        "answer": "Yes, it comes with a standard 3mm welding plate included."
+      }
+    ],
+    "inStock": true,
+    "code": "UPVC-SLD300"
+  },
+  {
+    "id": "dld-600",
+    "name": "uPVC Double Head Welding Machine (DLD-600)",
+    "description": "Double-head welding machine ideal for simultaneous welding of two uPVC profiles, ensuring consistent joint strength.",
+    "images": [
+      "https://images.pexels.com/photos/567890/double-head-welder.jpg",
+      "https://unsplash.com/photos/901234/factory-production.jpg",
+      "https://images.pexels.com/photos/678901/upvc-welding.jpg",
+      "https://unsplash.com/photos/123789/industrial-equipment.jpg",
+      "https://images.pexels.com/photos/234901/manufacturing-workshop.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/dld-600-overview.mp4",
+      "https://example.com/videos/upvc/random/production-line.mp4"
+    ],
+    "specifications": {
+      "Welding Range": "400–6000 mm",
+      "Power Consumption": "3.5 kW",
+      "Voltage": "380V / 50Hz",
+      "Welding Temperature": "240–280°C",
+      "Welding Time": "20–60 seconds",
+      "Cooling Time": "30–90 seconds",
+      "Machine Dimensions": "2500×1200×1500 mm",
+      "Weight": "480 kg",
+      "Air Pressure": "6 bar",
+      "Air Consumption": "80 L/min"
+    },
+    "technicalDrawing": "/drawings/upvc/dld-600.pdf",
+    "technicalDrawingFront": "/images/upvc/dld-600/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/dld-600/drawing-side.jpg",
+    "faq": [
+      {
+        "question": "Can both welding heads operate independently?",
+        "answer": "Yes, each welding head can be operated independently for maximum flexibility."
+      },
+      {
+        "question": "What is the production capacity?",
+        "answer": "The DLD-600 can weld approximately 60-80 frames per hour."
+      }
+    ],
+    "inStock": true,
+    "code": "UPVC-DLD600"
+  },
+  {
+    "id": "sld-300v",
+    "name": "uPVC Single Head V-Welding Machine (SLD-300V)",
+    "description": "Specialized single-head welding machine for V-shape welding of uPVC profiles, providing precise angle joints.",
+    "images": [
+      "https://images.pexels.com/photos/345012/v-welding-machine.jpg",
+      "https://unsplash.com/photos/456123/angle-welding.jpg",
+      "https://images.pexels.com/photos/789234/industrial-v-weld.jpg",
+      "https://unsplash.com/photos/567890/precision-welding.jpg",
+      "https://images.pexels.com/photos/901234/factory-angle-weld.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/sld-300v-overview.mp4",
+      "https://example.com/videos/upvc/random/v-weld-demo.mp4"
+    ],
+    "specifications": {
+      "Welding Angle": "30°–180°",
+      "Power Consumption": "2.5 kW",
+      "Voltage": "220V / 50Hz",
+      "Welding Temperature": "240–280°C",
+      "Welding Time": "20–60 seconds",
+      "Cooling Time": "30–90 seconds",
+      "Machine Dimensions": "1600×800×1300 mm",
+      "Weight": "320 kg",
+      "Air Pressure": "6 bar",
+      "Air Consumption": "50 L/min"
+    },
+    "technicalDrawing": "/drawings/upvc/sld-300v.pdf",
+    "technicalDrawingFront": "/images/upvc/sld-300v/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/sld-300v/drawing-side.jpg",
+    "faq": [
+      {
+        "question": "What angle accuracy can this machine achieve?",
+        "answer": "The SLD-300V can achieve angle accuracy of ±0.5 degrees."
+      }
+    ],
+    "inStock": true,
+    "code": "UPVC-SLD300V"
+  },
+  {
+    "id": "slc-300",
+    "name": "Single Head Cutting Machine 350MM (SLC-300)",
+    "description": "Precision single-head cutting machine for clean and accurate cuts on uPVC profiles up to 350mm.",
+    "images": [
+      "https://images.pexels.com/photos/123789/cutting-machine.jpg",
+      "https://unsplash.com/photos/234901/precision-cutting.jpg",
+      "https://images.pexels.com/photos/345678/upvc-cutting.jpg",
+      "https://unsplash.com/photos/456789/industrial-blade.jpg",
+      "https://images.pexels.com/photos/567901/factory-cutting.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/slc-300-overview.mp4",
+      "https://example.com/videos/upvc/random/cutting-demo.mp4"
+    ],
+    "specifications": {
+      "Max Cutting Capacity": "350 mm",
+      "Blade Diameter": "350 mm",
+      "Motor Power": "2.2 kW",
+      "Cutting Speed": "30-60 cuts/min",
+      "Voltage": "220V / 50Hz",
+      "Machine Dimensions": "1200×800×1100 mm",
+      "Weight": "250 kg",
+      "Cutting Angle": "90° (fixed)",
+      "Accuracy": "±0.1 mm"
+    },
+    "technicalDrawing": "/drawings/upvc/slc-300.pdf",
+    "technicalDrawingFront": "/images/upvc/slc-300/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/slc-300/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-SLC300"
+  },
+  {
+    "id": "roxx-600",
+    "name": "Double Head Semi-Automatic Cutting 450MM (ROXX-600)",
+    "description": "Semi-automatic cutting machine with dual heads for simultaneous cuts on uPVC profiles up to 450mm.",
+    "images": [
+      "https://images.pexels.com/photos/678234/double-head-cutter.jpg",
+      "https://unsplash.com/photos/789345/semi-auto-cutting.jpg",
+      "https://images.pexels.com/photos/901234/dual-blade-machine.jpg",
+      "https://unsplash.com/photos/123456/factory-cutting-line.jpg",
+      "https://images.pexels.com/photos/234567/heavy-duty-cutting.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/roxx-600-overview.mp4",
+      "https://example.com/videos/upvc/random/semi-auto-process.mp4"
+    ],
+    "specifications": {
+      "Cutting Length Range": "400–4500 mm",
+      "Blade Diameter": "450 mm",
+      "Motor Power": "3.0 kW",
+      "Cutting Speed": "40-80 cuts/min",
+      "Voltage": "380V / 50Hz",
+      "Machine Dimensions": "3000×1500×1600 mm",
+      "Weight": "650 kg",
+      "Cutting Angle": "45° & 90°",
+      "Accuracy": "±0.2 mm"
+    },
+    "technicalDrawing": "/drawings/upvc/roxx-600.pdf",
+    "technicalDrawingFront": "/images/upvc/roxx-600/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/roxx-600/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-ROXX600"
+  },
+  {
+    "id": "roxx-600a",
+    "name": "Double Head Automatic Cutting 450MM (ROXX-600A)",
+    "description": "Fully automatic double-head cutting machine offering high productivity and precision for 450mm profile cuts.",
+    "images": [
+      "https://images.pexels.com/photos/345901/auto-cutting-machine.jpg",
+      "https://unsplash.com/photos/456234/cnc-cutting.jpg",
+      "https://images.pexels.com/photos/567234/precision-blade.jpg",
+      "https://unsplash.com/photos/789012/factory-automation.jpg",
+      "https://images.pexels.com/photos/901345/high-speed-cutter.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/roxx-600a-overview.mp4",
+      "https://example.com/videos/upvc/random/full-auto-demo.mp4"
+    ],
+    "specifications": {
+      "Cutting Length Range": "400–4500 mm",
+      "Blade Diameter": "450 mm",
+      "Motor Power": "3.5 kW",
+      "Cutting Speed": "60-120 cuts/min",
+      "Voltage": "380V / 50Hz",
+      "Machine Dimensions": "3200×1600×1700 mm",
+      "Weight": "750 kg",
+      "Cutting Angle": "45° & 90°",
+      "Accuracy": "±0.1 mm",
+      "Operation Mode": "Fully Automatic"
+    },
+    "technicalDrawing": "/drawings/upvc/roxx-600a.pdf",
+    "technicalDrawingFront": "/images/upvc/roxx-600a/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/roxx-600a/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-ROXX600A"
+  },
+  {
+    "id": "roxx-900",
+    "name": "Double Head Semi-Automatic Cutting 500MM (ROXX-900)",
+    "description": "Semi-automatic double-head cutting machine for large uPVC profiles up to 500mm.",
+    "images": [
+      "https://images.pexels.com/photos/123901/large-profile-cutter.jpg",
+      "https://unsplash.com/photos/234678/heavy-duty-machine.jpg",
+      "https://images.pexels.com/photos/345789/industrial-cutter.jpg",
+      "https://unsplash.com/photos/456901/factory-large-scale.jpg",
+      "https://images.pexels.com/photos/567234/500mm-cutting.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/roxx-900-overview.mp4",
+      "https://example.com/videos/upvc/random/heavy-duty-cutting.mp4"
+    ],
+    "specifications": {
+      "Cutting Length Range": "400–6000 mm",
+      "Blade Diameter": "500 mm",
+      "Motor Power": "4.0 kW",
+      "Cutting Speed": "30-60 cuts/min",
+      "Voltage": "380V / 50Hz",
+      "Machine Dimensions": "3500×1800×1800 mm",
+      "Weight": "850 kg",
+      "Cutting Angle": "45° & 90°",
+      "Accuracy": "±0.2 mm"
+    },
+    "technicalDrawing": "/drawings/upvc/roxx-900.pdf",
+    "technicalDrawingFront": "/images/upvc/roxx-900/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/roxx-900/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-ROXX900"
+  },
+  {
+    "id": "roxx-900a",
+    "name": "Double Head Automatic Cutting 500MM (ROXX-900A)",
+    "description": "High-speed automatic cutting machine for heavy-duty uPVC profile processing up to 500mm.",
+    "images": [
+      "https://images.pexels.com/photos/678345/high-speed-cutter.jpg",
+      "https://unsplash.com/photos/789456/automated-factory.jpg",
+      "https://images.pexels.com/photos/901456/precision-cutting.jpg",
+      "https://unsplash.com/photos/123789/large-scale-production.jpg",
+      "https://images.pexels.com/photos/234901/heavy-duty-automation.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/roxx-900a-overview.mp4",
+      "https://example.com/videos/upvc/random/high-speed-operation.mp4"
+    ],
+    "specifications": {
+      "Cutting Length Range": "400–6000 mm",
+      "Blade Diameter": "500 mm",
+      "Motor Power": "4.5 kW",
+      "Cutting Speed": "50-100 cuts/min",
+      "Voltage": "380V / 50Hz",
+      "Machine Dimensions": "3700×1900×1900 mm",
+      "Weight": "950 kg",
+      "Cutting Angle": "45° & 90°",
+      "Accuracy": "±0.1 mm",
+      "Operation Mode": "Fully Automatic"
+    },
+    "technicalDrawing": "/drawings/upvc/roxx-900a.pdf",
+    "technicalDrawingFront": "/images/upvc/roxx-900a/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/roxx-900a/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-ROXX900A"
+  },
+  {
+    "id": "slv-300",
+    "name": "V-Cutting Machine (SLV-300)",
+    "description": "Specialized machine for precision V-shape cutting of uPVC profiles for clean joint assembly.",
+    "images": [
+      "https://images.pexels.com/photos/345234/v-cutting-machine.jpg",
+      "https://unsplash.com/photos/456789/v-shape-cutting.jpg",
+      "https://images.pexels.com/photos/567890/precision-v-cut.jpg",
+      "https://unsplash.com/photos/789123/industrial-cutting.jpg",
+      "https://images.pexels.com/photos/901234/v-cut-workshop.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/slv-300-overview.mp4",
+      "https://example.com/videos/upvc/random/v-cutting-demo.mp4"
+    ],
+    "specifications": {
+      "Cutting Angle": "30°–90°",
+      "Blade Diameter": "300 mm",
+      "Motor Power": "2.2 kW",
+      "Cutting Speed": "20-40 cuts/min",
+      "Voltage": "220V / 50Hz",
+      "Machine Dimensions": "1200×800×1100 mm",
+      "Weight": "280 kg",
+      "Accuracy": "±0.2°"
+    },
+    "technicalDrawing": "/drawings/upvc/slv-300.pdf",
+    "technicalDrawingFront": "/images/upvc/slv-300/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/slv-300/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-SLV300"
+  },
+  {
+    "id": "gcm-300",
+    "name": "uPVC Manual Cleaning Grooving Machine (GCM-300)",
+    "description": "Manual grooving and cleaning machine for uPVC window and door profiles, ensuring smooth finish and precise edges.",
+    "images": [
+      "https://images.pexels.com/photos/123234/grooving-machine.jpg",
+      "https://unsplash.com/photos/234567/manual-grooving.jpg",
+      "https://images.pexels.com/photos/345901/cleaning-tool.jpg",
+      "https://unsplash.com/photos/456123/factory-grooving.jpg",
+      "https://images.pexels.com/photos/567234/precision-grooving.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/gcm-300-overview.mp4",
+      "https://example.com/videos/upvc/random/manual-operation.mp4"
+    ],
+    "specifications": {
+      "Operation": "Manual",
+      "Power Consumption": "0.8 kW",
+      "Voltage": "220V / 50Hz",
+      "Grooving Depth": "0-10 mm",
+      "Grooving Width": "3-15 mm",
+      "Machine Dimensions": "800×600×900 mm",
+      "Weight": "120 kg"
+    },
+    "technicalDrawing": "/drawings/upvc/gcm-300.pdf",
+    "technicalDrawingFront": "/images/upvc/gcm-300/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/gcm-300/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-GCM300"
+  },
+  {
+    "id": "cnc-300",
+    "name": "CNC 3-Tool Corner Cleaning Machine (CNC-300)",
+    "description": "CNC-controlled cleaning machine with 3-tool setup for automated corner cleaning of welded uPVC frames.",
+    "images": [
+      "https://images.pexels.com/photos/678901/cnc-cleaning-machine.jpg",
+      "https://unsplash.com/photos/789234/cnc-workshop.jpg",
+      "https://images.pexels.com/photos/901234/3-tool-cleaning.jpg",
+      "https://unsplash.com/photos/123456/automated-cleaning.jpg",
+      "https://images.pexels.com/photos/234789/cnc-precision.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/cnc-300-overview.mp4",
+      "https://example.com/videos/upvc/random/cnc-process.mp4"
+    ],
+    "specifications": {
+      "Tool Count": "3",
+      "Power Consumption": "2.5 kW",
+      "Voltage": "380V / 50Hz",
+      "Cleaning Speed": "10-30 frames/hour",
+      "Machine Dimensions": "1500×1200×1400 mm",
+      "Weight": "450 kg",
+      "Accuracy": "±0.1 mm",
+      "Operation Mode": "CNC Automatic"
+    },
+    "technicalDrawing": "/drawings/upvc/cnc-300.pdf",
+    "technicalDrawingFront": "/images/upvc/cnc-300/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/cnc-300/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-CNC300"
+  },
+  {
+    "id": "cnc-600",
+    "name": "CNC 5-Tool Corner Cleaning Machine (CNC-600)",
+    "description": "High-capacity CNC cleaning machine with 5-tool capability for complex profile cleaning operations.",
+    "images": [
+      "https://images.pexels.com/photos/345678/5-tool-cnc.jpg",
+      "https://unsplash.com/photos/456901/advanced-cnc-cleaning.jpg",
+      "https://images.pexels.com/photos/567890/multi-tool-machine.jpg",
+      "https://unsplash.com/photos/789345/cnc-production.jpg",
+      "https://images.pexels.com/photos/901234/high-capacity-cleaning.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/cnc-600-overview.mp4",
+      "https://example.com/videos/upvc/random/advanced-cleaning.mp4"
+    ],
+    "specifications": {
+      "Tool Count": "5",
+      "Power Consumption": "3.5 kW",
+      "Voltage": "380V / 50Hz",
+      "Cleaning Speed": "20-50 frames/hour",
+      "Machine Dimensions": "1800×1500×1600 mm",
+      "Weight": "650 kg",
+      "Accuracy": "±0.1 mm",
+      "Operation Mode": "CNC Automatic"
+    },
+    "technicalDrawing": "/drawings/upvc/cnc-600.pdf",
+    "technicalDrawingFront": "/images/upvc/cnc-600/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/cnc-600/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-CNC600"
+  },
+  {
+    "id": "cro-900",
+    "name": "CNC Copy Router Lock Hole Machine (CRO-900)",
+    "description": "CNC-operated copy router for precision lock hole and handle slot milling in uPVC profiles.",
+    "images": [
+      "https://images.pexels.com/photos/123456/cnc-router.jpg",
+      "https://unsplash.com/photos/234789/lock-hole-milling.jpg",
+      "https://images.pexels.com/photos/345901/precision-router.jpg",
+      "https://unsplash.com/photos/456234/cnc-milling.jpg",
+      "https://images.pexels.com/photos/567234/router-workshop.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/cro-900-overview.mp4",
+      "https://example.com/videos/upvc/random/cnc-routing.mp4"
+    ],
+    "specifications": {
+      "Spindle Speed": "12000 RPM",
+      "Motor Power": "1.5 kW",
+      "Voltage": "380V / 50Hz",
+      "Milling Depth": "0-50 mm",
+      "Milling Width": "5-30 mm",
+      "Machine Dimensions": "1400×1000×1300 mm",
+      "Weight": "350 kg",
+      "Accuracy": "±0.05 mm",
+      "Operation Mode": "CNC Automatic"
+    },
+    "technicalDrawing": "/drawings/upvc/cro-900.pdf",
+    "technicalDrawingFront": "/images/upvc/cro-900/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/cro-900/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-CRO900"
+  },
+  {
+    "id": "cro-600",
+    "name": "Heavy Duty Lock Hole Copy Router Machine (CRO-600)",
+    "description": "Robust copy router for lock holes in large uPVC profiles with heavy-duty construction.",
+    "images": [
+      "https://images.pexels.com/photos/678901/heavy-duty-router.jpg",
+      "https://unsplash.com/photos/789012/lock-hole-router.jpg",
+      "https://images.pexels.com/photos/901234/large-profile-router.jpg",
+      "https://unsplash.com/photos/123456/manual-routing.jpg",
+      "https://images.pexels.com/photos/234789/router-precision.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/cro-600-overview.mp4",
+      "https://example.com/videos/upvc/random/manual-routing.mp4"
+    ],
+    "specifications": {
+      "Spindle Speed": "9000 RPM",
+      "Motor Power": "2.0 kW",
+      "Voltage": "380V / 50Hz",
+      "Milling Depth": "0-60 mm",
+      "Milling Width": "5-40 mm",
+      "Machine Dimensions": "1600×1200×1400 mm",
+      "Weight": "480 kg",
+      "Accuracy": "±0.1 mm",
+      "Operation Mode": "Manual Copy"
+    },
+    "technicalDrawing": "/drawings/upvc/cro-600.pdf",
+    "technicalDrawingFront": "/images/upvc/cro-600/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/cro-600/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-CRO600"
+  },
+  {
+    "id": "cro-300",
+    "name": "Portable Manual Copy Router Machine (CRO-300)",
+    "description": "Lightweight manual copy router for on-site uPVC profile machining tasks.",
+    "images": [
+      "https://images.pexels.com/photos/345234/portable-router.jpg",
+      "https://unsplash.com/photos/456789/field-router.jpg",
+      "https://images.pexels.com/photos/567890/lightweight-router.jpg",
+      "https://unsplash.com/photos/789123/portable-machinery.jpg",
+      "https://images.pexels.com/photos/901234/on-site-routing.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/cro-300-overview.mp4",
+      "https://example.com/videos/upvc/random/portable-operation.mp4"
+    ],
+    "specifications": {
+      "Spindle Speed": "8000 RPM",
+      "Motor Power": "1.2 kW",
+      "Voltage": "220V / 50Hz",
+      "Milling Depth": "0-40 mm",
+      "Milling Width": "5-30 mm",
+      "Machine Dimensions": "800×600×500 mm",
+      "Weight": "85 kg",
+      "Accuracy": "±0.2 mm",
+      "Operation Mode": "Manual Copy"
+    },
+    "technicalDrawing": "/drawings/upvc/cro-300.pdf",
+    "technicalDrawingFront": "/images/upvc/cro-300/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/cro-300/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-CRO300"
+  },
+  {
+    "id": "glb-300",
+    "name": "Semi-Auto Glazing Bead Cutting Machine (GLB-300)",
+    "description": "Semi-automatic machine for accurate glazing bead cutting in uPVC profiles.",
+    "images": [
+      "https://images.pexels.com/photos/123789/glazing-bead-cutter.jpg",
+      "https://unsplash.com/photos/234901/semi-auto-cutter.jpg",
+      "https://images.pexels.com/photos/345678/bead-cutting.jpg",
+      "https://unsplash.com/photos/456789/precision-bead-cut.jpg",
+      "https://images.pexels.com/photos/567901/factory-bead-cutter.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/glb-300-overview.mp4",
+      "https://example.com/videos/upvc/random/semi-auto-cutting.mp4"
+    ],
+    "specifications": {
+      "Cutting Range": "10–300 mm",
+      "Motor Power": "1.5 kW",
+      "Voltage": "220V / 50Hz",
+      "Cutting Speed": "30-60 cuts/min",
+      "Machine Dimensions": "1000×800×1100 mm",
+      "Weight": "220 kg",
+      "Accuracy": "±0.2 mm",
+      "Operation Mode": "Semi-Automatic"
+    },
+    "technicalDrawing": "/drawings/upvc/glb-300.pdf",
+    "technicalDrawingFront": "/images/upvc/glb-300/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/glb-300/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-GLB300"
+  },
+  {
+    "id": "glb-600",
+    "name": "CNC Glazing Bead Cutting Machine (GLB-600)",
+    "description": "CNC-operated machine for high-speed precision cutting of glazing beads.",
+    "images": [
+      "https://images.pexels.com/photos/678234/cnc-bead-cutter.jpg",
+      "https://unsplash.com/photos/789345/high-speed-bead-cut.jpg",
+      "https://images.pexels.com/photos/901234/precision-cnc-cutting.jpg",
+      "https://unsplash.com/photos/123456/cnc-bead-workshop.jpg",
+      "https://images.pexels.com/photos/234789/advanced-bead-cutter.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/glb-600-overview.mp4",
+      "https://example.com/videos/upvc/random/precision-cutting.mp4"
+    ],
+    "specifications": {
+      "Cutting Range": "10–600 mm",
+      "Motor Power": "2.0 kW",
+      "Voltage": "380V / 50Hz",
+      "Cutting Speed": "60-120 cuts/min",
+      "Machine Dimensions": "1500×1000×1300 mm",
+      "Weight": "350 kg",
+      "Accuracy": "±0.1 mm",
+      "Operation Mode": "CNC Automatic"
+    },
+    "technicalDrawing": "/drawings/upvc/glb-600.pdf",
+    "technicalDrawingFront": "/images/upvc/glb-600/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/glb-600/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-GLB600"
+  },
+  {
+    "id": "dga-300",
+    "name": "2-Axis Drainage Water Slot Machine (DGA-300)",
+    "description": "Compact 2-axis machine for milling drainage water slots in uPVC profiles.",
+    "images": [
+      "https://images.pexels.com/photos/345901/2-axis-milling.jpg",
+      "https://unsplash.com/photos/456234/drainage-slot-machine.jpg",
+      "https://images.pexels.com/photos/567234/slot-milling.jpg",
+      "https://unsplash.com/photos/789123/compact-milling.jpg",
+      "https://images.pexels.com/photos/901234/drainage-workshop.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/dga-300-overview.mp4",
+      "https://example.com/videos/upvc/random/slot-milling.mp4"
+    ],
+    "specifications": {
+      "Axis": "2",
+      "Motor Power": "1.5 kW",
+      "Voltage": "220V / 50Hz",
+      "Milling Speed": "20-40 slots/min",
+      "Slot Width": "5-20 mm",
+      "Slot Depth": "2-10 mm",
+      "Machine Dimensions": "1200×800×1100 mm",
+      "Weight": "280 kg",
+      "Accuracy": "±0.1 mm"
+    },
+    "technicalDrawing": "/drawings/upvc/dga-300.pdf",
+    "technicalDrawingFront": "/images/upvc/dga-300/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/dga-300/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-DGA300"
+  },
+  {
+    "id": "dga-600",
+    "name": "3-Axis Drainage Water Slot Machine (DGA-600)",
+    "description": "Advanced 3-axis machine for multi-directional drainage slot milling.",
+    "images": [
+      "https://images.pexels.com/photos/123789/3-axis-milling.jpg",
+      "https://unsplash.com/photos/234901/advanced-milling.jpg",
+      "https://images.pexels.com/photos/345678/multi-axis-machine.jpg",
+      "https://unsplash.com/photos/456789/slot-milling-workshop.jpg",
+      "https://images.pexels.com/photos/567901/complex-slot-milling.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/dga-600-overview.mp4",
+      "https://example.com/videos/upvc/random/3-axis-operation.mp4"
+    ],
+    "specifications": {
+      "Axis": "3",
+      "Motor Power": "2.0 kW",
+      "Voltage": "380V / 50Hz",
+      "Milling Speed": "30-60 slots/min",
+      "Slot Width": "5-25 mm",
+      "Slot Depth": "2-15 mm",
+      "Machine Dimensions": "1400×1000×1200 mm",
+      "Weight": "350 kg",
+      "Accuracy": "±0.1 mm"
+    },
+    "technicalDrawing": "/drawings/upvc/dga-600.pdf",
+    "technicalDrawingFront": "/images/upvc/dga-600/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/dga-600/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-DGA600"
+  },
+  {
+    "id": "mca-600",
+    "name": "Automatic Mullion Cutting Machine (MCA-600)",
+    "description": "Fully automatic machine for high-precision mullion cutting in uPVC frames.",
+    "images": [
+      "https://images.pexels.com/photos/678234/mullion-cutter.jpg",
+      "https://unsplash.com/photos/789345/auto-mullion-cutting.jpg",
+      "https://images.pexels.com/photos/901234/precision-mullion.jpg",
+      "https://unsplash.com/photos/123456/mullion-workshop.jpg",
+      "https://images.pexels.com/photos/234789/high-speed-mullion.jpg"
+    ],
+    "videos": [
+      "https://example.com/videos/upvc/mca-600-overview.mp4",
+      "https://example.com/videos/upvc/random/auto-mullion.mp4"
+    ],
+    "specifications": {
+      "Cutting Range": "10–600 mm",
+      "Motor Power": "2.5 kW",
+      "Voltage": "380V / 50Hz",
+      "Cutting Speed": "40-80 cuts/min",
+      "Machine Dimensions": "1600×1200×1400 mm",
+      "Weight": "450 kg",
+      "Accuracy": "±0.1 mm",
+      "Operation Mode": "Fully Automatic"
+    },
+    "technicalDrawing": "/drawings/upvc/mca-600.pdf",
+    "technicalDrawingFront": "/images/upvc/mca-600/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/mca-600/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-MCA600"
+  },
+  {
+    "id": "muc-300",
+    "name": "Manual Mullion Cutting Machine (MUC-300)",
+    "description": "Manual operation mullion cutting machine for small-scale production.",
+    "images": [
+      "https://images.pexels.com/photos/345901/manual-mullion-cutter.jpg",
+      "https://unsplash.com/photos/456234/small-scale-cutting.jpg",
+      "https://images.pexels.com/photos/567234/mullion-machine.jpg",
+      "https://unsplash.com/photos/789123/manual-workshop.jpg",
+      "https://images.pexels.com/photos/901234/mullion-cutting.jpg"
+    ],
+    "videos": [
+      "/videos/upvc/muc-300-overview.mp4"
+    ],
+    "specifications": {
+      "Cutting Range": "10–300 mm",
+      "Motor Power": "0.8 kW",
+      "Voltage": "220V / 50Hz",
+      "Cutting Speed": "20-40 cuts/min",
+      "Machine Dimensions": "1000×800×900 mm",
+      "Weight": "180 kg",
+      "Accuracy": "±0.2 mm",
+      "Operation Mode": "Manual"
+    },
+    "technicalDrawing": "/drawings/upvc/muc-300.pdf",
+    "technicalDrawingFront": "/images/upvc/muc-300/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/muc-300/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-MUC300"
+  },
+  {
+    "id": "ipl-300",
+    "name": "uPVC Interlock Punching Machine (IPL-300)",
+    "description": "Specialized punching machine for interlock profiles in uPVC window frames.",
+    "images": [
+      "https://images.pexels.com/photos/123456/punching-machine.jpg",
+      "https://unsplash.com/photos/234789/interlock-punch.jpg",
+      "https://images.pexels.com/photos/345678/precision-punching.jpg",
+      "https://unsplash.com/photos/456789/punch-workshop.jpg",
+      "https://images.pexels.com/photos/567901/interlock-machine.jpg"
+    ],
+    "videos": [
+      "/videos/upvc/ipl-300-overview.mp4"
+    ],
+    "specifications": {
+      "Punch Stroke": "30 mm",
+      "Motor Power": "1.0 kW",
+      "Voltage": "220V / 50Hz",
+      "Punching Force": "5 tons",
+      "Punching Speed": "20-40 punches/min",
+      "Machine Dimensions": "800×600×1000 mm",
+      "Weight": "150 kg",
+      "Accuracy": "±0.2 mm"
+    },
+    "technicalDrawing": "/drawings/upvc/ipl-300.pdf",
+    "technicalDrawingFront": "/images/upvc/ipl-300/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/ipl-300/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-IPL300"
+  },
+  {
+    "id": "hand-tools",
+    "name": "uPVC Hand Tools Set",
+    "description": "Complete set of uPVC maintenance and assembly hand tools including cleaning, drainage, and pneumatic tools.",
+    "images": [
+      "https://images.pexels.com/photos/678234/hand-tools-set.jpg",
+      "https://unsplash.com/photos/789345/upvc-tools.jpg",
+      "https://images.pexels.com/photos/901234/maintenance-tools.jpg",
+      "https://unsplash.com/photos/123456/pneumatic-tools.jpg",
+      "https://images.pexels.com/photos/234789/tool-kit.jpg"
+    ],
+    "videos": [
+      "/videos/upvc/hand-tools-overview.mp4"
+    ],
+    "specifications": {
+      "Includes": "Cleaning Hand Tool, Drainage Hand Tool, Pneumatic Hand Tool",
+      "Material": "High-grade steel",
+      "Weight": "5 kg (complete set)"
+    },
+    "technicalDrawing": "/drawings/upvc/hand-tools.pdf",
+    "technicalDrawingFront": "/images/upvc/hand-tools/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/hand-tools/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-HANDTOOLS"
+  },
+  {
+    "id": "arc-600",
+    "name": "Arch Bending Machine (ARC-600)",
+    "description": "Specialized bending machine for arch-shaped uPVC profile fabrication.",
+    "images": [
+      "https://images.pexels.com/photos/345901/arch-bending-machine.jpg",
+      "https://unsplash.com/photos/456234/bending-workshop.jpg",
+      "https://images.pexels.com/photos/567234/precision-bending.jpg",
+      "https://unsplash.com/photos/789123/arch-profile-machine.jpg",
+      "https://images.pexels.com/photos/901234/bending-factory.jpg"
+    ],
+    "videos": [
+      "/videos/upvc/arc-600-overview.mp4"
+    ],
+    "specifications": {
+      "Bending Radius": "600 mm",
+      "Motor Power": "2.5 kW",
+      "Voltage": "380V / 50Hz",
+      "Bending Speed": "1-3 bends/min",
+      "Machine Dimensions": "2000×1500×1600 mm",
+      "Weight": "550 kg",
+      "Accuracy": "±1°"
+    },
+    "technicalDrawing": "/drawings/upvc/arc-600.pdf",
+    "technicalDrawingFront": "/images/upvc/arc-600/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/arc-600/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-ARC600"
+  },
+  {
+    "id": "sqm-600",
+    "name": "Auto Screwing Machine (SQM-600)",
+    "description": "Automatic screwing machine for high-speed assembly of uPVC frames.",
+    "images": [
+      "https://images.pexels.com/photos/123789/auto-screwing-machine.jpg",
+      "https://unsplash.com/photos/234901/screwing-workshop.jpg",
+      "https://images.pexels.com/photos/345678/precision-screwing.jpg",
+      "https://unsplash.com/photos/456789/high-speed-assembly.jpg",
+      "https://images.pexels.com/photos/567901/screwing-factory.jpg"
+    ],
+    "videos": [
+      "/videos/upvc/sqm-600-overview.mp4"
+    ],
+    "specifications": {
+      "Screwing Capacity": "Up to 600 mm",
+      "Motor Power": "1.5 kW",
+      "Voltage": "220V / 50Hz",
+      "Screwing Speed": "60-120 screws/min",
+      "Machine Dimensions": "1200×800×1100 mm",
+      "Weight": "220 kg",
+      "Accuracy": "±0.1 mm",
+      "Operation Mode": "Fully Automatic"
+    },
+    "technicalDrawing": "/drawings/upvc/sqm-600.pdf",
+    "technicalDrawingFront": "/images/upvc/sqm-600/drawing-front.jpg",
+    "technicalDrawingSide": "/images/upvc/sqm-600/drawing-side.jpg",
+    "faq": [],
+    "inStock": true,
+    "code": "UPVC-SQM600"
+  }
+]
