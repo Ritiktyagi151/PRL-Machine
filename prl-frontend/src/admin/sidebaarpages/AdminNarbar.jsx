@@ -13,7 +13,8 @@ export default function NavbarManager() {
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
 
-  const API_URL = "http://localhost:3000/api/navbar";
+  // 🔹 Use environment variable for base API URL
+  const API_URL = `${import.meta.env.VITE_API_BASE_URL}/navbar`;
 
   // 🔹 Fetch Navbar Data
   useEffect(() => {
@@ -43,41 +44,39 @@ export default function NavbarManager() {
   };
 
   // 🔹 Handle Logo Upload
- const handleLogoUpload = (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
+  const handleLogoUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
 
-  // Check if file is an image
-  if (!file.type.match("image.*")) {
-    setError("Please select an image file");
-    return;
-  }
+    if (!file.type.match("image.*")) {
+      setError("Please select an image file");
+      return;
+    }
 
-  setUploading(true);
-  setError("");
+    setUploading(true);
+    setError("");
 
-  const formData = new FormData();
-  formData.append("file", file); // 👈 "logo" → "file" (backend ke saath match karne ke liye)
+    const formData = new FormData();
+    formData.append("file", file);
 
-  axios
-    .post(`${API_URL}/upload-logo`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then((res) => {
-      setLogo(res.data.logo); // 👈 "logoUrl" → "logo"
-      setUploading(false);
-      setIsSaved(true);
-      setTimeout(() => setIsSaved(false), 2000);
-    })
-    .catch((err) => {
-      console.error("Error uploading logo:", err);
-      setError("Failed to upload logo. Please try again.");
-      setUploading(false);
-    });
-};
-
+    axios
+      .post(`${API_URL}/upload-logo`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        setLogo(res.data.logo);
+        setUploading(false);
+        setIsSaved(true);
+        setTimeout(() => setIsSaved(false), 2000);
+      })
+      .catch((err) => {
+        console.error("Error uploading logo:", err);
+        setError("Failed to upload logo. Please try again.");
+        setUploading(false);
+      });
+  };
 
   // 🔹 Save Navbar Data
   const handleSave = () => {
@@ -118,6 +117,7 @@ export default function NavbarManager() {
         });
     }
   };
+
 
   // 🔹 Loading State
   if (loading) {

@@ -12,7 +12,7 @@ import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 
-const UPVC_API_URL = "http://localhost:3000/api/upvcmachines";
+const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
 
 const UPVCWindowMachinesPage = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);

@@ -74,8 +74,8 @@ const AdminBlog = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const API_BASE_URL = "http://localhost:3000/api/blogs"; // Format date for input field (yyyy-MM-dd)
-
+  const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/blogs`; // Format date for input field (yyyy-MM-dd)
+  // const API_URL = `${import.meta.env.VITE_API_BASE_URL}/navbar`;
   const formatDateForInput = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -407,8 +407,7 @@ const AdminBlog = () => {
       <div className="min-h-screen bg-gradient-to-br from-violet-50 to-red-50 p-6">
                {" "}
         <div className="max-w-7xl mx-auto">
-                    {/* Toast Container */}
-                   {" "}
+                    {/* Toast Container */}         {" "}
           <ToastContainer
             position="top-right"
             autoClose={3000}

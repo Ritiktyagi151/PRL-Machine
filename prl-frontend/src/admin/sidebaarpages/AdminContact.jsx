@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 export default function AdminContact() {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
+
   const [contactInfo, setContactInfo] = useState({
     address: "",
     phone: "",
@@ -14,36 +16,54 @@ export default function AdminContact() {
   const [saveStatus, setSaveStatus] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState("");
 
-  // Data load karne ke liye useEffect
   useEffect(() => {
     const fetchConfig = async () => {
       try {
         setLoading(true);
-        const res = await fetch("http://localhost:3000/api/site-config");
+        setError("");
+        const res = await fetch(`${API_BASE}/site-config`);
+        if (!res.ok) throw new Error("Failed to fetch site config");
         const { data } = await res.json();
         if (data) {
-          setContactInfo(data.contactInfo);
-          setMapEmbed(data.mapEmbed);
-          setFormFields(data.formFields);
+          setContactInfo(data.contactInfo || {});
+          setMapEmbed(data.mapEmbed || "");
+          setFormFields(data.formFields || []);
         }
-      } catch (error) {
-        console.error("Failed to load settings:", error);
-        alert("Failed to load settings.");
+      } catch (err) {
+        console.error("Failed to load settings:", err);
+        setError("Failed to load settings. Please try again later.");
       } finally {
         setLoading(false);
       }
     };
     fetchConfig();
-  }, []);
+  }, [API_BASE]);
 
-  // handleSave function ko update karein
+  // Basic validation
+  const isValidEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  const isValidPhone = (phone) =>
+    /^[+\d\s()-]{7,}$/.test(phone.trim()); // basic pattern allowing +, digits, spaces, parentheses, dashes
+
   const handleSave = async () => {
+    setError("");
+    // Validation checks before save
+    if (contactInfo.email && !isValidEmail(contactInfo.email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    if (contactInfo.phone && !isValidPhone(contactInfo.phone)) {
+      setError("Please enter a valid phone number.");
+      return;
+    }
+
     setIsSaving(true);
     try {
       const payload = { contactInfo, mapEmbed, formFields };
 
-      const res = await fetch("http://localhost:3000/api/site-config", {
+      const res = await fetch(`${API_BASE}/site-config`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -56,8 +76,8 @@ export default function AdminContact() {
       setTimeout(() => setSaveStatus(null), 3000);
     } catch (error) {
       console.error("Save error:", error);
+      setError("Could not save changes. Please try again.");
       setSaveStatus("error");
-      alert("Could not save changes. Please try again.");
       setTimeout(() => setSaveStatus(null), 3000);
     } finally {
       setIsSaving(false);
@@ -68,7 +88,11 @@ export default function AdminContact() {
     if (!editing) return null;
 
     return (
-      <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 backdrop-blur-sm">
+      <div
+        className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 backdrop-blur-sm"
+        role="dialog"
+        aria-modal="true"
+      >
         <div className="bg-white p-6 rounded-xl w-[90%] max-w-md shadow-2xl border-2 border-violet-500 transform scale-95 animate-scaleIn max-h-[90vh] overflow-y-auto">
           <h2 className="text-2xl font-bold mb-4 text-violet-800">
             Edit{" "}
@@ -79,13 +103,22 @@ export default function AdminContact() {
               : "Form Fields"}
           </h2>
 
+          {/* Show error message inside modal */}
+          {error && (
+            <div className="mb-4 text-red-600 font-semibold">{error}</div>
+          )}
+
           {editing === "contactInfo" && (
             <div className="space-y-4">
               <div>
-                <label className="block mb-2 font-semibold text-gray-700">
+                <label
+                  htmlFor="address"
+                  className="block mb-2 font-semibold text-gray-700"
+                >
                   Address:
                 </label>
                 <textarea
+                  id="address"
                   value={contactInfo.address}
                   onChange={(e) =>
                     setContactInfo({ ...contactInfo, address: e.target.value })
@@ -95,10 +128,15 @@ export default function AdminContact() {
                 />
               </div>
               <div>
-                <label className="block mb-2 font-semibold text-gray-700">
+                <label
+                  htmlFor="phone"
+                  className="block mb-2 font-semibold text-gray-700"
+                >
                   Phone:
                 </label>
                 <input
+                  id="phone"
+                  type="tel"
                   value={contactInfo.phone}
                   onChange={(e) =>
                     setContactInfo({ ...contactInfo, phone: e.target.value })
@@ -107,10 +145,15 @@ export default function AdminContact() {
                 />
               </div>
               <div>
-                <label className="block mb-2 font-semibold text-gray-700">
+                <label
+                  htmlFor="email"
+                  className="block mb-2 font-semibold text-gray-700"
+                >
                   Email:
                 </label>
                 <input
+                  id="email"
+                  type="email"
                   value={contactInfo.email}
                   onChange={(e) =>
                     setContactInfo({ ...contactInfo, email: e.target.value })
@@ -119,10 +162,14 @@ export default function AdminContact() {
                 />
               </div>
               <div>
-                <label className="block mb-2 font-semibold text-gray-700">
+                <label
+                  htmlFor="hours"
+                  className="block mb-2 font-semibold text-gray-700"
+                >
                   Business Hours:
                 </label>
                 <textarea
+                  id="hours"
                   value={contactInfo.hours}
                   onChange={(e) =>
                     setContactInfo({ ...contactInfo, hours: e.target.value })
@@ -136,10 +183,14 @@ export default function AdminContact() {
 
           {editing === "map" && (
             <div>
-              <label className="block mb-2 font-semibold text-gray-700">
+              <label
+                htmlFor="mapEmbed"
+                className="block mb-2 font-semibold text-gray-700"
+              >
                 Google Maps Embed Link:
               </label>
               <textarea
+                id="mapEmbed"
                 value={mapEmbed}
                 onChange={(e) => setMapEmbed(e.target.value)}
                 className="border-2 border-gray-300 p-3 w-full rounded-lg focus:ring-2 focus:ring-violet-500"
@@ -156,6 +207,7 @@ export default function AdminContact() {
                   className="space-y-3 border-2 p-4 rounded-lg bg-gray-50"
                 >
                   <input
+                    aria-label={`Field Label ${idx + 1}`}
                     value={field.label}
                     onChange={(e) => {
                       const updated = [...formFields];
@@ -166,6 +218,7 @@ export default function AdminContact() {
                     placeholder="Field Label"
                   />
                   <select
+                    aria-label={`Field Type ${idx + 1}`}
                     value={field.type}
                     onChange={(e) => {
                       const updated = [...formFields];
@@ -179,7 +232,7 @@ export default function AdminContact() {
                     <option value="tel">Phone</option>
                     <option value="textarea">Textarea</option>
                   </select>
-                  <label className="flex items-center space-x-2">
+                  <label className="flex items-center space-x-2 cursor-pointer select-none">
                     <input
                       type="checkbox"
                       checked={field.required}
@@ -193,9 +246,16 @@ export default function AdminContact() {
                     <span>Required</span>
                   </label>
                   <button
-                    onClick={() =>
-                      setFormFields(formFields.filter((_, i) => i !== idx))
-                    }
+                    type="button"
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Are you sure you want to delete this field?"
+                        )
+                      ) {
+                        setFormFields(formFields.filter((_, i) => i !== idx));
+                      }
+                    }}
                     className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg w-full"
                   >
                     Delete Field
@@ -203,6 +263,7 @@ export default function AdminContact() {
                 </div>
               ))}
               <button
+                type="button"
                 onClick={() =>
                   setFormFields([
                     ...formFields,
@@ -223,12 +284,15 @@ export default function AdminContact() {
 
           <div className="flex justify-end gap-3 mt-6">
             <button
+              type="button"
               onClick={() => setEditing(null)}
               className="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg"
+              disabled={isSaving}
             >
               Cancel
             </button>
             <button
+              type="button"
               onClick={handleSave}
               disabled={isSaving}
               className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-lg shadow-md disabled:bg-violet-400"
@@ -237,6 +301,13 @@ export default function AdminContact() {
             </button>
           </div>
         </div>
+
+        {/* Saving overlay */}
+        {isSaving && (
+          <div className="absolute inset-0 bg-black/30 flex justify-center items-center z-50 rounded-xl">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-violet-600"></div>
+          </div>
+        )}
       </div>
     );
   };
@@ -246,6 +317,7 @@ export default function AdminContact() {
     const isSuccess = saveStatus === "success";
     return (
       <div
+        role="alert"
         className={`fixed top-4 right-4 ${
           isSuccess ? "bg-green-500" : "bg-red-500"
         } text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fadeInOut`}
@@ -316,7 +388,7 @@ export default function AdminContact() {
               📄 Export Contacts
             </h2>
             <a
-              href="http://localhost:3000/api/contact/export"
+              href={`${API_BASE}/contact/export`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
@@ -361,24 +433,26 @@ export default function AdminContact() {
             </button>
           </div>
           <div className="grid md:grid-cols-2 gap-4">
-            {formFields.map((f, idx) => (
-              <div
-                key={idx}
-                className={`p-4 rounded-lg border-l-4 ${
-                  f.required
-                    ? "bg-red-50 border-red-500"
-                    : "bg-violet-50 border-violet-500"
-                }`}
-              >
-                <p className="font-semibold">{f.label}</p>
-                <p className="text-sm capitalize">
-                  {f.type}{" "}
-                  {f.required && (
-                    <span className="text-red-500">(Required)</span>
-                  )}
-                </p>
-              </div>
-            ))}
+            {formFields.length > 0 ? (
+              formFields.map((f, idx) => (
+                <div
+                  key={idx}
+                  className={`p-4 rounded-lg border-l-4 ${
+                    f.required
+                      ? "bg-red-50 border-red-500"
+                      : "bg-violet-50 border-violet-500"
+                  }`}
+                >
+                  <p className="font-semibold">{f.label || "(No Label)"}</p>
+                  <p className="text-sm capitalize">
+                    {f.type}{" "}
+                    {f.required && <span className="text-red-500">(Required)</span>}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500 italic">No form fields configured.</p>
+            )}
           </div>
         </div>
 

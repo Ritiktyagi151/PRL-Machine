@@ -18,7 +18,7 @@ import {
   Eye,
 } from "lucide-react";
 
-const API_URL = "http://localhost:3000/api/aluminum-machines";
+const API_URL = `${import.meta.env.VITE_API_BASE_URL}/aluminum-machines`;
 
 // ============================================================================
 // MOVED COMPONENT 1: MachineForm

@@ -69,8 +69,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
   const [apiProducts, setApiProducts] = useState([]);
   const [apiServices, setApiServices] = useState([]);
   const [apiCompanyItems, setApiCompanyItems] = useState([]);
-
-  const API_URL = "http://localhost:3000/api/navbar";
+  const API_URL = `${import.meta.env.VITE_API_BASE_URL}/navbar`;
 
   // Fallback data
   const fallbackProducts = [

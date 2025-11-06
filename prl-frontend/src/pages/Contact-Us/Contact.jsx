@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle } from "lucide-react";
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
 export default function ContactUsPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -21,7 +23,7 @@ export default function ContactUsPage() {
   useEffect(() => {
     const fetchPageData = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/site-config");
+        const res = await fetch(`${API_BASE}/api/site-config`);
         if (!res.ok) {
           throw new Error("Failed to fetch page data");
         }
@@ -88,7 +90,7 @@ export default function ContactUsPage() {
 
     try {
       console.log("Sending payload:", formData); // Debug payload
-      const res = await fetch("http://localhost:3000/api/contact", {
+      const res = await fetch(`${API_BASE}/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -184,9 +186,7 @@ export default function ContactUsPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Phone</h3>
-                    <p className="text-gray-600">
-                      {pageData.contactInfo.phone}
-                    </p>
+                    <p className="text-gray-600">{pageData.contactInfo.phone}</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4 p-4 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
@@ -195,9 +195,7 @@ export default function ContactUsPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Email</h3>
-                    <p className="text-gray-600">
-                      {pageData.contactInfo.email}
-                    </p>
+                    <p className="text-gray-600">{pageData.contactInfo.email}</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4 p-4 bg-violet-50 rounded-lg hover:bg-violet-100 transition-colors">
@@ -205,9 +203,7 @@ export default function ContactUsPage() {
                     <Clock className="h-6 w-6 text-violet-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">
-                      Business Hours
-                    </h3>
+                    <h3 className="font-semibold text-gray-900">Business Hours</h3>
                     <p className="text-gray-600 whitespace-pre-line">
                       {pageData.contactInfo.hours}
                     </p>
@@ -218,9 +214,7 @@ export default function ContactUsPage() {
 
             {/* Map - DYNAMIC */}
             <div className="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-red-500">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                Find Us
-              </h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Find Us</h3>
               <div className="h-64 rounded-lg overflow-hidden">
                 <iframe
                   src={pageData.mapEmbed}
@@ -238,15 +232,11 @@ export default function ContactUsPage() {
 
           {/* Contact Form */}
           <div className="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-violet-500">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
-              Send us a Message
-            </h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">Send us a Message</h2>
             {isSubmitted ? (
               <div className="text-center py-12">
                 <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  Message Sent!
-                </h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Message Sent!</h3>
                 <p className="text-gray-600">
                   Thank you for contacting us. We'll get back to you soon.
                 </p>
@@ -412,9 +402,7 @@ export default function ContactUsPage() {
                 <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <CheckCircle className="h-8 w-8 text-red-600" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2">
-                  Quality Service
-                </h3>
+                <h3 className="font-semibold text-gray-900 mb-2">Quality Service</h3>
                 <p className="text-gray-600">
                   We deliver exceptional quality in everything we do.
                 </p>
@@ -423,9 +411,7 @@ export default function ContactUsPage() {
                 <div className="w-16 h-16 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Clock className="h-8 w-8 text-violet-600" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2">
-                  Timely Response
-                </h3>
+                <h3 className="font-semibold text-gray-900 mb-2">Timely Response</h3>
                 <p className="text-gray-600">
                   Quick response times and efficient service delivery.
                 </p>
@@ -434,9 +420,7 @@ export default function ContactUsPage() {
                 <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Mail className="h-8 w-8 text-red-600" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2">
-                  24/7 Support
-                </h3>
+                <h3 className="font-semibold text-gray-900 mb-2">24/7 Support</h3>
                 <p className="text-gray-600">
                   Round-the-clock customer support for your peace of mind.
                 </p>

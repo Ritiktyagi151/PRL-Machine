@@ -11,7 +11,7 @@ import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:3000/api/aluminum-machines";
+const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/aluminum-machines`;
 
 const AluminumWindowMachinesPage = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -419,7 +419,11 @@ const AluminumWindowMachinesPage = () => {
                               <FiShoppingCart className="mr-1" /> Enquire
                             </motion.button>
                           </Link>
-                          <Link to={`/productdetailaluminium/${product.id || product._id}`}>
+                          <Link
+                            to={`/productdetailaluminium/${
+                              product.id || product._id
+                            }`}
+                          >
                             <motion.button
                               className="flex items-center border border-[#FB252E] text-[#FB252E] px-3 py-1 rounded-md hover:bg-red-50 transition-colors text-sm"
                               whileHover={{ scale: 1.05 }}

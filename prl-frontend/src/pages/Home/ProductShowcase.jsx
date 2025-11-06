@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const UPVC_API_URL = "http://localhost:3000/api/upvcmachines";
-const ALUMINUM_API_URL = "http://localhost:3000/api/aluminum-machines";
+const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
+const ALUMINUM_API_URL = `${
+  import.meta.env.VITE_API_BASE_URL
+}/aluminum-machines`;
 
 // --- Child Component for the Product Card with Image Slider (UPDATED with Auto-Slide) ---
 const ProductCard = ({ product }) => {

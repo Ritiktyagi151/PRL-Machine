@@ -15,7 +15,7 @@ import {
 import OurPartners from "../Home/TrustedSlider";
 import ValuedClients from "../Home/Our-Clients";
 
-const UPVC_API_URL = "http://localhost:3000/api/upvcmachines";
+const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
 
 const ProductDetailuPVC = () => {
   const { id } = useParams();

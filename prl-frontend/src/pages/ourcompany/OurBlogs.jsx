@@ -10,7 +10,7 @@ const Blogs = () => {
   const [error, setError] = useState(null);
 
   // API endpoint
-  const API_BASE_URL = "http://localhost:3000/api/blogs";
+  const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/blogs`;
 
   // Fetch blogs from API
   const fetchBlogs = async () => {

@@ -15,7 +15,7 @@ import {
 import OurPartners from "../Home/TrustedSlider";
 import ValuedClients from "../Home/Our-Clients";
 
-const API_BASE_URL = "http://localhost:3000/api/aluminum-machines";
+const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/aluminum-machines`;
 
 const AluminiumDetail = () => {
   const { id } = useParams();
