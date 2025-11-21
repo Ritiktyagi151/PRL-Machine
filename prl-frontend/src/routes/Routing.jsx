@@ -42,7 +42,7 @@ import Adminblog from "../admin/sidebarpages/Adminblog";
 import AdminContact from "../admin/sidebarpages/AdminContact";
 import AdminFooter from "../admin/sidebarpages/AdminFooter";
 import AdminNarbar from "../admin/sidebarpages/AdminNarbar";
-import AdminProducts from "../admin/sidebarpages/adminProducts";
+import AdminProducts from "../admin/sidebarpages/AdminProducts";
 import AdminUpvcProducts from "../admin/sidebarpages/AdminProductspages/AdminUpvcProducts";
 import AdminAluminumProducts from "../admin/sidebarpages/AdminProductspages/AdminAluminumProducts";
 import AdminProfile from "../admin/adminnavorfootersidebar/AdminProfile";

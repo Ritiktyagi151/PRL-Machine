@@ -162,9 +162,9 @@ const VideoHeroWithSlider = () => {
                 <p className="text-xl md:text-2xl mb-8 max-w-2xl animate-fadeIn">
                   {slide.subtitle}
                 </p>
-                <button className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full hover:bg-white hover:text-black transition duration-300 animate-fadeIn">
+                {/* <button className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full hover:bg-white hover:text-black transition duration-300 animate-fadeIn">
                   {slide.cta}
-                </button>
+                </button> */}
               </div>
             </div>
           </SwiperSlide>

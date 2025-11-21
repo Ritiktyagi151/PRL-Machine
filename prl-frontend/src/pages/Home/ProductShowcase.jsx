@@ -289,7 +289,7 @@ const ProductShowcase = () => {
 
   return (
     <section
-      className="py-12 bg-gray-50  bg-center bg-repeat relative"
+      className="py-12 hidden md:block  bg-gray-50  bg-center bg-repeat relative"
       style={{
         backgroundImage:
           'url("/assets/bg-img/bg-theme/IMG-20250725-WA0204.jpg")',
