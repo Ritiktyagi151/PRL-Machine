@@ -1,20 +1,16 @@
-import React, { useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+import React, { useState, useEffect, useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const VideoHeroWithSlider = () => {
-  const progressCircle = useRef(null);
-  const progressContent = useRef(null);
-  const videoTimeoutRef = useRef(null); // Ref to hold the timeout for the video slide
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const slideInterval = useRef(null);
 
-  // --- Slide Data ---
-  // 1 video slide and 4 image banner slides
   const slides = [
+    {
+      type: "video",
+      videoUrl: "/assets/vedios/prllogovideo.mp4",
+    },
     {
       type: "video",
       videoUrl: "/assets/vedios/parida-red-lion-video.mp4",
@@ -34,218 +30,152 @@ const VideoHeroWithSlider = () => {
     {
       type: "image",
       imageUrl: "/assets/banners/parida-homepage.jpg",
-      // title: "State-of-the-Art Manufacturing",
-      // subtitle:
-      // "10,000+ sq.ft. facility equipped with advanced technology for superior performance and durability.",
-      // cta: "Explore Facility",
     },
     {
       type: "image",
       imageUrl: "/assets/banners/PARIDA2.jpg",
-      // title: "Precision & Reliability",
-      // subtitle:
-      //   "Every PRL machine undergoes 100% quality check to ensure consistent output and long-term reliability.",
-      // cta: "View Quality Standards",
     },
     {
       type: "image",
-      imageUrl:
-        "https://images.pexels.com/photos/834892/pexels-photo-834892.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      title: "Comprehensive Machinery Range",
-      subtitle:
-        "From cutting and welding to milling and glazing — PRL offers complete window production solutions.",
-      cta: "View Product Range",
+      imageUrl: "/assets/banners/prlhomepagebanner.jpg",
     },
     {
       type: "image",
-      imageUrl:
-        "https://images.pexels.com/photos/380769/pexels-photo-380769.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      title: "Innovation & Support",
-      subtitle:
-        "Driven by R&D, sustainability, and 24/7 customer service to ensure maximum uptime and efficiency.",
-      cta: "Contact PRL",
+      imageUrl: "/assets/banners/slider/homepagebanner2.jpg",
+     
     },
   ];
 
-  // --- Swiper Event Handlers ---
+  useEffect(() => {
+    startSlider();
+    return () => {
+      stopSlider();
+    };
+  }, [currentIndex, isHovered]);
 
-  const onAutoplayTimeLeft = (s, time, progress) => {
-    if (progressCircle.current && progressContent.current) {
-      progressCircle.current.style.setProperty("--progress", 1 - progress);
-      progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
+  const startSlider = () => {
+    stopSlider();
+    if (!isHovered) {
+      slideInterval.current = setInterval(() => {
+        nextSlide();
+      }, 5000);
     }
   };
 
-  const handleSlideChange = (swiper) => {
-    // Clear any existing custom timer
-    if (videoTimeoutRef.current) {
-      clearTimeout(videoTimeoutRef.current);
-    }
-
-    // Pause video in the previously active slide to reset it
-    const previousSlide = swiper.slides[swiper.previousIndex];
-    const videoInPrevious = previousSlide.querySelector("video");
-    if (videoInPrevious) {
-      videoInPrevious.pause();
-    }
-
-    const activeSlide = swiper.slides[swiper.activeIndex];
-    const videoInActive = activeSlide.querySelector("video");
-
-    if (videoInActive) {
-      // If the active slide has a video
-      swiper.autoplay.stop(); // Stop the default 5s autoplay
-      videoInActive.currentTime = 0; // Rewind video
-      videoInActive.play();
-      // Set a custom 15-second timer to advance the slide
-      videoTimeoutRef.current = setTimeout(() => {
-        swiper.slideNext();
-      }, 15000);
-    } else {
-      // For image slides, start the default autoplay
-      swiper.autoplay.start();
+  const stopSlider = () => {
+    if (slideInterval.current) {
+      clearInterval(slideInterval.current);
     }
   };
 
-  const handleSwiperInit = (swiper) => {
-    // Check if the initial slide is the video slide and start the logic
-    if (swiper.realIndex === 0) {
-      handleSlideChange(swiper);
-    }
+  const prevSlide = () => {
+    const isFirstSlide = currentIndex === 0;
+    const newIndex = isFirstSlide ? slides.length - 1 : currentIndex - 1;
+    setCurrentIndex(newIndex);
+  };
+
+  const nextSlide = () => {
+    const isLastSlide = currentIndex === slides.length - 1;
+    const newIndex = isLastSlide ? 0 : currentIndex + 1;
+    setCurrentIndex(newIndex);
+  };
+
+  const goToSlide = (slideIndex) => {
+    setCurrentIndex(slideIndex);
   };
 
   return (
-    <div className="relative w-full h-[90vh] bg-black">
-      <Swiper
-        spaceBetween={30}
-        centeredSlides={true}
-        // Default autoplay for image slides
-        autoplay={{
-          delay: 5000,
-          disableOnInteraction: false,
-        }}
-        loop={true}
-        pagination={{ clickable: true }}
-        navigation={true}
-        modules={[Autoplay, Pagination, Navigation]}
-        onAutoplayTimeLeft={onAutoplayTimeLeft}
-        onSlideChange={handleSlideChange}
-        onInit={handleSwiperInit}
-        className="w-full h-full"
+    <div
+      // UPDATED: Height is now 580px, top-10 is preserved
+      className="relative top-10 w-full h-[615px] overflow-hidden group bg-gray-900"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Wrapper for Slides */}
+      <div
+        className="w-full h-full flex transition-transform duration-700 ease-in-out"
+        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {slides.map((slide, index) => (
-          <SwiperSlide key={index}>
-            <div className="relative w-full h-full">
-              {/* Conditional Background: Video or Image */}
+          <div key={index} className="min-w-full h-full relative">
+            {/* Media Rendering */}
+            <div className="w-full h-full relative">
+              <div className="absolute inset-0  z-10" />
+
               {slide.type === "video" ? (
                 <video
-                  className="absolute w-full h-full object-cover"
+                  src={slide.videoUrl}
+                  // UPDATED: object-cover prevents distortion
+                  className="w-full h-full object-fill"
+                  autoPlay
+                  loop
                   muted
                   playsInline
-                  src={slide.videoUrl}
                 />
               ) : (
-                <div
-                  className="absolute w-full  object-fill  h-full bg-fill"
-                  style={{ backgroundImage: `url(${slide.imageUrl})` }}
+                <img
+                  src={slide.imageUrl}
+                  alt={slide.title || "Slider Image"}
+                  // UPDATED: object-cover prevents distortion
+                  className="w-full h-full object-fill"
                 />
               )}
-
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-black bg-opacity-20 z-10" />
-
-              {/* Text Content */}
-              <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4 text-white">
-                <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-fadeIn">
-                  {slide.title}
-                </h1>
-                <p className="text-xl md:text-2xl mb-8 max-w-2xl animate-fadeIn">
-                  {slide.subtitle}
-                </p>
-                {/* <button className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full hover:bg-white hover:text-black transition duration-300 animate-fadeIn">
-                  {slide.cta}
-                </button> */}
-              </div>
             </div>
-          </SwiperSlide>
+
+            {/* Text Overlay */}
+            {(slide.title || slide.subtitle) && (
+              <div className="absolute inset-0 z-20 flex flex-col justify-center items-center text-center text-white px-4 md:px-20">
+                {slide.title && (
+                  <h1 className="text-3xl md:text-5xl font-bold mb-4 drop-shadow-lg animate-fadeInUp">
+                    {slide.title}
+                  </h1>
+                )}
+                {slide.subtitle && (
+                  <p className="text-lg md:text-xl mb-8 max-w-3xl drop-shadow-md">
+                    {slide.subtitle}
+                  </p>
+                )}
+                {slide.cta && (
+                  <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-md transition duration-300 shadow-lg transform hover:scale-105">
+                    {slide.cta}
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
         ))}
+      </div>
 
-        {/* Autoplay Progress Circle */}
-        <div className="autoplay-progress" slot="container-end">
-          <svg viewBox="0 0 48 48" ref={progressCircle}>
-            <circle cx="24" cy="24" r="20"></circle>
-          </svg>
-          <span ref={progressContent}></span>
-        </div>
-      </Swiper>
+      {/* Left Arrow */}
+      <button
+        onClick={prevSlide}
+        className="hidden group-hover:block absolute top-[50%] -translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/50 text-white cursor-pointer hover:bg-red-600 transition z-30"
+      >
+        <ChevronLeft size={30} />
+      </button>
 
-      {/* --- Styles --- */}
-      <style jsx global>{`
-        .animate-fadeIn {
-          animation: fadeIn 1s ease-in-out;
-        }
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .swiper-pagination-bullet {
-          background: white;
-          opacity: 0.6;
-          width: 12px;
-          height: 12px;
-        }
-        .swiper-pagination-bullet-active {
-          background: white;
-          opacity: 1;
-        }
-        .swiper-button-next,
-        .swiper-button-prev {
-          color: white;
-          width: 40px;
-          height: 40px;
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: 50%;
-          backdrop-filter: blur(5px);
-        }
-        .swiper-button-next:after,
-        .swiper-button-prev:after {
-          font-size: 20px;
-        }
-        .autoplay-progress {
-          position: absolute;
-          right: 16px;
-          bottom: 16px;
-          z-index: 10;
-          width: 48px;
-          height: 48px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: bold;
-          color: white;
-        }
-        .autoplay-progress svg {
-          --progress: 0;
-          position: absolute;
-          left: 0;
-          top: 0px;
-          z-index: 10;
-          width: 100%;
-          height: 100%;
-          stroke-width: 4px;
-          stroke: white;
-          fill: none;
-          stroke-dashoffset: calc(125.6 * (1 - var(--progress)));
-          stroke-dasharray: 125.6;
-          transform: rotate(-90deg);
-        }
-      `}</style>
+      {/* Right Arrow */}
+      <button
+        onClick={nextSlide}
+        className="hidden group-hover:block absolute top-[50%] -translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/50 text-white cursor-pointer hover:bg-red-600 transition z-30"
+      >
+        <ChevronRight size={30} />
+      </button>
+
+      {/* Dots Navigation */}
+      <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 flex space-x-2 z-30">
+        {slides.map((_, index) => (
+          <div
+            key={index}
+            onClick={() => goToSlide(index)}
+            className={`transition-all duration-300 cursor-pointer rounded-full ${
+              currentIndex === index
+                ? "bg-red-600 w-8"
+                : "bg-white/50 w-3 hover:bg-white"
+            } h-3`}
+          ></div>
+        ))}
+      </div>
     </div>
   );
 };
