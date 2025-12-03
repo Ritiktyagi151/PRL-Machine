@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const CatalogDownload = () => {
   const [showForm, setShowForm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,9 +17,49 @@ const CatalogDownload = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setFormSubmitted(true);
+    setIsSubmitting(true); // Start loading
+
+    try {
+      // 1. Define the API Request
+      const apiCall = fetch(
+        "https://formsubmit.co/ajax/r.k.parida015@gmail.com",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            company: formData.company,
+            interest: formData.interest,
+            _subject: "New Catalog Download Request",
+            _template: "table",
+          }),
+        }
+      );
+
+      // 2. Define the 3-second Delay
+      const delay = new Promise((resolve) => setTimeout(resolve, 3000));
+
+      // 3. Wait for BOTH the API call and the 3-second timer to finish
+      const [response] = await Promise.all([apiCall, delay]);
+
+      if (response.ok) {
+        setFormSubmitted(true);
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("Network error. Please check your connection.");
+    } finally {
+      setIsSubmitting(false); // Stop loading
+    }
   };
 
   const handleDownload = () => {
@@ -157,9 +198,14 @@ const CatalogDownload = () => {
                 </select>
                 <button
                   type="submit"
-                  className="w-full bg-[#EB1C24] hover:bg-[#D11A22] text-white font-medium py-3 px-4 rounded-md transition-all duration-300 transform hover:scale-105"
+                  disabled={isSubmitting}
+                  className={`w-full text-white font-medium py-3 px-4 rounded-md transition-all duration-300 transform shadow-lg ${
+                    isSubmitting
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-[#EB1C24] hover:bg-[#D11A22] hover:scale-105"
+                  }`}
                 >
-                  Submit & Download Catalog
+                  {isSubmitting ? "Processing..." : "Submit & Download Catalog"}
                 </button>
               </form>
             </div>

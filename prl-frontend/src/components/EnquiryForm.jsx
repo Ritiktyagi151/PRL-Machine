@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 const EnquiryForm = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // New state for loading status
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -9,7 +10,7 @@ const EnquiryForm = () => {
     message: "",
   });
 
-  // Auto-open after 10 seconds
+  // Auto-open after 7 seconds (as per your code)
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsOpen(true);
@@ -26,13 +27,48 @@ const EnquiryForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted:", formData);
-    alert("Thank you for your enquiry! We will get back to you soon.");
-    setIsOpen(false);
-    setFormData({ name: "", email: "", phone: "", message: "" });
+    setIsSubmitting(true); // Disable button and show loading
+
+    try {
+      // using the /ajax/ endpoint ensures the user stays on your page
+      const response = await fetch(
+        "https://formsubmit.co/ajax/r.k.parida015@gmail.com",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            message: formData.message,
+            _subject: "New Enquiry from Parida Red Lion Website", // Custom email subject
+            _template: "table", // Formats the email nicely
+            // _captcha: "false" // Uncomment this line if you want to disable the reCAPTCHA
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log("Form submitted:", result);
+        alert("Thank you for your enquiry! We will get back to you soon.");
+        setIsOpen(false);
+        setFormData({ name: "", email: "", phone: "", message: "" });
+      } else {
+        alert("Something went wrong. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Network error. Please check your connection.");
+    } finally {
+      setIsSubmitting(false); // Re-enable button
+    }
   };
 
   const closeModal = () => {
@@ -140,13 +176,19 @@ const EnquiryForm = () => {
           <div className="flex space-x-3 pt-2">
             <button
               type="submit"
-              className="flex-1 bg-gradient-to-r from-red-600 to-purple-600 text-white py-3 px-4 rounded-md font-semibold hover:from-red-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
+              disabled={isSubmitting} // Disable button while sending
+              className={`flex-1 text-white py-3 px-4 rounded-md font-semibold transition-all duration-200 transform shadow-lg ${
+                isSubmitting
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700 hover:scale-105"
+              }`}
             >
-              Send Enquiry
+              {isSubmitting ? "Sending..." : "Send Enquiry"}
             </button>
             <button
               type="button"
               onClick={closeModal}
+              disabled={isSubmitting}
               className="flex-1 bg-gray-300 text-gray-700 py-3 px-4 rounded-md font-semibold hover:bg-gray-400 transition-colors duration-200"
             >
               Cancel

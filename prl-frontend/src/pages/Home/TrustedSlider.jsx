@@ -17,12 +17,12 @@ const OurPartners = () => {
   });
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSending, setIsSending] = useState(false); // New state for loading
 
-  // <-- ADDED: State for the new details modal
+  // Details Modal State
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedPartner, setSelectedPartner] = useState(null);
 
-  // <-- UPDATED: Added description and website to each partner
   const partners = [
     {
       name: "Delta",
@@ -91,7 +91,6 @@ const OurPartners = () => {
   };
 
   const validateForm = () => {
-    // ... (Your existing validation logic, no changes needed)
     const newErrors = {};
 
     if (!formData.companyName.trim()) {
@@ -120,26 +119,52 @@ const OurPartners = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    // ... (Your existing submit logic, no changes needed)
+  // UPDATED: Submit Logic using FormSubmit AJAX
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Form submitted:", formData);
-      setIsSubmitted(true);
+      setIsSending(true); // Start loading
 
-      setTimeout(() => {
-        setShowForm(false);
-        setIsSubmitted(false);
-        setFormData({
-          companyName: "",
-          contactPerson: "",
-          email: "",
-          phone: "",
-          industry: "",
-          requirements: "",
-        });
-      }, 3000);
+      try {
+        const response = await fetch(
+          "https://formsubmit.co/ajax/r.k.parida015@gmail.com",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify({
+              _subject: "New Partner Application Request",
+              _template: "table",
+              ...formData,
+            }),
+          }
+        );
+
+        const data = await response.json();
+
+        if (response.ok) {
+          console.log("Form submitted successfully:", data);
+          setIsSubmitted(true);
+          setFormData({
+            companyName: "",
+            contactPerson: "",
+            email: "",
+            phone: "",
+            industry: "",
+            requirements: "",
+          });
+        } else {
+          alert("Something went wrong. Please try again.");
+        }
+      } catch (error) {
+        console.error("Submission error:", error);
+        alert("Network error. Please check your connection.");
+      } finally {
+        setIsSending(false); // Stop loading
+      }
     }
   };
 
@@ -149,7 +174,6 @@ const OurPartners = () => {
     setIsSubmitted(false);
   };
 
-  // <-- ADDED: Handlers for the new details modal
   const handleViewDetails = (partner) => {
     setSelectedPartner(partner);
     setShowDetailsModal(true);
@@ -184,7 +208,6 @@ const OurPartners = () => {
         <div className="relative px-4 sm:px-6">
           <Swiper
             modules={[Autoplay, Navigation, Pagination]}
-            // ... (All your existing Swiper props)
             grabCursor={true}
             speed={1000}
             loop={true}
@@ -218,7 +241,7 @@ const OurPartners = () => {
             {partners.map((partner, index) => (
               <SwiperSlide key={index} className="flex justify-center">
                 <div
-                  className="bg-white p-6 rounded-xl shadow-lg transition-all duration-500 hover:shadow-2xl hover:scale-105 h-auto flex flex-col items-center justify-between border border-gray-100 hover:border-purple-200 max-w-xs mx-auto animate-slide-up" // <-- Changed to flex-col and justify-between
+                  className="bg-white p-6 rounded-xl shadow-lg transition-all duration-500 hover:shadow-2xl hover:scale-105 h-auto flex flex-col items-center justify-between border border-gray-100 hover:border-purple-200 max-w-xs mx-auto animate-slide-up"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="flex flex-col items-center justify-center w-full">
@@ -235,7 +258,6 @@ const OurPartners = () => {
                     </p>
                   </div>
 
-                  {/* <-- ADDED: View Details Button --> */}
                   <button
                     onClick={() => handleViewDetails(partner)}
                     className="mt-4 px-4 py-1.5 bg-purple-50 text-purple-700 rounded-full text-sm font-medium hover:bg-purple-100 transition-all duration-200"
@@ -247,11 +269,9 @@ const OurPartners = () => {
             ))}
           </Swiper>
 
-          {/* Custom Navigation */}
           <div className="swiper-button-next custom-navigation-btn bg-gradient-to-r from-purple-600 to-red-600 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 absolute right-0 top-1/2 transform -translate-y-1/2 z-10"></div>
           <div className="swiper-button-prev custom-navigation-btn bg-gradient-to-r from-purple-600 to-red-600 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 absolute left-0 top-1/2 transform -translate-y-1/2 z-10"></div>
 
-          {/* Custom Pagination */}
           <div className="swiper-pagination absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4"></div>
         </div>
 
@@ -268,23 +288,21 @@ const OurPartners = () => {
         </div>
       </div>
 
-      {/* Modal Form (Your existing modal) */}
+      {/* Modal Form */}
       {showForm && (
         <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform scale-100 hover:scale-105 transition-transform duration-200">
+          {/* UPDATED CSS: added max-h-[90vh] and overflow-y-auto to fix cutting off */}
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform scale-100 hover:scale-105 transition-transform duration-200 max-h-[90vh] overflow-y-auto">
             {!isSubmitted ? (
               <>
-                {/* ... (Your existing form JSX, no changes needed) ... */}
-                <div className="bg-gradient-to-r from-red-600 to-purple-600 p-6 text-white">
+                <div className="bg-gradient-to-r from-red-600 to-purple-600 p-6 text-white sticky top-0 z-10">
                   <h2 className="text-2xl font-bold">Become a Partner</h2>
-                  <p className="mt-2">
+                  <p className="mt-2 text-sm opacity-90">
                     Fill out the form below and we'll get in touch with you
                     shortly.
                   </p>
                 </div>
                 <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                  {" "}
-                  {/* Added space-y-4 for better spacing */}
                   <div>
                     <label
                       htmlFor="companyName"
@@ -437,26 +455,55 @@ const OurPartners = () => {
                       placeholder="Tell us about your partnership needs"
                     />
                   </div>
-                  <div className="flex justify-between pt-4">
+                  <div className="flex justify-between pt-4 sticky bottom-0 bg-white pb-2">
                     <button
                       type="button"
                       onClick={closeModal}
+                      disabled={isSending}
                       className="px-5 py-2 text-gray-700 font-medium rounded-lg border border-gray-300 hover:bg-gray-100 transition-all duration-200"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="px-5 py-2 bg-gradient-to-r from-red-600 to-purple-600 text-white font-medium rounded-lg hover:from-red-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg"
+                      disabled={isSending}
+                      className={`px-5 py-2 bg-gradient-to-r from-red-600 to-purple-600 text-white font-medium rounded-lg hover:from-red-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center ${
+                        isSending ? "opacity-75 cursor-not-allowed" : ""
+                      }`}
                     >
-                      Submit
+                      {isSending ? (
+                        <>
+                          <svg
+                            className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                          Sending...
+                        </>
+                      ) : (
+                        "Submit"
+                      )}
                     </button>
                   </div>
                 </form>
               </>
             ) : (
               <div className="p-8 text-center">
-                {/* ... (Your existing success message JSX, no changes needed) ... */}
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
                   <svg
                     className="w-8 h-8 text-green-600"
@@ -491,13 +538,14 @@ const OurPartners = () => {
         </div>
       )}
 
-      {/* <-- ADDED: New Partner Details Modal --> */}
+      {/* Details Modal */}
       {showDetailsModal && selectedPartner && (
         <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden transform scale-100 transition-transform duration-200 relative">
+          {/* Added scroll support here too just in case description is long */}
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden transform scale-100 transition-transform duration-200 relative max-h-[90vh] overflow-y-auto">
             <button
               onClick={closeDetailsModal}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-10"
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-10 bg-white rounded-full p-1"
             >
               <svg
                 className="w-6 h-6"

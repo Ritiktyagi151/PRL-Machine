@@ -543,7 +543,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
     if (windowWidth < 768) {
       return (
-        <div className="bg-[#FB252D] fixed w-[100vw] z-50 text-white text-center text-xs py-2 px-4">
+        <div className="bg-[#FB252D] fixed w-full z-50 text-white text-center text-xs py-2 px-4">
           <Swiper
             direction="vertical"
             modules={[Autoplay]}
@@ -571,7 +571,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
     }
 
     return (
-      <div className="bg-[#FB252D] fixed w-[100vw] z-50 text-white text-center text-sm py-2 px-8 md:flex items-center justify-between">
+      <div className="bg-[#FB252D] fixed w-full z-50 text-white text-center text-sm py-2 px-4 lg:px-8 xl:px-12 flex items-center justify-between">
         <div className="items-center hidden md:flex space-x-3 mr-4">
           {socialLinks.map((social, index) => {
             const IconComponent = iconMap[social.icon] || FaFacebook;
@@ -589,7 +589,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
           })}
         </div>
 
-        <div className="flex-1 max-w-2xl ml-24 mx-4">
+        <div className="flex-1 max-w-2xl mx-auto md:ml-24 md:mx-4">
           <Swiper
             direction="vertical"
             modules={[Autoplay]}
@@ -614,15 +614,15 @@ const RedLionNavbar = ({ onOpenQuote }) => {
           </Swiper>
         </div>
 
-        <div className="md:flex hidden items-center space-x-4 ml-4">
-          <div className="flex items-center">
-            <FaPhone className="mr-2 text-yellow-300" />
+        <div className="md:flex hidden items-center space-x-2 lg:space-x-4 ml-4">
+          <div className="flex items-center text-xs lg:text-sm">
+            <FaPhone className="mr-1 lg:mr-2 text-yellow-300" />
             <a href={`tel:${contactInfo.phone}`} className="hover:underline">
               {contactInfo.phone || "+91 7065500903"}
             </a>
           </div>
-          <div className="flex items-center">
-            <FaEnvelope className="mr-2 text-yellow-300" />
+          <div className="flex items-center text-xs lg:text-sm">
+            <FaEnvelope className="mr-1 lg:mr-2 text-yellow-300" />
             <a href={`mailto:${contactInfo.email}`} className="hover:underline">
               {contactInfo.email || "r.k.parida015@gmail.com"}
             </a>
@@ -637,14 +637,16 @@ const RedLionNavbar = ({ onOpenQuote }) => {
       {renderAnnouncementBar()}
 
       <nav className="bg-white/95 bg-[url('https://static.vecteezy.com/system/resources/thumbnails/007/100/608/small/abstract-geometric-white-and-gray-on-light-silver-gradient-background-modern-banner-design-illustration-free-vector.jpg')] bg-cover bg-center backdrop-blur-md border-b border-gray-200 sticky top-10 z-50 shadow-lg transition-all duration-300 hover:shadow-xl">
-        <div className="max-w-8xl mx-auto px-12">
+        {/* Adjusted padding and max-width for responsiveness */}
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-4 xl:px-12 2xl:px-16">
           <div className="flex justify-between items-center">
             <div className="flex items-center group">
               <Link to="/" className="relative overflow-hidden rounded-lg">
                 <img
                   src={logo}
                   alt="Red Lion Logo"
-                  className="w-32 h-[80px] transition-transform duration-300 group-hover:scale-105"
+                  // Responsive logo size
+                  className="w-24 h-auto md:w-32 md:h-[80px] object-contain transition-transform duration-300 group-hover:scale-105"
                   onError={(e) => {
                     e.target.src = "/assets/logo/new-final-logo.png";
                   }}
@@ -653,10 +655,11 @@ const RedLionNavbar = ({ onOpenQuote }) => {
               </Link>
             </div>
 
-            <div className="hidden lg:flex items-center space-x-6">
+            {/* Responsive Desktop Menu - adjusted spacing and font sizes for laptops */}
+            <div className="hidden lg:flex items-center space-x-2 xl:space-x-6">
               <Link
                 to="/"
-                className="relative text-gray-700 hover:text-red-600 transition-all duration-300 font-medium group"
+                className="relative text-gray-700 hover:text-red-600 transition-all duration-300 font-medium group text-sm xl:text-base whitespace-nowrap"
               >
                 Home
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-600 transition-all duration-300 group-hover:w-full"></span>
@@ -664,18 +667,19 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
               <div className="relative group">
                 <Link to="/products">
-                  <div className="flex items-center text-gray-700 hover:text-red-600 font-medium transition-all duration-300 cursor-pointer">
+                  <div className="flex items-center text-gray-700 hover:text-red-600 font-medium transition-all duration-300 cursor-pointer text-sm xl:text-base whitespace-nowrap">
                     Products
                     <FiChevronDown className="ml-1 transition-transform duration-300 group-hover:rotate-180" />
                   </div>
-                  <div className="absolute -left-52 mt-2 w-80 bg-white/95 backdrop-blur-lg border border-gray-200 rounded-xl shadow-2xl py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-4">
+                  {/* Adjusted Dropdown Positioning for smaller laptops */}
+                  <div className="absolute -left-10 xl:-left-52 mt-2 w-80 bg-white/95 backdrop-blur-lg border border-gray-200 rounded-xl shadow-2xl py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-4">
                     {renderDropdownItems(products)}
                   </div>
                 </Link>
               </div>
 
               <div className="relative group">
-                <div className="flex items-center text-gray-700 hover:text-red-600 font-medium transition-all duration-300 cursor-pointer">
+                <div className="flex items-center text-gray-700 hover:text-red-600 font-medium transition-all duration-300 cursor-pointer text-sm xl:text-base whitespace-nowrap">
                   Services
                   <FiChevronDown className="ml-1 transition-transform duration-300 group-hover:rotate-180" />
                 </div>
@@ -705,7 +709,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
               <div className="relative group">
                 <Link to="/ourcompany">
-                  <div className="flex items-center text-gray-700 hover:text-red-600 font-medium transition-all duration-300 cursor-pointer">
+                  <div className="flex items-center text-gray-700 hover:text-red-600 font-medium transition-all duration-300 cursor-pointer text-sm xl:text-base whitespace-nowrap">
                     Our Company
                     <FiChevronDown className="ml-1 transition-transform duration-300 group-hover:rotate-180" />
                   </div>
@@ -736,7 +740,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
               <Link
                 to="/turnkeypage"
-                className="relative text-gray-700 hover:text-red-600 transition-all duration-300 font-medium group"
+                className="relative text-gray-700 hover:text-red-600 transition-all duration-300 font-medium group text-sm xl:text-base whitespace-nowrap"
               >
                 Turn Key
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-600 transition-all duration-300 group-hover:w-full"></span>
@@ -744,7 +748,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
               <Link
                 to="/casestudies"
-                className="relative text-gray-700 hover:text-red-600 transition-all duration-300 font-medium group"
+                className="relative text-gray-700 hover:text-red-600 transition-all duration-300 font-medium group text-sm xl:text-base whitespace-nowrap"
               >
                 Case Studies
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-600 transition-all duration-300 group-hover:w-full"></span>
@@ -752,7 +756,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
               <Link
                 to="/contact"
-                className="relative text-gray-700 hover:text-red-600 transition-all duration-300 font-medium group"
+                className="relative text-gray-700 hover:text-red-600 transition-all duration-300 font-medium group text-sm xl:text-base whitespace-nowrap"
               >
                 Contact Us
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-600 transition-all duration-300 group-hover:w-full"></span>
@@ -760,26 +764,26 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
               <button
                 onClick={onOpenQuote}
-                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-5 py-2 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 ml-2"
+                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-3 py-2 xl:px-5 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 ml-1 xl:ml-2 text-sm xl:text-base whitespace-nowrap"
               >
                 Get a Quote
               </button>
 
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="p-3 rounded-xl hover:bg-red-50 text-gray-700 hover:text-red-600 transition-all duration-300 transform hover:scale-110 hover:shadow-lg hover:shadow-red-200/50 relative group"
+                className="p-2 xl:p-3 rounded-xl hover:bg-red-50 text-gray-700 hover:text-red-600 transition-all duration-300 transform hover:scale-110 hover:shadow-lg hover:shadow-red-200/50 relative group"
                 title="Product Catalog"
               >
-                <FiGrid className="text-xl transition-transform duration-300 group-hover:rotate-90" />
+                <FiGrid className="text-lg xl:text-xl transition-transform duration-300 group-hover:rotate-90" />
                 <div className="absolute inset-0 bg-gradient-to-r from-red-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
               </button>
 
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="p-3 rounded-xl hover:bg-red-50 text-gray-700 hover:text-red-600 transition-all duration-300 transform hover:scale-110 hover:shadow-lg hover:shadow-red-200/50 relative group"
+                className="p-2 xl:p-3 rounded-xl hover:bg-red-50 text-gray-700 hover:text-red-600 transition-all duration-300 transform hover:scale-110 hover:shadow-lg hover:shadow-red-200/50 relative group"
               >
                 <FiSearch
-                  className={`text-xl transition-transform duration-300 ${
+                  className={`text-lg xl:text-xl transition-transform duration-300 ${
                     searchOpen ? "rotate-90" : "group-hover:rotate-90"
                   }`}
                 />
@@ -789,7 +793,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
               <LanguageSelector />
             </div>
 
-            <div className="lg:hidden flex items-center space-x-4">
+            <div className="lg:hidden flex items-center space-x-2 sm:space-x-4">
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
                 className="p-2 text-gray-700 hover:text-red-600 transition-all duration-300 transform hover:scale-110"
@@ -812,9 +816,10 @@ const RedLionNavbar = ({ onOpenQuote }) => {
           </div>
         </div>
 
+        {/* Mobile Menu - Added Overflow handling for small landscape screens */}
         <div
-          className={`lg:hidden bg-white/95 backdrop-blur-md border-t border-gray-200 overflow-hidden transition-all duration-500 ${
-            mobileOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+          className={`lg:hidden bg-white/95 backdrop-blur-md border-t border-gray-200 overflow-y-auto overflow-x-hidden transition-all duration-500 custom-scrollbar ${
+            mobileOpen ? "max-h-[85vh] opacity-100" : "max-h-0 opacity-0"
           }`}
         >
           <div className="px-4 py-3 space-y-2">
@@ -996,8 +1001,9 @@ const RedLionNavbar = ({ onOpenQuote }) => {
         </div>
       </nav>
 
+      {/* Sidebar - Adjusted width for smaller screens */}
       <div
-        className={`fixed inset-y-0 right-0 w-full sm:w-96 bg-white/95 backdrop-blur-lg border-l border-gray-200 z-50 shadow-2xl overflow-y-auto transform transition-all duration-500 ease-in-out ${
+        className={`fixed inset-y-0 right-0 w-[85vw] sm:w-96 bg-white/95 backdrop-blur-lg border-l border-gray-200 z-50 shadow-2xl overflow-y-auto transform transition-all duration-500 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -1096,6 +1102,21 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
         .group:hover .group-hover\\:animate-bounce {
           animation: bounce 1s infinite;
+        }
+
+        /* Custom scrollbar for mobile menu to ensure it looks good while scrolling */
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #ccc;
+          border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #999;
         }
       `}</style>
     </>

@@ -61,7 +61,7 @@ export default function ContactUsPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle form submission
+  // Handle form submission using FormSubmit API
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -89,12 +89,29 @@ export default function ContactUsPage() {
     }
 
     try {
-      console.log("Sending payload:", formData); // Debug payload
-      const res = await fetch(`${API_BASE}/api/contact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      console.log("Sending payload via FormSubmit...");
+
+      // Using the AJAX endpoint ensures the user stays on your React page
+      const res = await fetch(
+        "https://formsubmit.co/ajax/r.k.parida015@gmail.com",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            subject: formData.subject,
+            message: formData.message,
+            _subject: `New Contact: ${formData.subject}`, // Sets email subject line
+            _template: "table", // Formats the email neatly
+            // _captcha: "false" // Uncomment to disable ReCaptcha if needed
+          }),
+        }
+      );
 
       const data = await res.json();
 
@@ -107,13 +124,13 @@ export default function ContactUsPage() {
           subject: "",
           message: "",
         });
-        setTimeout(() => setIsSubmitted(false), 3000);
+        setTimeout(() => setIsSubmitted(false), 5000); // Increased timeout slightly for better UX
       } else {
-        alert(data.message || "Something went wrong!");
+        alert(data.message || "Something went wrong! Please try again.");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Failed to send message. Try again!");
+      alert("Failed to send message. Please check your internet connection.");
     } finally {
       setLoading(false);
     }
@@ -186,7 +203,9 @@ export default function ContactUsPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Phone</h3>
-                    <p className="text-gray-600">{pageData.contactInfo.phone}</p>
+                    <p className="text-gray-600">
+                      {pageData.contactInfo.phone}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4 p-4 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
@@ -195,7 +214,9 @@ export default function ContactUsPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Email</h3>
-                    <p className="text-gray-600">{pageData.contactInfo.email}</p>
+                    <p className="text-gray-600">
+                      {pageData.contactInfo.email}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4 p-4 bg-violet-50 rounded-lg hover:bg-violet-100 transition-colors">
@@ -203,7 +224,9 @@ export default function ContactUsPage() {
                     <Clock className="h-6 w-6 text-violet-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">Business Hours</h3>
+                    <h3 className="font-semibold text-gray-900">
+                      Business Hours
+                    </h3>
                     <p className="text-gray-600 whitespace-pre-line">
                       {pageData.contactInfo.hours}
                     </p>
@@ -214,7 +237,9 @@ export default function ContactUsPage() {
 
             {/* Map - DYNAMIC */}
             <div className="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-red-500">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Find Us</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                Find Us
+              </h3>
               <div className="h-64 rounded-lg overflow-hidden">
                 <iframe
                   src={pageData.mapEmbed}
@@ -232,11 +257,15 @@ export default function ContactUsPage() {
 
           {/* Contact Form */}
           <div className="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-violet-500">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Send us a Message</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              Send us a Message
+            </h2>
             {isSubmitted ? (
               <div className="text-center py-12">
                 <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Message Sent!</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  Message Sent!
+                </h3>
                 <p className="text-gray-600">
                   Thank you for contacting us. We'll get back to you soon.
                 </p>
@@ -402,7 +431,9 @@ export default function ContactUsPage() {
                 <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <CheckCircle className="h-8 w-8 text-red-600" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2">Quality Service</h3>
+                <h3 className="font-semibold text-gray-900 mb-2">
+                  Quality Service
+                </h3>
                 <p className="text-gray-600">
                   We deliver exceptional quality in everything we do.
                 </p>
@@ -411,7 +442,9 @@ export default function ContactUsPage() {
                 <div className="w-16 h-16 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Clock className="h-8 w-8 text-violet-600" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2">Timely Response</h3>
+                <h3 className="font-semibold text-gray-900 mb-2">
+                  Timely Response
+                </h3>
                 <p className="text-gray-600">
                   Quick response times and efficient service delivery.
                 </p>
@@ -420,7 +453,9 @@ export default function ContactUsPage() {
                 <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Mail className="h-8 w-8 text-red-600" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2">24/7 Support</h3>
+                <h3 className="font-semibold text-gray-900 mb-2">
+                  24/7 Support
+                </h3>
                 <p className="text-gray-600">
                   Round-the-clock customer support for your peace of mind.
                 </p>

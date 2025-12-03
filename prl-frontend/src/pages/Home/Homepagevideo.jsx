@@ -4,7 +4,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const VideoHeroWithSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const slideInterval = useRef(null);
+  const timeoutRef = useRef(null);
+  // We use refs to control video playback manually
+  const videoRefs = useRef([]);
 
   const slides = [
     {
@@ -42,51 +44,70 @@ const VideoHeroWithSlider = () => {
     {
       type: "image",
       imageUrl: "/assets/banners/slider/homepagebanner2.jpg",
-     
     },
   ];
 
-  useEffect(() => {
-    startSlider();
-    return () => {
-      stopSlider();
-    };
-  }, [currentIndex, isHovered]);
-
-  const startSlider = () => {
-    stopSlider();
-    if (!isHovered) {
-      slideInterval.current = setInterval(() => {
-        nextSlide();
-      }, 5000);
-    }
-  };
-
-  const stopSlider = () => {
-    if (slideInterval.current) {
-      clearInterval(slideInterval.current);
-    }
+  // Function to move to next slide
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === slides.length - 1 ? 0 : prevIndex + 1
+    );
   };
 
   const prevSlide = () => {
-    const isFirstSlide = currentIndex === 0;
-    const newIndex = isFirstSlide ? slides.length - 1 : currentIndex - 1;
-    setCurrentIndex(newIndex);
-  };
-
-  const nextSlide = () => {
-    const isLastSlide = currentIndex === slides.length - 1;
-    const newIndex = isLastSlide ? 0 : currentIndex + 1;
-    setCurrentIndex(newIndex);
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? slides.length - 1 : prevIndex - 1
+    );
   };
 
   const goToSlide = (slideIndex) => {
     setCurrentIndex(slideIndex);
   };
 
+  // 1. Handle Automatic Sliding Logic
+  useEffect(() => {
+    // Clear any existing timers first
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    // If hovered, stop auto-rotation (optional, based on your preference)
+    if (isHovered) return;
+
+    const currentSlide = slides[currentIndex];
+
+    // IF IMAGE: Set 3 second timer
+    if (currentSlide.type === "image") {
+      timeoutRef.current = setTimeout(() => {
+        nextSlide();
+      }, 3000); // 3 seconds for images
+    }
+
+    // IF VIDEO: Do nothing here. The onEnded event on the video tag handles the switch.
+
+    return () => clearTimeout(timeoutRef.current);
+  }, [currentIndex, isHovered]);
+
+  // 2. Handle Video Playback (Play active video, pause others)
+  useEffect(() => {
+    slides.forEach((slide, index) => {
+      if (slide.type === "video" && videoRefs.current[index]) {
+        const videoEl = videoRefs.current[index];
+
+        if (index === currentIndex) {
+          // Reset and Play current video
+          videoEl.currentTime = 0;
+          videoEl.play().catch((e) => console.log("Autoplay blocked:", e));
+        } else {
+          // Pause others to prevent background noise/resource usage
+          videoEl.pause();
+        }
+      }
+    });
+  }, [currentIndex]);
+
   return (
     <div
-      // UPDATED: Height is now 580px, top-10 is preserved
       className="relative top-10 w-full h-[615px] overflow-hidden group bg-gray-900"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -100,23 +121,23 @@ const VideoHeroWithSlider = () => {
           <div key={index} className="min-w-full h-full relative">
             {/* Media Rendering */}
             <div className="w-full h-full relative">
-              <div className="absolute inset-0  z-10" />
+              <div className="absolute inset-0 z-10" />
 
               {slide.type === "video" ? (
                 <video
+                  // Assign ref to array
+                  ref={(el) => (videoRefs.current[index] = el)}
                   src={slide.videoUrl}
-                  // UPDATED: object-cover prevents distortion
+                  // KEY CHANGE: Trigger next slide when video ends
+                  onEnded={nextSlide}
                   className="w-full h-full object-fill"
-                  autoPlay
-                  loop
-                  muted
+                  muted // Muted required for autoplay in most browsers
                   playsInline
                 />
               ) : (
                 <img
                   src={slide.imageUrl}
                   alt={slide.title || "Slider Image"}
-                  // UPDATED: object-cover prevents distortion
                   className="w-full h-full object-fill"
                 />
               )}
