@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FiSearch, FiX, FiMenu, FiChevronDown, FiGrid } from "react-icons/fi";
+import {
+  FiSearch,
+  FiX,
+  FiMenu,
+  FiChevronDown,
+  FiGrid,
+  FiPlus,
+  FiMinus,
+} from "react-icons/fi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import axios from "axios";
@@ -59,7 +67,10 @@ const RedLionNavbar = ({ onOpenQuote }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
+
+  // FIX: Changed from single string state to object state to handle multiple open menus
+  const [openDropdowns, setOpenDropdowns] = useState({});
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [loading, setLoading] = useState(true);
   const [logo, setLogo] = useState("");
@@ -361,6 +372,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
       if (window.innerWidth >= 1024) {
         setMobileOpen(false);
         setSearchOpen(false);
+        setOpenDropdowns({}); // Clear dropdowns on resize
       }
     };
     window.addEventListener("resize", handleResize);
@@ -377,8 +389,12 @@ const RedLionNavbar = ({ onOpenQuote }) => {
       ? apiCompanyItems
       : mapIconsToData(fallbackCompanyItems);
 
+  // FIX: Updated toggle function to handle multiple independent dropdowns
   const toggleDropdown = (dropdownName) => {
-    setActiveDropdown(activeDropdown === dropdownName ? null : dropdownName);
+    setOpenDropdowns((prev) => ({
+      ...prev,
+      [dropdownName]: !prev[dropdownName],
+    }));
   };
 
   const renderDropdownItems = (items, level = 0) => {
@@ -457,6 +473,9 @@ const RedLionNavbar = ({ onOpenQuote }) => {
   const renderMobileDropdownItems = (items, level = 0, parentIndex = "") => {
     return items.map((item, index) => {
       const uniqueKey = `${parentIndex}-${index}`;
+      // FIX: Check specific key in object state
+      const isSubDropdownOpen = openDropdowns[`mobileCategory-${uniqueKey}`];
+
       return (
         <div key={index}>
           {item.link && !item.subItems ? (
@@ -465,7 +484,10 @@ const RedLionNavbar = ({ onOpenQuote }) => {
               className={`w-full flex justify-between items-center py-2 px-3 text-gray-700 hover:text-red-600 rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-1 ${
                 level > 0 ? "pl-6" : ""
               }`}
-              onClick={() => setMobileOpen(false)}
+              onClick={() => {
+                setMobileOpen(false);
+                setOpenDropdowns({});
+              }}
             >
               <div className="flex items-center">
                 {item.icon && (
@@ -492,20 +514,16 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                 {item.name}
               </div>
               {item.subItems && (
-                <FiChevronDown
-                  className={`transition-transform duration-300 ${
-                    activeDropdown === `mobileCategory-${uniqueKey}`
-                      ? "rotate-180"
-                      : ""
-                  }`}
-                />
+                <div className="text-sm">
+                  {isSubDropdownOpen ? <FiMinus /> : <FiPlus />}
+                </div>
               )}
             </button>
           )}
           {item.subItems && (
             <div
               className={`overflow-hidden transition-all duration-500 ${
-                activeDropdown === `mobileCategory-${uniqueKey}`
+                isSubDropdownOpen
                   ? "max-h-screen opacity-100"
                   : "max-h-0 opacity-0"
               }`}
@@ -521,7 +539,10 @@ const RedLionNavbar = ({ onOpenQuote }) => {
               className={`block py-2 px-3 text-sm text-gray-600 hover:text-red-600 rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2 ${
                 level > 0 ? "pl-10" : "pl-8"
               }`}
-              onClick={() => setMobileOpen(false)}
+              onClick={() => {
+                setMobileOpen(false);
+                setOpenDropdowns({});
+              }}
             >
               <div className="font-medium">{item.name}</div>
               <div className="text-xs text-gray-500 mt-1">{item.desc}</div>
@@ -826,7 +847,10 @@ const RedLionNavbar = ({ onOpenQuote }) => {
             <Link
               to="/"
               className="block py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
-              onClick={() => setMobileOpen(false)}
+              onClick={() => {
+                setMobileOpen(false);
+                setOpenDropdowns({});
+              }}
             >
               Home
             </Link>
@@ -837,15 +861,11 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                 onClick={() => toggleDropdown("mobileProducts")}
               >
                 <span>Products</span>
-                <FiChevronDown
-                  className={`transition-transform duration-300 ${
-                    activeDropdown === "mobileProducts" ? "rotate-180" : ""
-                  }`}
-                />
+                {openDropdowns["mobileProducts"] ? <FiMinus /> : <FiPlus />}
               </button>
               <div
                 className={`overflow-hidden transition-all duration-500 ${
-                  activeDropdown === "mobileProducts"
+                  openDropdowns["mobileProducts"]
                     ? "max-h-screen opacity-100"
                     : "max-h-0 opacity-0"
                 }`}
@@ -862,15 +882,11 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                 onClick={() => toggleDropdown("mobileServices")}
               >
                 <span>Services</span>
-                <FiChevronDown
-                  className={`transition-transform duration-300 ${
-                    activeDropdown === "mobileServices" ? "rotate-180" : ""
-                  }`}
-                />
+                {openDropdowns["mobileServices"] ? <FiMinus /> : <FiPlus />}
               </button>
               <div
                 className={`overflow-hidden transition-all duration-500 ${
-                  activeDropdown === "mobileServices"
+                  openDropdowns["mobileServices"]
                     ? "max-h-64 opacity-100"
                     : "max-h-0 opacity-0"
                 }`}
@@ -881,7 +897,10 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                       key={index}
                       to={service.link}
                       className="block py-2 px-3 text-gray-700 hover:text-red-600 rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
-                      onClick={() => setMobileOpen(false)}
+                      onClick={() => {
+                        setMobileOpen(false);
+                        setOpenDropdowns({});
+                      }}
                     >
                       <div className="font-medium">{service.name}</div>
                       <div className="text-xs text-gray-500 mt-1">
@@ -899,15 +918,11 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                 onClick={() => toggleDropdown("mobileCompany")}
               >
                 <span>Our Company</span>
-                <FiChevronDown
-                  className={`transition-transform duration-300 ${
-                    activeDropdown === "mobileCompany" ? "rotate-180" : ""
-                  }`}
-                />
+                {openDropdowns["mobileCompany"] ? <FiMinus /> : <FiPlus />}
               </button>
               <div
                 className={`overflow-hidden transition-all duration-500 ${
-                  activeDropdown === "mobileCompany"
+                  openDropdowns["mobileCompany"]
                     ? "max-h-96 opacity-100"
                     : "max-h-0 opacity-0"
                 }`}
@@ -918,7 +933,10 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                       key={index}
                       to={item.link}
                       className="block py-2 px-3 text-gray-700 hover:text-red-600 rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
-                      onClick={() => setMobileOpen(false)}
+                      onClick={() => {
+                        setMobileOpen(false);
+                        setOpenDropdowns({});
+                      }}
                     >
                       <div className="font-medium">{item.name}</div>
                       <div className="text-xs text-gray-500 mt-1">
@@ -933,7 +951,10 @@ const RedLionNavbar = ({ onOpenQuote }) => {
             <Link
               to="/turnkey"
               className="block py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
-              onClick={() => setMobileOpen(false)}
+              onClick={() => {
+                setMobileOpen(false);
+                setOpenDropdowns({});
+              }}
             >
               Turn Key
             </Link>
@@ -941,7 +962,10 @@ const RedLionNavbar = ({ onOpenQuote }) => {
             <Link
               to="/casestudies"
               className="block py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
-              onClick={() => setMobileOpen(false)}
+              onClick={() => {
+                setMobileOpen(false);
+                setOpenDropdowns({});
+              }}
             >
               Case Studies
             </Link>
@@ -949,7 +973,10 @@ const RedLionNavbar = ({ onOpenQuote }) => {
             <Link
               to="/contact"
               className="block py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
-              onClick={() => setMobileOpen(false)}
+              onClick={() => {
+                setMobileOpen(false);
+                setOpenDropdowns({});
+              }}
             >
               Contact
             </Link>
@@ -958,6 +985,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
               onClick={() => {
                 onOpenQuote();
                 setMobileOpen(false);
+                setOpenDropdowns({});
               }}
               className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-5 py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] mt-2"
             >

@@ -19,13 +19,16 @@ import OurPartners from "./TrustedSlider";
 import PRL_Journey from "./Our-journey";
 import Journey from "./Jouney";
 import EnquiryForm from "../../components/EnquiryForm";
+import Landingpage from "./Landingpage";
 
 const Home = () => {
   return (
     <div>
       <EnquiryForm />
       {/* <MachineSlider /> */}
-      <VideoHeroWithSlider />
+      <Landingpage />
+
+      {/* <VideoHeroWithSlider /> */}
       <About />
       <ProductShowcase />
       <PRL_Journey />

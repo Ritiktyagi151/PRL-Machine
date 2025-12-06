@@ -89,7 +89,7 @@ const CatalogDownload = () => {
     <div className="relative bg-gray-50">
       {/* Fixed Catalog Button on the bottom-left */}
       <button
-        className="fixed right-0 top-52 
+        className="fixed right-5 md:right-0 top-[25rem] md:top-52 
   bg-gradient-to-r from-[#EB1C24] to-[#B01018] 
   text-white rotate-90 translate-x-20
   rounded-full shadow-xl 
@@ -100,7 +100,7 @@ const CatalogDownload = () => {
         {/* Icon */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
+          className="md:h-5 md:w-5 h-3 w-3"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -114,7 +114,7 @@ const CatalogDownload = () => {
         </svg>
 
         {/* Normal Horizontal Text */}
-        <span className="tracking-wide font-semibold text-sm md:text-base">
+        <span className="tracking-wide font-semibold text-[10px] md:text-base">
           Download Catalog
         </span>
       </button>
