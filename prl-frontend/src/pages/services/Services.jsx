@@ -7,16 +7,11 @@ import {
   FaBook,
   FaPhone,
   FaEnvelope,
-  FaBars,
-  FaTimes,
 } from "react-icons/fa";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 export default function Services() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [quoteOpen, setQuoteOpen] = useState(false);
   const menu = [
     { name: "Maintenance", path: "maintenance", icon: <FaIndustry /> },
     { name: "Installation", path: "installation", icon: <FaTools /> },
@@ -31,8 +26,6 @@ export default function Services() {
   return (
     <div className="flex flex-col">
       {/* Banner Section */}
-      {/* banner Section */}
-
       <div className="mt-[41px] relative">
         {/* Desktop Banner with Animation */}
         <motion.div
@@ -63,85 +56,19 @@ export default function Services() {
         </motion.div>
       </div>
 
-      {/* Mobile Menu Button */}
-      <button
-        className="md:hidden fixed right-1 top-[120px] z-50 bg-red-600 text-white p-3 rounded-lg"
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-      >
-        {mobileMenuOpen ? <FaTimes /> : <FaBars />}
-      </button>
-
-      {/* Main Content */}
-      <div className="flex flex-col md:flex-row container mx-auto mt-4">
-        {/* Sidebar - Mobile */}
-        {mobileMenuOpen && (
-          <div className="md:hidden fixed top-28 inset-0 z-40 bg-black bg-opacity-50">
-            <aside className="w-64 bg-gray-100 h-full p-6 overflow-y-auto">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-red-600">Our Services</h2>
-                <button
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-gray-700"
-                >
-                  <FaTimes />
-                </button>
-              </div>
-              <nav className="flex flex-col gap-2">
-                {menu.map((item) => (
-                  <NavLink
-                    key={item.path}
-                    to={item.path}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={({ isActive }) =>
-                      `flex items-center gap-3 px-3 py-2 rounded-lg transition
-                      ${
-                        isActive
-                          ? "bg-red-600 text-white"
-                          : "text-gray-700 hover:bg-gray-200"
-                      }`
-                    }
-                  >
-                    {item.icon}
-                    {item.name}
-                  </NavLink>
-                ))}
-              </nav>
-              <div className="mt-6 bg-white p-4 rounded-lg shadow-sm">
-                <h3 className="font-semibold text-base mb-2">Need Help?</h3>
-                <p className="text-xs text-gray-600 mb-3">
-                  Our customer service team is available to answer your
-                  questions.
-                </p>
-                <div className="space-y-2">
-                  <a
-                    href="tel:+917065500903
-"
-                    className="flex items-center gap-2 text-gray-700 hover:text-red-600 transition text-sm"
-                  >
-                    <FaPhone className="text-red-600" />
-                    <span>+91 7065500903</span>
-                  </a>
-                  <a
-                    href="mailto:r.k.parida015@gmail.com"
-                    className="flex items-center gap-2 text-gray-700 hover:text-red-600 transition text-sm"
-                  >
-                    <FaEnvelope className="text-red-600" />
-                    <span>r.k.parida015@gmail.com</span>
-                  </a>
-                </div>
-                <button className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded transition text-xs mt-3">
-                  Contact Support
-                </button>
-              </div>
-            </aside>
+      {/* Main Content Area */}
+      <div className="flex flex-col md:flex-row container mx-auto mt-4 gap-4 md:gap-0">
+        {/* Universal Sidebar */}
+        <aside className="w-full md:w-64 bg-gray-100 md:border-r p-4 md:p-6 md:h-[calc(100vh-120px)] md:sticky md:top-[120px] flex-shrink-0">
+          <div className="flex justify-between items-center mb-4 md:mb-6">
+            <h2 className="text-xl md:text-2xl font-bold text-red-600">
+              Our Services
+            </h2>
           </div>
-        )}
 
-        {/* Sidebar - Desktop */}
-        <aside className="hidden md:block w-64 bg-gray-100 border-r p-6 h-[calc(100vh-120px)] sticky top-[120px] ">
-          <h2 className="text-xl md:text-2xl font-bold text-red-600 mb-4 md:mb-6">
-            Our Services
-          </h2>
+          {/* Navigation Menu */}
+          {/* UPDATED: Always flex-col (Vertical) for both Mobile and Desktop */}
+          {/* Removed overflow-x-auto so no scrollbar appears */}
           <nav className="flex flex-col gap-2">
             {menu.map((item) => (
               <NavLink
@@ -152,7 +79,7 @@ export default function Services() {
                   ${
                     isActive
                       ? "bg-red-600 text-white"
-                      : "text-gray-700 hover:bg-gray-200"
+                      : "bg-white md:bg-transparent text-gray-700 hover:bg-gray-200"
                   }`
                 }
               >
@@ -162,8 +89,8 @@ export default function Services() {
             ))}
           </nav>
 
-          {/* Additional sidebar content */}
-          <div className="mt-8 md:mt-12 bg-white p-3 md:p-4 rounded-lg shadow-sm">
+          {/* "Need Help" Section - Hidden on Mobile, Visible on Desktop */}
+          <div className="hidden md:block mt-8 md:mt-12 bg-white p-3 md:p-4 rounded-lg shadow-sm">
             <h3 className="font-semibold text-base md:text-lg mb-2 md:mb-3">
               Need Help?
             </h3>
@@ -172,8 +99,7 @@ export default function Services() {
             </p>
             <div className="space-y-2 md:space-y-3">
               <a
-                href="tel:+917065500903
-"
+                href="tel:+917065500903"
                 className="flex items-center gap-2 text-gray-700 hover:text-red-600 transition text-xs md:text-sm"
               >
                 <FaPhone className="text-red-600" />
@@ -195,7 +121,7 @@ export default function Services() {
           </div>
         </aside>
 
-        {/* Scrollable Content */}
+        {/* Scrollable Main Content */}
         <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto">
           <Outlet />
         </main>

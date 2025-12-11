@@ -1,4 +1,7 @@
+
+
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const FAQ = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -7,7 +10,7 @@ const FAQ = () => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  const faqs = [
+    const faqs = [
     // About UPVC Windows
     {
       q: "What is UPVC?",
@@ -712,141 +715,221 @@ const FAQ = () => {
     // Add more if needed, but this covers the majority without excessive duplication
   ];
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* FAQ Section */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-[#281E5A] mb-3">
-            Frequently Asked Questions
-          </h2>
-          <div className="w-20 h-1 bg-[#EC1C24] mx-auto"></div>
-          <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-            Explore our comprehensive frequently asked questions to learn more
-            about UPVC windows, manufacturing, installation, machinery, and
-            more.
-          </p>
-        </div>
+  // Data ko do columns mein split karna (Odd aur Even index ke hisaab se)
+  const leftColumnFaqs = faqs.filter((_, index) => index % 2 === 0);
+  const rightColumnFaqs = faqs.filter((_, index) => index % 2 !== 0);
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {faqs.map((item, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
-            >
-              <button
-                className="w-full text-left p-5 bg-[#281E5A] text-white font-semibold flex justify-between items-center"
-                onClick={() => toggleFAQ(index)}
-              >
-                <span>{item.q}</span>
-                <span className="text-xl">
-                  {activeIndex === index ? "-" : "+"}
-                </span>
-              </button>
-              <div
-                className={`overflow-hidden transition-all duration-300 ${
-                  activeIndex === index ? "max-h-96" : "max-h-0"
-                }`}
-              >
-                <div className="p-5 text-gray-700 border-l-4 border-[#EC1C24]">
-                  <pre className="whitespace-pre-wrap">{item.a}</pre>
-                </div>
+  // Card Component taaki code repeat na ho
+  const FAQCard = ({ item, index, realIndex }) => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4 }}
+      className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 mb-6 h-fit" // mb-6 aur h-fit zaroori hai
+      whileHover={{ 
+        scale: 1.02, 
+        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)" 
+      }}
+    >
+      <button
+        className="w-full text-left p-6 flex justify-between items-center gap-4 group"
+        onClick={() => toggleFAQ(realIndex)}
+      >
+        <span className={`font-bold text-lg transition-colors duration-300 ${activeIndex === realIndex ? "text-[#EC1C24]" : "text-[#281E5A] group-hover:text-[#EC1C24]"}`}>
+          {item.q}
+        </span>
+        
+        <span className="flex-shrink-0 ml-2">
+          <motion.div
+            animate={{ rotate: activeIndex === realIndex ? 45 : 0 }}
+            transition={{ duration: 0.3 }}
+            className={`w-8 h-8 flex items-center justify-center rounded-full border-2 ${activeIndex === realIndex ? "border-[#EC1C24] text-[#EC1C24]" : "border-[#281E5A] text-[#281E5A]"}`}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+          </motion.div>
+        </span>
+      </button>
+
+      <AnimatePresence>
+        {activeIndex === realIndex && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            <div className="px-6 pb-6 pt-0">
+              <div className="h-[1px] w-full bg-gray-100 mb-4"></div>
+              <div className="text-gray-600 leading-relaxed whitespace-pre-wrap border-l-4 border-[#EC1C24] pl-4 bg-gray-50 py-2 rounded-r-md">
+                {item.a}
               </div>
             </div>
-          ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-50 font-sans">
+      <div className="container mx-auto px-4 py-16">
+        <div className="text-center mb-12">
+          <motion.h2 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-4xl font-extrabold text-[#281E5A] mb-3"
+          >
+            Frequently Asked Questions
+          </motion.h2>
+          <motion.div 
+            initial={{ width: 0 }}
+            animate={{ width: 80 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="h-1 bg-[#EC1C24] mx-auto rounded-full"
+          ></motion.div>
+        </div>
+
+        {/* MAIN CHANGE: Grid ki jagah Flex Colum use kiya hai.
+           Humne data ko 2 columns mein split kar diya.
+           Isse ek side expand hone par dusri side stretch nahi hogi.
+        */}
+        <div className="flex flex-col md:flex-row gap-6 max-w-6xl mx-auto items-start">
+          
+          {/* Left Column */}
+          <div className="w-full md:w-1/2">
+            {leftColumnFaqs.map((item, index) => (
+              <FAQCard 
+                key={index} 
+                item={item} 
+                index={index} 
+                realIndex={index * 2} // Original index maintain karne ke liye
+              />
+            ))}
+          </div>
+
+          {/* Right Column */}
+          <div className="w-full md:w-1/2">
+            {rightColumnFaqs.map((item, index) => (
+              <FAQCard 
+                key={index} 
+                item={item} 
+                index={index} 
+                realIndex={(index * 2) + 1} // Original index maintain karne ke liye
+              />
+            ))}
+          </div>
+
         </div>
       </div>
-
-      {/* Additional Info Section */}
-      <div className="bg-gray-100 py-16">
+      
+       <div className="bg-gray-100 py-20 mt-16">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="md:w-1/2 mb-10 md:mb-0">
-              <h3 className="text-2xl font-bold text-[#281E5A] mb-6">
+          <div className="flex flex-col lg:flex-row items-start justify-between gap-12">
+            
+            {/* Contact Cards (Left Side) */}
+            <div className="lg:w-1/2 w-full">
+              <motion.h3 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-3xl font-bold text-[#281E5A] mb-6"
+              >
                 Still Have Questions?
-              </h3>
-              <p className="text-gray-700 mb-6">
+              </motion.h3>
+              <motion.p 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-gray-700 mb-8 text-lg"
+              >
                 Can't find the answer you're looking for? Our team is ready to
                 help you with any questions about UPVC windows, fabrication
                 machinery, installation, and services.
-              </p>
+              </motion.p>
+              
               <div className="space-y-4">
-                <div className="flex items-start">
-                  <div className="bg-[#281E5A] text-white p-2 rounded-full mr-3">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Call Us</h4>
-                    <p className="text-gray-600">+91 7065500903</p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <div className="bg-[#281E5A] text-white p-2 rounded-full mr-3">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Email Us</h4>
-                    <p className="text-gray-600">r.k.parida015@gmail.com</p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <div className="bg-[#281E5A] text-white p-2 rounded-full mr-3">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Visit Us</h4>
-                    <p className="text-gray-600">
-                      PARIDA RED LION INDIA PVT LTD GST NO - 09AAJCP6402H1ZC
-                      Address - Plot No-106 ,Ecotec -3 Udhyog Kendra-1 ,Greater
-                      Noida Gautambuddha Nagar ,Uttar Pradesh ,201306
-                    </p>
-                  </div>
-                </div>
+                {[
+                  { 
+                    title: "Call Us", 
+                    val: "+91 7065500903", 
+                    icon: <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /> 
+                  },
+                  { 
+                    title: "Email Us", 
+                    val: "r.k.parida015@gmail.com", 
+                    icon: <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884zM18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /> 
+                  },
+                  { 
+                    title: "Visit Us", 
+                    val: "Plot No-106, Ecotec-3 Udhyog Kendra-1, Greater Noida, UP", 
+                    sub: "GST: 09AAJCP6402H1ZC",
+                    icon: <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" /> 
+                  }
+                ].map((contact, idx) => (
+                  <motion.div 
+                    key={idx}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1 }}
+                    whileHover={{ x: 10, backgroundColor: "#fff", boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)" }}
+                    className="flex items-start p-4 rounded-lg transition-all duration-300 cursor-pointer"
+                  >
+                    <div className="bg-[#281E5A] text-white p-3 rounded-full mr-4 shadow-lg flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                        {contact.icon}
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-[#281E5A] text-lg">{contact.title}</h4>
+                      <p className="text-gray-600 font-medium">{contact.val}</p>
+                      {contact.sub && <p className="text-gray-500 text-sm mt-1">{contact.sub}</p>}
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             </div>
-            <div className="md:w-1/2 flex justify-center">
-              <div className="bg-[#281E5A] text-white p-8 rounded-lg shadow-lg max-w-md">
-                <h3 className="text-2xl font-bold mb-4">
+
+            {/* About Card (Right Side) */}
+            <div className="lg:w-1/2 w-full flex justify-center lg:justify-end">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -10, rotate: 1 }}
+                transition={{ type: "spring", stiffness: 100 }}
+                className="bg-[#281E5A] text-white p-10 rounded-2xl shadow-2xl max-w-lg relative overflow-hidden"
+              >
+                {/* Background Decoration Circles */}
+                <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-[#EC1C24] opacity-20 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-[#EC1C24] opacity-20 rounded-full blur-3xl"></div>
+
+                <h3 className="text-3xl font-bold mb-6 relative z-10 border-b border-white/20 pb-4">
                   About Parida Red Lion
                 </h3>
-                <p className="mb-4">
+                <p className="mb-4 text-gray-200 leading-relaxed relative z-10">
                   Parida Red Lion is a leading manufacturer of high-quality UPVC
-                  window fabrication machinery with over 25 years of industry
+                  window fabrication machinery with over <span className="font-bold text-[#EC1C24]">25 years</span> of industry
                   experience.
                 </p>
-                <p className="mb-4">
+                <p className="mb-6 text-gray-200 leading-relaxed relative z-10">
                   We specialize in creating innovative solutions for UPVC window
                   production, serving the construction and manufacturing
                   industries worldwide.
                 </p>
-                <div className="flex items-center mt-6"></div>
-              </div>
+                
+                <motion.button 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-[#EC1C24] px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-red-600 transition-colors w-full sm:w-auto"
+                >
+                  Contact Us Today
+                </motion.button>
+              </motion.div>
             </div>
           </div>
         </div>

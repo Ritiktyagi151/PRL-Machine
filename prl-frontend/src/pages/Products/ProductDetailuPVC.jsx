@@ -17,9 +17,26 @@ import ValuedClients from "../Home/Our-Clients";
 
 const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
 
+const slugify = (text = "") =>
+  text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "-and-")
+    .replace(/[\s\W-]+/g, "-") // collapse spaces, punctuation
+    .replace(/^-+|-+$/g, "");
+
+const extractIdFromParam = (param) => {
+  if (!param) return param;
+  const dashIndex = param.indexOf("-");
+  return dashIndex === -1 ? param : param.slice(0, dashIndex);
+};
+
 const ProductDetailuPVC = () => {
-  const { id } = useParams();
+  const { id: idParam } = useParams(); // idParam might be "64f2a1-window-extruder"
+  const id = extractIdFromParam(idParam);
   const navigate = useNavigate();
+
   const [product, setProduct] = useState(null);
   const [upvcData, setUpvcData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,35 +57,62 @@ const ProductDetailuPVC = () => {
         }
         const data = await response.json();
         setUpvcData(data);
-        const matched = data.find((p) => p._id === id);
+
+        // Try matching by several possible fields for robustness
+        const matched =
+          data.find((p) => p._id === id) ||
+          data.find((p) => p.id === id) || // in case some items use `id`
+          data.find((p) => p.slug === idParam); // if DB stored slug and route used slug
+
         if (!matched) {
           navigate("/not-found", { replace: true });
           return;
         }
+
         setProduct(matched);
+
+        // Ensure the URL is in id-slug format for readability & SEO
+        const expectedPath = `/productdetailupvc/${matched._id}-${slugify(
+          matched.name
+        )}`;
+        if (window.location.pathname !== expectedPath) {
+          // replace so browser history isn't cluttered
+          navigate(expectedPath, { replace: true });
+        }
       } catch (err) {
         console.error("Error fetching uPVC machines:", err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchUpvcData();
-  }, [id, navigate]);
+    // Note: depend on idParam so if the route param changes we refetch
+  }, [idParam, id, navigate]);
 
   const nextSlide = () => {
+    if (!product || !product.images || product.images.length === 0) return;
     setCurrentSlide((prev) =>
+      prev === product.images.length - 1 ? 0 : prev + 1
+    );
+    setActiveImage((prev) =>
       prev === product.images.length - 1 ? 0 : prev + 1
     );
   };
 
   const prevSlide = () => {
+    if (!product || !product.images || product.images.length === 0) return;
     setCurrentSlide((prev) =>
+      prev === 0 ? product.images.length - 1 : prev - 1
+    );
+    setActiveImage((prev) =>
       prev === 0 ? product.images.length - 1 : prev - 1
     );
   };
 
   const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value);
+    if (Number.isNaN(value)) return;
     if (value > 0 && value <= 100) {
       setQuantity(value);
     }
@@ -87,6 +131,7 @@ const ProductDetailuPVC = () => {
   };
 
   const handleShare = () => {
+    if (!product) return;
     if (navigator.share) {
       navigator
         .share({
@@ -97,7 +142,6 @@ const ProductDetailuPVC = () => {
         .catch(console.error);
     } else {
       navigator.clipboard.writeText(window.location.href);
-      // Show toast notification
       const toast = document.createElement("div");
       toast.className =
         "fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-md shadow-lg z-50 transition-opacity opacity-0";
@@ -118,7 +162,7 @@ const ProductDetailuPVC = () => {
   };
 
   const handleDownloadBrochure = () => {
-    // Simulate download or use brochureUrl if available
+    if (!product) return;
     const link = document.createElement("a");
     link.href = product.brochureUrl || "#";
     link.download = `${product.name.replace(/\s+/g, "_")}_brochure.pdf`;
@@ -126,11 +170,10 @@ const ProductDetailuPVC = () => {
     link.click();
     document.body.removeChild(link);
 
-    // Show success notification
     const toast = document.createElement("div");
     toast.className =
       "fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50 flex items-center";
-    toast.innerHTML = `<FiCheck class="w-5 h-5 mr-2" /> Brochure download started`;
+    toast.textContent = "Brochure download started";
     document.body.appendChild(toast);
 
     setTimeout(() => {
@@ -239,29 +282,29 @@ const ProductDetailuPVC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
         {/* Image Gallery */}
         <div className="animate-fade-in-up">
-          {/* Main Image Slider */}
           <div className="relative mb-6 rounded-xl overflow-hidden shadow-lg group">
             <div className="relative h-96 w-full">
-              {product.images.map((img, index) => (
-                <div
-                  key={index}
-                  className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                    index === currentSlide
-                      ? "opacity-100"
-                      : "opacity-0 pointer-events-none"
-                  }`}
-                >
-                  <img
-                    src={img}
-                    alt={`${product.name} - Slide ${index + 1}`}
-                    className="w-full h-full object-cover"
-                    onLoad={() => setImageLoaded(true)}
-                  />
-                  {!imageLoaded && (
-                    <div className="absolute inset-0 bg-gray-200 animate-pulse"></div>
-                  )}
-                </div>
-              ))}
+              {product.images &&
+                product.images.map((img, index) => (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                      index === currentSlide
+                        ? "opacity-100"
+                        : "opacity-0 pointer-events-none"
+                    }`}
+                  >
+                    <img
+                      src={img}
+                      alt={`${product.name} - Slide ${index + 1}`}
+                      className="w-full h-full object-cover"
+                      onLoad={() => setImageLoaded(true)}
+                    />
+                    {!imageLoaded && (
+                      <div className="absolute inset-0 bg-gray-200 animate-pulse"></div>
+                    )}
+                  </div>
+                ))}
             </div>
 
             {/* Navigation Arrows */}
@@ -280,10 +323,13 @@ const ProductDetailuPVC = () => {
 
             {/* Indicators */}
             <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
-              {product.images.map((_, index) => (
+              {(product.images || []).map((_, index) => (
                 <button
                   key={index}
-                  onClick={() => setCurrentSlide(index)}
+                  onClick={() => {
+                    setCurrentSlide(index);
+                    setActiveImage(index);
+                  }}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     index === currentSlide
                       ? "bg-white w-6"
@@ -296,7 +342,7 @@ const ProductDetailuPVC = () => {
 
           {/* Thumbnail Gallery */}
           <div className="grid grid-cols-4 gap-3">
-            {product.images.map((img, idx) => (
+            {(product.images || []).map((img, idx) => (
               <button
                 key={idx}
                 onClick={() => {
@@ -408,6 +454,7 @@ const ProductDetailuPVC = () => {
                 Video
               </button>
             )}
+
             {product.faq && product.faq.length > 0 && (
               <button
                 onClick={() => setActiveTab("faq")}
@@ -420,6 +467,7 @@ const ProductDetailuPVC = () => {
                 FAQ
               </button>
             )}
+
             <button
               onClick={() => setActiveTab("catalog")}
               className={`py-3 px-5 font-medium whitespace-nowrap transition-all duration-300 ${
@@ -434,7 +482,6 @@ const ProductDetailuPVC = () => {
 
           {/* Tab Content */}
           <div className="bg-white rounded-xl p-6 mb-6 shadow-md border border-gray-100 transition-all duration-300">
-            {/* Technical Specifications */}
             {activeTab === "specifications" && (
               <div className="animate-fade-in">
                 <h2 className="text-xl font-semibold mb-4 text-gray-800">
@@ -461,7 +508,6 @@ const ProductDetailuPVC = () => {
               </div>
             )}
 
-            {/* Diagram Tab */}
             {activeTab === "diagram" && (
               <div className="animate-fade-in">
                 <h2 className="text-xl font-semibold mb-4 text-gray-800">
@@ -480,7 +526,6 @@ const ProductDetailuPVC = () => {
               </div>
             )}
 
-            {/* Description Tab */}
             {activeTab === "description" && (
               <div className="animate-fade-in">
                 <h2 className="text-xl font-semibold mb-4 text-gray-800">
@@ -497,7 +542,6 @@ const ProductDetailuPVC = () => {
               </div>
             )}
 
-            {/* Video Tab */}
             {activeTab === "video" && (
               <div className="animate-fade-in">
                 <h2 className="text-xl font-semibold mb-4 text-gray-800">
@@ -523,7 +567,6 @@ const ProductDetailuPVC = () => {
               </div>
             )}
 
-            {/* FAQ Tab */}
             {activeTab === "faq" && (
               <div className="animate-fade-in">
                 <h2 className="text-xl font-semibold mb-4 text-gray-800">
@@ -551,7 +594,6 @@ const ProductDetailuPVC = () => {
               </div>
             )}
 
-            {/* PDF Catalog Tab */}
             {activeTab === "catalog" && (
               <div className="animate-fade-in">
                 <h2 className="text-xl font-semibold mb-4 text-gray-800">
@@ -603,7 +645,6 @@ const ProductDetailuPVC = () => {
               </div>
 
               <div className="space-y-3">
-                {/* === MODIFIED BUTTON HERE === */}
                 <button
                   onClick={() => navigate("/contact")}
                   className="w-full py-3 px-4 rounded-lg font-medium flex items-center justify-center transition-all duration-300 bg-purple-700 hover:bg-purple-800 text-white transform hover:scale-105"
@@ -611,7 +652,6 @@ const ProductDetailuPVC = () => {
                   Make an Enquiry
                   <FiArrowLeft className="w-5 h-5 ml-2 transform rotate-180" />
                 </button>
-                {/* === END MODIFIED BUTTON === */}
 
                 <button
                   onClick={handleDownloadBrochure}
@@ -626,7 +666,7 @@ const ProductDetailuPVC = () => {
         </div>
       </div>
 
-      {/* Technical Drawings Section */}
+      {/* Technical Drawings */}
       <div
         className="mt-16 animate-fade-in-up"
         style={{ animationDelay: "0.3s" }}
@@ -668,7 +708,7 @@ const ProductDetailuPVC = () => {
         </div>
       </div>
 
-      {/* Product Video Section */}
+      {/* Product Video */}
       <div
         className="mt-16 animate-fade-in-up"
         style={{ animationDelay: "0.4s" }}
@@ -682,7 +722,7 @@ const ProductDetailuPVC = () => {
               <video
                 controls
                 className="w-full h-full"
-                poster={product.images[0]}
+                poster={product.images && product.images[0]}
               >
                 <source src={product.videos[0]} type="video/mp4" />
                 Your browser does not support the video tag.
@@ -717,20 +757,24 @@ const ProductDetailuPVC = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {upvcData
-            .filter((p) => p._id !== id)
+            .filter((p) => p._id !== product._id)
             .slice(0, 3)
             .map((relatedProduct, index) => (
               <div
                 key={index}
                 className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer border border-gray-100"
                 onClick={() =>
-                  navigate(`/productdetailupvc/${relatedProduct._id}`)
+                  navigate(
+                    `/productdetailupvc/${relatedProduct._id}-${slugify(
+                      relatedProduct.name
+                    )}`
+                  )
                 }
               >
                 <div className="h-48 bg-gray-100 overflow-hidden relative">
                   <img
                     src={
-                      relatedProduct.images[0] ||
+                      (relatedProduct.images && relatedProduct.images[0]) ||
                       "https://images.pexels.com/photos/20341733/pexels-photo-20341733/free-photo-of-3d-printer-in-a-factory.jpeg?auto=compress&cs=tinysrgb&w=600"
                     }
                     alt={relatedProduct.name}
@@ -770,7 +814,7 @@ const ProductDetailuPVC = () => {
         </div>
       </div>
 
-      {/* Contact Section */}
+      {/* Contact CTA and Process */}
       <div
         className="mt-16 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-2xl p-8 animate-fade-in-up"
         style={{ animationDelay: "0.6s" }}
@@ -783,14 +827,16 @@ const ProductDetailuPVC = () => {
             If something is missing or you can't find the answer for your
             question - you can always drop us a letter with all your questions.
           </p>
-          <button className="bg-purple-700 hover:bg-purple-800 text-white py-3 px-8 rounded-lg font-medium transition-colors duration-300 transform hover:scale-105 inline-flex items-center">
+          <button
+            onClick={() => navigate("/contact")}
+            className="bg-purple-700 hover:bg-purple-800 text-white py-3 px-8 rounded-lg font-medium transition-colors duration-300 transform hover:scale-105 inline-flex items-center"
+          >
             Contact Us
             <FiArrowLeft className="ml-2 transform rotate-180" />
           </button>
         </div>
       </div>
 
-      {/* Work Process */}
       <div
         className="mt-16 animate-fade-in-up"
         style={{ animationDelay: "0.7s" }}
@@ -836,11 +882,11 @@ const ProductDetailuPVC = () => {
             </div>
           ))}
         </div>
+
         <OurPartners />
         <ValuedClients />
       </div>
 
-      {/* Add CSS for animations */}
       <style jsx>{`
         @keyframes fadeIn {
           from {

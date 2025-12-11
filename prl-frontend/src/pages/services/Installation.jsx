@@ -1,61 +1,74 @@
 import React from "react";
-import { FaTools, FaCalendarAlt, FaCheckCircle, FaShieldAlt, FaCogs, FaHeadset } from "react-icons/fa";
+import {
+  FaTools,
+  FaCalendarAlt,
+  FaCheckCircle,
+  FaShieldAlt,
+  FaCogs,
+  FaHeadset,
+} from "react-icons/fa";
 
 export default function Installation() {
   const features = [
     {
       icon: <FaTools className="text-2xl md:text-3xl text-red-600" />,
       title: "Expert Installation",
-      description: "Factory-trained technicians with specialized knowledge of your equipment"
+      description:
+        "Factory-trained technicians with specialized knowledge of your equipment",
     },
     {
       icon: <FaCalendarAlt className="text-2xl md:text-3xl text-red-600" />,
       title: "Flexible Scheduling",
-      description: "We work around your production schedule to minimize downtime"
+      description:
+        "We work around your production schedule to minimize downtime",
     },
     {
       icon: <FaCheckCircle className="text-2xl md:text-3xl text-red-600" />,
       title: "Quality Assurance",
-      description: "Rigorous testing protocols ensure optimal performance"
+      description: "Rigorous testing protocols ensure optimal performance",
     },
     {
       icon: <FaShieldAlt className="text-2xl md:text-3xl text-red-600" />,
       title: "Safety Compliance",
-      description: "Full adherence to OSHA and industry safety standards"
-    }
+      description: "Full adherence to OSHA and industry safety standards",
+    },
   ];
 
   const processSteps = [
     {
       step: "1",
       title: "Pre-Installation Assessment",
-      description: "We evaluate your facility's requirements and prepare the installation plan"
+      description:
+        "We evaluate your facility's requirements and prepare the installation plan",
     },
     {
       step: "2",
       title: "Equipment Receiving & Inspection",
-      description: "Thorough examination of all components before installation begins"
+      description:
+        "Thorough examination of all components before installation begins",
     },
     {
       step: "3",
       title: "Precision Installation",
-      description: "Proper alignment, leveling, and assembly by certified technicians"
+      description:
+        "Proper alignment, leveling, and assembly by certified technicians",
     },
     {
       step: "4",
       title: "Calibration & Testing",
-      description: "Fine-tuning and comprehensive operational testing"
+      description: "Fine-tuning and comprehensive operational testing",
     },
     {
       step: "5",
       title: "Operator Training",
-      description: "Hands-on instruction for your team on proper operation"
+      description: "Hands-on instruction for your team on proper operation",
     },
     {
       step: "6",
       title: "Final Documentation",
-      description: "Complete installation reports and maintenance recommendations"
-    }
+      description:
+        "Complete installation reports and maintenance recommendations",
+    },
   ];
 
   return (
@@ -66,13 +79,15 @@ export default function Installation() {
           Professional Installation Services
         </h1>
         <p className="text-gray-700 text-base sm:text-lg mb-4 sm:mb-6 max-w-3xl">
-          Our comprehensive installation service ensures your machinery is set up for peak performance from day one. 
-          We handle everything from initial site preparation to final calibration, minimizing your downtime and 
-          maximizing your return on investment.
+          Our comprehensive installation service ensures your machinery is set
+          up for peak performance from day one. We handle everything from
+          initial site preparation to final calibration, minimizing your
+          downtime and maximizing your return on investment.
         </p>
         <div className="bg-red-50 border-l-4 border-red-600 p-3 sm:p-4 mb-6 sm:mb-8">
           <p className="text-gray-800 text-sm sm:text-base">
-            <strong>Industry-leading:</strong> 98% of installations completed ahead of schedule with zero safety incidents
+            <strong>Industry-leading:</strong> 98% of installations completed
+            ahead of schedule with zero safety incidents
           </p>
         </div>
       </section>
@@ -84,11 +99,13 @@ export default function Installation() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {features.map((feature, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition"
             >
-              <div className="flex justify-center mb-3 sm:mb-4">{feature.icon}</div>
+              <div className="flex justify-center mb-3 sm:mb-4">
+                {feature.icon}
+              </div>
               <h3 className="text-lg sm:text-xl font-semibold text-center mb-1 sm:mb-2">
                 {feature.title}
               </h3>
@@ -137,7 +154,8 @@ export default function Installation() {
                 Post-Installation Support
               </h3>
               <p className="text-gray-600 text-sm sm:text-base">
-                30-day follow-up period with priority support to address any operational questions or minor adjustments.
+                30-day follow-up period with priority support to address any
+                operational questions or minor adjustments.
               </p>
             </div>
           </div>
@@ -148,7 +166,8 @@ export default function Installation() {
                 24/7 Emergency Support
               </h3>
               <p className="text-gray-600 text-sm sm:text-base">
-                Immediate assistance available for any critical issues that may arise after installation.
+                Immediate assistance available for any critical issues that may
+                arise after installation.
               </p>
             </div>
           </div>
@@ -162,7 +181,8 @@ export default function Installation() {
             Ready for a Flawless Installation?
           </h2>
           <p className="mb-4 sm:mb-6 text-sm sm:text-lg">
-            Contact our installation specialists today to schedule your equipment setup or to discuss your specific requirements.
+            Contact our installation specialists today to schedule your
+            equipment setup or to discuss your specific requirements.
           </p>
           <button className="bg-white text-red-600 hover:bg-gray-100 font-bold py-2 px-6 sm:py-3 sm:px-8 rounded-lg transition duration-300 text-sm sm:text-base">
             Schedule Installation

@@ -839,14 +839,14 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
         {/* Mobile Menu - Added Overflow handling for small landscape screens */}
         <div
-          className={`lg:hidden bg-white/95 backdrop-blur-md border-t border-gray-200 overflow-y-auto overflow-x-hidden transition-all duration-500 custom-scrollbar ${
+          className={`lg:hidden bg-white/95  backdrop-blur-md border-t border-gray-200 overflow-y-auto overflow-x-hidden transition-all flex justify-center items-center duration-500 custom-scrollbar ${
             mobileOpen ? "max-h-[85vh] opacity-100" : "max-h-0 opacity-0"
           }`}
         >
-          <div className="px-4 py-3 space-y-2">
+          <div className="px-4 py-3  space-y-2">
             <Link
               to="/"
-              className="block py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
+              className="block py-3 px-3 text-gray-700 pl-36 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
               onClick={() => {
                 setMobileOpen(false);
                 setOpenDropdowns({});
@@ -857,7 +857,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
             <div>
               <button
-                className="w-full flex justify-between items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300"
+                className="w-full flex justify-between pl-36  items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300"
                 onClick={() => toggleDropdown("mobileProducts")}
               >
                 <span>Products</span>
@@ -878,7 +878,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
             <div>
               <button
-                className="w-full flex justify-between items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300"
+                className="w-full flex justify-between pl-36  items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300"
                 onClick={() => toggleDropdown("mobileServices")}
               >
                 <span>Services</span>
@@ -914,7 +914,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
             <div>
               <button
-                className="w-full flex justify-between items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300"
+                className="w-full flex justify-between pl-36  items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300"
                 onClick={() => toggleDropdown("mobileCompany")}
               >
                 <span>Our Company</span>
@@ -932,7 +932,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                     <Link
                       key={index}
                       to={item.link}
-                      className="block py-2 px-3 text-gray-700 hover:text-red-600 rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
+                      className="block py-2 px-3 text-gray-700  hover:text-red-600 rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
                       onClick={() => {
                         setMobileOpen(false);
                         setOpenDropdowns({});
@@ -949,8 +949,8 @@ const RedLionNavbar = ({ onOpenQuote }) => {
             </div>
 
             <Link
-              to="/turnkey"
-              className="block py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
+              to="/turnkeypage"
+              className="block py-3 px-3 text-gray-700 pl-36  hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
               onClick={() => {
                 setMobileOpen(false);
                 setOpenDropdowns({});
@@ -961,7 +961,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
             <Link
               to="/casestudies"
-              className="block py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
+              className="block py-3 px-3 text-gray-700 pl-36 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
               onClick={() => {
                 setMobileOpen(false);
                 setOpenDropdowns({});
@@ -972,7 +972,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
             <Link
               to="/contact"
-              className="block py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
+              className="block py-3 px-3 text-gray-700 pl-36 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
               onClick={() => {
                 setMobileOpen(false);
                 setOpenDropdowns({});
@@ -987,7 +987,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                 setMobileOpen(false);
                 setOpenDropdowns({});
               }}
-              className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-5 py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] mt-2"
+              className="w-full  bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-5 py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] mt-2"
             >
               Get a Quote
             </button>
