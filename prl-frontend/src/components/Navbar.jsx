@@ -5,6 +5,7 @@ import {
   FiX,
   FiMenu,
   FiChevronDown,
+  FiChevronUp, // Imported this for the open state
   FiGrid,
   FiPlus,
   FiMinus,
@@ -502,7 +503,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
             <button
               className={`w-full flex justify-between items-center py-2 px-3 text-gray-700 hover:text-red-600 rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-1 ${
                 level > 0 ? "pl-6" : ""
-              }`}
+              } ${isSubDropdownOpen ? "bg-red-50 text-red-600" : ""}`}
               onClick={() => toggleDropdown(`mobileCategory-${uniqueKey}`)}
             >
               <div className="flex items-center">
@@ -514,8 +515,12 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                 {item.name}
               </div>
               {item.subItems && (
-                <div className="text-sm">
-                  {isSubDropdownOpen ? <FiMinus /> : <FiPlus />}
+                <div
+                  className={`text-lg transition-colors duration-300 ${
+                    isSubDropdownOpen ? "text-red-600" : "text-gray-400"
+                  }`}
+                >
+                  {isSubDropdownOpen ? <FiChevronUp /> : <FiChevronDown />}
                 </div>
               )}
             </button>
@@ -857,11 +862,27 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
             <div>
               <button
-                className="w-full flex justify-between pl-36  items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300"
+                className={`w-full flex justify-between pl-36  items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 ${
+                  openDropdowns["mobileProducts"]
+                    ? "bg-red-50 text-red-600"
+                    : ""
+                }`}
                 onClick={() => toggleDropdown("mobileProducts")}
               >
                 <span>Products</span>
-                {openDropdowns["mobileProducts"] ? <FiMinus /> : <FiPlus />}
+                <div
+                  className={`text-lg transition-colors duration-300 ${
+                    openDropdowns["mobileProducts"]
+                      ? "text-red-600"
+                      : "text-gray-400"
+                  }`}
+                >
+                  {openDropdowns["mobileProducts"] ? (
+                    <FiChevronUp />
+                  ) : (
+                    <FiChevronDown />
+                  )}
+                </div>
               </button>
               <div
                 className={`overflow-hidden transition-all duration-500 ${
@@ -878,11 +899,27 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
             <div>
               <button
-                className="w-full flex justify-between pl-36  items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300"
+                className={`w-full flex justify-between pl-36  items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 ${
+                  openDropdowns["mobileServices"]
+                    ? "bg-red-50 text-red-600"
+                    : ""
+                }`}
                 onClick={() => toggleDropdown("mobileServices")}
               >
                 <span>Services</span>
-                {openDropdowns["mobileServices"] ? <FiMinus /> : <FiPlus />}
+                <div
+                  className={`text-lg transition-colors duration-300 ${
+                    openDropdowns["mobileServices"]
+                      ? "text-red-600"
+                      : "text-gray-400"
+                  }`}
+                >
+                  {openDropdowns["mobileServices"] ? (
+                    <FiChevronUp />
+                  ) : (
+                    <FiChevronDown />
+                  )}
+                </div>
               </button>
               <div
                 className={`overflow-hidden transition-all duration-500 ${
@@ -914,11 +951,25 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
             <div>
               <button
-                className="w-full flex justify-between pl-36  items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300"
+                className={`w-full flex justify-between pl-36  items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 ${
+                  openDropdowns["mobileCompany"] ? "bg-red-50 text-red-600" : ""
+                }`}
                 onClick={() => toggleDropdown("mobileCompany")}
               >
                 <span>Our Company</span>
-                {openDropdowns["mobileCompany"] ? <FiMinus /> : <FiPlus />}
+                <div
+                  className={`text-lg transition-colors duration-300 ${
+                    openDropdowns["mobileCompany"]
+                      ? "text-red-600"
+                      : "text-gray-400"
+                  }`}
+                >
+                  {openDropdowns["mobileCompany"] ? (
+                    <FiChevronUp />
+                  ) : (
+                    <FiChevronDown />
+                  )}
+                </div>
               </button>
               <div
                 className={`overflow-hidden transition-all duration-500 ${

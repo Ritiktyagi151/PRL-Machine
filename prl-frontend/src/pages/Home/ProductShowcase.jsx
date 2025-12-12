@@ -7,8 +7,205 @@ const ALUMINUM_API_URL = `${
   import.meta.env.VITE_API_BASE_URL
 }/aluminum-machines`;
 
+// --- New Component: Enquiry Modal ---
+const EnquiryModal = ({ isOpen, onClose, product }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  // Reset form when product changes
+  useEffect(() => {
+    if (product) {
+      setFormData((prev) => ({
+        ...prev,
+        message: `I am interested in the ${product.title}. Please send me more details.`,
+      }));
+    }
+  }, [product]);
+
+  if (!isOpen) return null;
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      // --- UPDATED: FormSubmit.co Integration ---
+      await axios.post(
+        "https://formsubmit.co/ajax/r.k.parida015@gmail.com",
+        {
+          // Form Data
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          product_interest: product?.title || "General Enquiry", // Helper field for you
+
+          // FormSubmit Configuration
+          _subject: `New Machine Enquiry: ${product?.title}`,
+          _template: "table", // Makes the email look clean
+          _captcha: "false", // Optional: Turn off captcha for smoother UX
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
+
+      console.log("Form Submitted Successfully");
+      setSubmitSuccess(true);
+
+      // Close modal after showing success message briefly
+      setTimeout(() => {
+        setSubmitSuccess(false);
+        onClose();
+        setFormData({ name: "", phone: "", email: "", message: "" });
+      }, 2000);
+    } catch (error) {
+      console.error("Submission error", error);
+      alert("There was an error sending your message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm transition-opacity">
+      <div className="bg-white rounded-lg shadow-2xl w-full max-w-md relative overflow-hidden animate-fadeUp">
+        {/* Modal Header */}
+        <div className="bg-red-600 p-4 flex justify-between items-center text-white">
+          <h3 className="text-lg font-bold">Product Enquiry</h3>
+          <button
+            onClick={onClose}
+            className="hover:text-gray-200 transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* Modal Body */}
+        <div className="p-6">
+          {submitSuccess ? (
+            <div className="text-center py-8">
+              <div className="text-green-500 text-5xl mb-4">✓</div>
+              <h4 className="text-xl font-semibold text-gray-800">
+                Enquiry Sent!
+              </h4>
+              <p className="text-gray-600 mt-2">We will contact you shortly.</p>
+            </div>
+          ) : (
+            <>
+              <p className="text-sm text-gray-500 mb-4">
+                Enquiring about:{" "}
+                <span className="font-semibold text-red-600">
+                  {product?.title}
+                </span>
+              </p>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* HoneyPot spam protection (optional hidden field) */}
+                <input type="text" name="_honey" style={{ display: "none" }} />
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-red-500 focus:ring-red-500 outline-none transition-all"
+                    placeholder="Your Full Name"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    required
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-red-500 focus:ring-red-500 outline-none transition-all"
+                    placeholder="+91 98765 43210"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Email (Optional)
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-red-500 focus:ring-red-500 outline-none transition-all"
+                    placeholder="you@example.com"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Message
+                  </label>
+                  <textarea
+                    name="message"
+                    rows="3"
+                    value={formData.message}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-red-500 focus:ring-red-500 outline-none transition-all"
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`w-full text-white font-semibold py-2 px-4 rounded-md transition-colors duration-300 ${
+                    isSubmitting
+                      ? "bg-red-400 cursor-not-allowed"
+                      : "bg-red-600 hover:bg-red-700"
+                  }`}
+                >
+                  {isSubmitting ? "Sending..." : "Send Enquiry"}
+                </button>
+              </form>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- Child Component: Product Card ---
-const ProductCard = ({ product }) => {
+// Now accepts 'onEnquire' prop
+const ProductCard = ({ product, onEnquire }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const timeoutRef = useRef(null);
 
@@ -142,11 +339,16 @@ const ProductCard = ({ product }) => {
           <span className="text-sm text-gray-500 mb-4">{product.category}</span>
 
           <div className="mt-auto">
-            <Link to="/contact">
-              <button className="w-full bg-red-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-red-700 transition-colors duration-300">
-                Enquire Now
-              </button>
-            </Link>
+            {/* UPDATED: Button now opens modal instead of Link */}
+            <button
+              onClick={(e) => {
+                e.preventDefault(); // Prevent Link navigation if wrapped
+                onEnquire(product);
+              }}
+              className="w-full bg-red-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-red-700 transition-colors duration-300"
+            >
+              Enquire Now
+            </button>
           </div>
         </figcaption>
       </figure>
@@ -160,6 +362,10 @@ const ProductShowcase = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Modal State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -231,6 +437,17 @@ const ProductShowcase = () => {
     return `${material} Machine`;
   };
 
+  // Handlers for Modal
+  const openEnquiryModal = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const closeEnquiryModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
+
   const filteredProducts =
     activeFilter === "all"
       ? products
@@ -285,7 +502,6 @@ const ProductShowcase = () => {
               best for you
             </span>
           </h2>
-          {/* Matched Description Text */}
           <div className="mt-4 max-w-3xl animate-fadeUp text-lg font-medium text-gray-600">
             High-precision uPVC and aluminum window machinery engineered for
             durable performance, advanced automation, and consistent production
@@ -340,11 +556,19 @@ const ProductShowcase = () => {
               <ProductCard
                 key={`${product.type}-${product.link}-${index}`}
                 product={product}
+                onEnquire={openEnquiryModal} // Pass the handler
               />
             ))
           )}
         </div>
       </div>
+
+      {/* Render the Modal */}
+      <EnquiryModal
+        isOpen={isModalOpen}
+        onClose={closeEnquiryModal}
+        product={selectedProduct}
+      />
     </section>
   );
 };
