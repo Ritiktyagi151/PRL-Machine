@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-/**
- * Uses Vite env var VITE_API_BASE_URL if present.
- * If not present, falls back to '' (relative paths, e.g. '/api/users/login').
- *
- * Recommended .env.production -> VITE_API_BASE_URL=https://prlmachine.com
- */
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
-
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,37 +17,6 @@ const AdminLogin = () => {
     setIsLoading(true);
     setError("");
 
-<<<<<<< HEAD
-    try {
-      // final URL will be:
-      // `${API_BASE}/api/users/login`  if API_BASE set to https://prlmachine.com
-      // or `/api/users/login` if API_BASE is ''
-      const url = `${API_BASE}/api/users/login`;
-
-      const res = await axios.post(
-        url,
-        { email, password },
-        {
-          // If your backend uses cookies/session auth, uncomment:
-          // withCredentials: true
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      // save token and navigate
-      localStorage.setItem("token", res.data.token);
-      navigate("/admin/dashboard");
-    } catch (err) {
-      // better error handling: if server returns message, show it
-      const msg =
-        err?.response?.data?.message ||
-        err?.response?.data?.error ||
-        "Invalid email or password";
-      setError(msg);
-    } finally {
-=======
     setTimeout(() => {
       if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
         localStorage.setItem("token", "STATIC_ADMIN_TOKEN");
@@ -63,7 +24,6 @@ const AdminLogin = () => {
       } else {
         setError("Invalid email or password");
       }
->>>>>>> c75640c8882b46247bdbd72b8607e04ce6850c90
       setIsLoading(false);
     }, 1000);
   };
@@ -100,9 +60,7 @@ const AdminLogin = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">
-              Password
-            </label>
+            <label className="text-sm font-medium text-gray-700">Password</label>
             <input
               type="password"
               placeholder="••••••••"

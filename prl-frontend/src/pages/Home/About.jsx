@@ -89,7 +89,7 @@ const AboutSection = () => {
                 <div className="w-16 h-[2px] bg-red-500 mb-6 mx-auto lg:mx-0"></div>
                 <div className="space-y-4 leading-relaxed text-gray-200">
                   <p>
-                   Ritik PARIDA RED LION INDIA PVT LTD (PRL) is a leading
+                    PARIDA RED LION INDIA PVT LTD (PRL) is a leading
                     manufacturer of uPVC Aluminium window-making machines,
                     dedicated to delivering innovative, high-quality solutions
                     for the fabrication industry.
