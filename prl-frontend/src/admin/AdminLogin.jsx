@@ -9,8 +9,8 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   // 👉 Yaha apna ID-PASSWORD set karo
-  const ADMIN_EMAIL = "rajesh@gmail.com";
-  const ADMIN_PASSWORD = "123456";
+  const ADMIN_EMAIL = "r.k.parida015@gmail.com";
+  const ADMIN_PASSWORD = "rk0015";
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -60,7 +60,9 @@ const AdminLogin = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Password</label>
+            <label className="text-sm font-medium text-gray-700">
+              Password
+            </label>
             <input
               type="password"
               placeholder="••••••••"
