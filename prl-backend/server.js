@@ -43,7 +43,7 @@ app.use("/api/footer", require("./routes/footerRoutes"));
 app.use("/api/blogs", require("./routes/blogRoutes"));
 app.use("/api/aluminum-machines", require("./routes/aluminummachineRoutes"));
 app.use("/api/upvcmachines", require("./routes/upvcmachineRoutes"));
-app.use("/api/users", require("./routes/userRoutes"));
+// app.use("/api/users", require("./routes/userRoutes"));
 
 // Contact Page ke liye Routes
 app.use("/api/contact", require("./routes/contactRoutes"));
