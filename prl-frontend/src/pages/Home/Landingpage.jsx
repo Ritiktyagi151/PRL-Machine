@@ -108,7 +108,7 @@ const MobileBanner = ({ slides }) => {
   // Swipe Logic
   const minSwipeDistance = 50;
   const onTouchStart = (e) => {
-    setTouchEnd(null);
+    setTouchEnd(null); 
     setTouchStart(e.targetTouches[0].clientX);
   };
   const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
