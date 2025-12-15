@@ -2,6 +2,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Uses Vite env var VITE_API_BASE_URL if present.
+ * If not present, falls back to '' (relative paths, e.g. '/api/users/login').
+ *
+ * Recommended .env.production -> VITE_API_BASE_URL=https://prlmachine.com
+ */
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
+
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,14 +23,33 @@ const AdminLogin = () => {
     setError("");
 
     try {
-      const res = await axios.post("http://localhost:3000/api/users/login", {
-        email,
-        password,
-      });
+      // final URL will be:
+      // `${API_BASE}/api/users/login`  if API_BASE set to https://prlmachine.com
+      // or `/api/users/login` if API_BASE is ''
+      const url = `${API_BASE}/api/users/login`;
+
+      const res = await axios.post(
+        url,
+        { email, password },
+        {
+          // If your backend uses cookies/session auth, uncomment:
+          // withCredentials: true
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // save token and navigate
       localStorage.setItem("token", res.data.token);
       navigate("/admin/dashboard");
     } catch (err) {
-      setError("Invalid email or password");
+      // better error handling: if server returns message, show it
+      const msg =
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        "Invalid email or password";
+      setError(msg);
     } finally {
       setIsLoading(false);
     }
