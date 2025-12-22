@@ -334,7 +334,7 @@ const Footer = () => {
           <div className="flex items-center gap-1">
             <span>Designed & Developed by</span>
             <Link to="/" className="text-[#FC252E] font-medium hover:underline">
-              Jaikvik Technology
+              Jaikvik Technology India Pvt Ltd
             </Link>
           </div>
         </div>
