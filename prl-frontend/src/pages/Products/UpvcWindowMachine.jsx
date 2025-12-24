@@ -1,4 +1,3 @@
-// UPVCWindowMachinesPage.jsx
 import React, { useEffect, useState } from "react";
 import {
   FiArrowRight,
@@ -43,7 +42,7 @@ const UPVCWindowMachinesPage = () => {
     fetchUpvcData();
   }, []);
 
-  // Function to categorize products based on name (similar to getCategoryFromName)
+  // Function to categorize products based on name
   const getCategoryFromName = (name) => {
     if (!name) return "Other Special Machines";
     const lowerName = name.toLowerCase();
@@ -63,7 +62,7 @@ const UPVCWindowMachinesPage = () => {
     return "Other Special Machines";
   };
 
-  // Product categories data (dynamic based on fetched data)
+  // Product categories data
   const categories = [
     {
       id: 1,
@@ -163,7 +162,6 @@ const UPVCWindowMachinesPage = () => {
     products: cat.filterFn(upvcData),
   }));
 
-  // Animation variants
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
@@ -179,7 +177,6 @@ const UPVCWindowMachinesPage = () => {
     },
   };
 
-  // Animated component
   const AnimatedSection = ({ children, id }) => {
     const controls = useAnimation();
     const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
@@ -398,14 +395,14 @@ const UPVCWindowMachinesPage = () => {
                 >
                   {category.products.map((product) => (
                     <motion.div
-                      key={product._id} // Use _id for key
+                      key={product._id}
                       variants={fadeIn}
                       className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
                       whileHover={{ y: -5 }}
                     >
                       <div className="relative h-40 overflow-hidden">
                         <motion.img
-                          src={product.images?.[0] || "/placeholder-image.jpg"} // Fallback image
+                          src={product.images?.[0] || "/placeholder-image.jpg"}
                           alt={product.name}
                           className="w-full h-full object-cover"
                           whileHover={{ scale: 1.1 }}
@@ -451,7 +448,8 @@ const UPVCWindowMachinesPage = () => {
                               <FiShoppingCart className="mr-1" /> Enquire
                             </motion.button>
                           </Link>
-                          <Link to={`/productdetailupvc/${product._id}`}>
+                          {/* LOGIC UPDATE: Link now uses product.id instead of product._id */}
+                          <Link to={`/productdetailupvc/${product.id}`}>
                             <motion.button
                               className="flex items-center border border-[#FB252E] text-[#FB252E] px-3 py-1 rounded-md hover:bg-red-50 transition-colors text-sm"
                               whileHover={{ scale: 1.05 }}

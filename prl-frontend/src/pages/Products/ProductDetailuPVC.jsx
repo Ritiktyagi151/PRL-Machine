@@ -1,4 +1,3 @@
-// ProductDetailuPVC.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -26,15 +25,8 @@ const slugify = (text = "") =>
     .replace(/[\s\W-]+/g, "-") // collapse spaces, punctuation
     .replace(/^-+|-+$/g, "");
 
-const extractIdFromParam = (param) => {
-  if (!param) return param;
-  const dashIndex = param.indexOf("-");
-  return dashIndex === -1 ? param : param.slice(0, dashIndex);
-};
-
 const ProductDetailuPVC = () => {
-  const { id: idParam } = useParams(); // idParam might be "64f2a1-window-extruder"
-  const id = extractIdFromParam(idParam);
+  const { id: idParam } = useParams(); // URL parameter (Custom ID string)
   const navigate = useNavigate();
 
   const [product, setProduct] = useState(null);
@@ -51,44 +43,33 @@ const ProductDetailuPVC = () => {
     const fetchUpvcData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(UPVC_API_URL);
+        // Direct custom ID string bhejien backend ko
+        const response = await fetch(`${UPVC_API_URL}/${idParam}`);
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setUpvcData(data);
 
-        // Try matching by several possible fields for robustness
-        const matched =
-          data.find((p) => p._id === id) ||
-          data.find((p) => p.id === id) || // in case some items use `id`
-          data.find((p) => p.slug === idParam); // if DB stored slug and route used slug
+        // Data milne par state set karein
+        setProduct(data);
 
-        if (!matched) {
-          navigate("/not-found", { replace: true });
-          return;
-        }
-
-        setProduct(matched);
-
-        // Ensure the URL is in id-slug format for readability & SEO
-        const expectedPath = `/productdetailupvc/${matched._id}-${slugify(
-          matched.name
-        )}`;
-        if (window.location.pathname !== expectedPath) {
-          // replace so browser history isn't cluttered
-          navigate(expectedPath, { replace: true });
-        }
+        // Related products ke liye full data fetch
+        const allRes = await fetch(UPVC_API_URL);
+        const allData = await allRes.json();
+        setUpvcData(allData);
       } catch (err) {
-        console.error("Error fetching uPVC machines:", err);
+        console.error("Error fetching uPVC details:", err);
+        navigate("/not-found", { replace: true });
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUpvcData();
-    // Note: depend on idParam so if the route param changes we refetch
-  }, [idParam, id, navigate]);
+    if (idParam) {
+      fetchUpvcData();
+    }
+  }, [idParam, navigate]);
 
   const nextSlide = () => {
     if (!product || !product.images || product.images.length === 0) return;
@@ -495,7 +476,14 @@ const ProductDetailuPVC = () => {
                         className="border-b border-gray-100 pb-3 last:border-b-0"
                       >
                         <p className="text-gray-600 text-sm">{key}</p>
-                        <p className="font-medium text-gray-900">{value}</p>
+                        {/* FIX: Handled Object values to prevent crash */}
+                        <p className="font-medium text-gray-900">
+                          {typeof value === "object" && value !== null
+                            ? JSON.stringify(value)
+                                .replace(/[{}"]/g, "")
+                                .replace(/:/g, ": ")
+                            : String(value)}
+                        </p>
                       </div>
                     )
                   )}
@@ -757,18 +745,14 @@ const ProductDetailuPVC = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {upvcData
-            .filter((p) => p._id !== product._id)
+            .filter((p) => p.id !== product.id)
             .slice(0, 3)
             .map((relatedProduct, index) => (
               <div
                 key={index}
                 className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer border border-gray-100"
                 onClick={() =>
-                  navigate(
-                    `/productdetailupvc/${relatedProduct._id}-${slugify(
-                      relatedProduct.name
-                    )}`
-                  )
+                  navigate(`/productdetailupvc/${relatedProduct.id}`)
                 }
               >
                 <div className="h-48 bg-gray-100 overflow-hidden relative">

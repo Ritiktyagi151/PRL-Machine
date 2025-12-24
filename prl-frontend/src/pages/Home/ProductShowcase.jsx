@@ -40,21 +40,18 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
     setIsSubmitting(true);
 
     try {
-      // --- UPDATED: FormSubmit.co Integration ---
+      // --- FormSubmit.co Integration ---
       await axios.post(
         "https://formsubmit.co/ajax/r.k.parida015@gmail.com",
         {
-          // Form Data
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
           message: formData.message,
-          product_interest: product?.title || "General Enquiry", // Helper field for you
-
-          // FormSubmit Configuration
+          product_interest: product?.title || "General Enquiry",
           _subject: `New Machine Enquiry: ${product?.title}`,
-          _template: "table", // Makes the email look clean
-          _captcha: "false", // Optional: Turn off captcha for smoother UX
+          _template: "table",
+          _captcha: "false",
         },
         {
           headers: {
@@ -64,10 +61,8 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
         }
       );
 
-      console.log("Form Submitted Successfully");
       setSubmitSuccess(true);
 
-      // Close modal after showing success message briefly
       setTimeout(() => {
         setSubmitSuccess(false);
         onClose();
@@ -84,7 +79,6 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm transition-opacity">
       <div className="bg-white rounded-lg shadow-2xl w-full max-w-md relative overflow-hidden animate-fadeUp">
-        {/* Modal Header */}
         <div className="bg-red-600 p-4 flex justify-between items-center text-white">
           <h3 className="text-lg font-bold">Product Enquiry</h3>
           <button
@@ -108,7 +102,6 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
           </button>
         </div>
 
-        {/* Modal Body */}
         <div className="p-6">
           {submitSuccess ? (
             <div className="text-center py-8">
@@ -127,9 +120,7 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
                 </span>
               </p>
               <form onSubmit={handleSubmit} className="space-y-4">
-                {/* HoneyPot spam protection (optional hidden field) */}
                 <input type="text" name="_honey" style={{ display: "none" }} />
-
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Name
@@ -140,7 +131,7 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-red-500 focus:ring-red-500 outline-none transition-all"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-red-500 focus:ring-red-500 outline-none"
                     placeholder="Your Full Name"
                   />
                 </div>
@@ -154,7 +145,7 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-red-500 focus:ring-red-500 outline-none transition-all"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-red-500 focus:ring-red-500 outline-none"
                     placeholder="+91 98765 43210"
                   />
                 </div>
@@ -167,7 +158,7 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-red-500 focus:ring-red-500 outline-none transition-all"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-red-500 focus:ring-red-500 outline-none"
                     placeholder="you@example.com"
                   />
                 </div>
@@ -180,7 +171,7 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
                     rows="3"
                     value={formData.message}
                     onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-red-500 focus:ring-red-500 outline-none transition-all"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-red-500 focus:ring-red-500 outline-none"
                   ></textarea>
                 </div>
                 <button
@@ -204,7 +195,6 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
 };
 
 // --- Child Component: Product Card ---
-// Now accepts 'onEnquire' prop
 const ProductCard = ({ product, onEnquire }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const timeoutRef = useRef(null);
@@ -217,9 +207,7 @@ const ProductCard = ({ product, onEnquire }) => {
   const hasMultipleImages = images.length > 1;
 
   const resetTimeout = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
   };
 
   useEffect(() => {
@@ -230,10 +218,7 @@ const ProductCard = ({ product, onEnquire }) => {
           setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length),
         3000
       );
-
-      return () => {
-        resetTimeout();
-      };
+      return () => resetTimeout();
     }
   }, [currentImageIndex, hasMultipleImages, images.length]);
 
@@ -274,7 +259,7 @@ const ProductCard = ({ product, onEnquire }) => {
               <img
                 key={index}
                 src={image}
-                alt={`${product.title || "Product Image"} ${index + 1}`}
+                alt={`${product.title} ${index + 1}`}
                 className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out ${
                   index === currentImageIndex ? "opacity-100" : "opacity-0"
                 }`}
@@ -339,10 +324,9 @@ const ProductCard = ({ product, onEnquire }) => {
           <span className="text-sm text-gray-500 mb-4">{product.category}</span>
 
           <div className="mt-auto">
-            {/* UPDATED: Button now opens modal instead of Link */}
             <button
               onClick={(e) => {
-                e.preventDefault(); // Prevent Link navigation if wrapped
+                e.preventDefault();
                 onEnquire(product);
               }}
               className="w-full bg-red-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-red-700 transition-colors duration-300"
@@ -362,8 +346,6 @@ const ProductShowcase = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -373,116 +355,63 @@ const ProductShowcase = () => {
         setLoading(true);
         setError(null);
 
-        // Fetch uPVC products
-        let upvcItems = [];
-        try {
-          const upvcResponse = await axios.get(UPVC_API_URL);
-          upvcItems = upvcResponse.data.map((product) => ({
-            title: product.name,
-            images: product.images,
-            link: `/productdetailupvc/${product._id}`,
-            category: getCategoryFromName(product.name, "uPVC"),
-            type: "upvc",
-          }));
-        } catch (upvcError) {
-          console.error("uPVC API Error:", upvcError);
-        }
+        const [upvcRes, aluminumRes] = await Promise.allSettled([
+          axios.get(UPVC_API_URL),
+          axios.get(ALUMINUM_API_URL),
+        ]);
 
-        // Fetch Aluminum products
-        let aluminumItems = [];
-        try {
-          const aluminumResponse = await axios.get(ALUMINUM_API_URL);
-          aluminumItems = aluminumResponse.data.map((product) => ({
-            title: product.name,
-            images: product.images,
-            link: `productdetailaluminium/${product.id || product._id}`,
-            category: getCategoryFromName(product.name, "Aluminum"),
-            type: "aluminum",
-          }));
-        } catch (aluminumError) {
-          console.error("Aluminum API Error:", aluminumError);
-        }
+        let upvcItems =
+          upvcRes.status === "fulfilled"
+            ? upvcRes.value.data.map((p) => ({
+                title: p.name,
+                images: p.images,
+                link: `/productdetailupvc/${p.id || p._id}`, // Logic Update: Custom ID first
+                category: getCategoryFromName(p.name, "uPVC"),
+                type: "upvc",
+              }))
+            : [];
 
-        if (upvcItems.length === 0 && aluminumItems.length === 0) {
-          throw new Error(
-            "Failed to load any products. Please check the API connections."
-          );
-        }
+        let aluminumItems =
+          aluminumRes.status === "fulfilled"
+            ? aluminumRes.value.data.map((p) => ({
+                title: p.name,
+                images: p.images,
+                link: `/productdetailaluminium/${p.id || p._id}`, // Logic Update: Custom ID first
+                category: getCategoryFromName(p.name, "Aluminum"),
+                type: "aluminum",
+              }))
+            : [];
 
         setProducts([...upvcItems, ...aluminumItems]);
       } catch (err) {
-        console.error("❌ Error loading products:", err);
-        setError(
-          err.message || "Failed to load products. Please try again later."
-        );
+        setError("Failed to load products.");
       } finally {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, []);
 
   const getCategoryFromName = (name, material) => {
     if (!name) return `${material} Machine`;
-    name = name.toLowerCase();
-    if (name.includes("welding")) return `${material} Welding Machine`;
-    if (name.includes("cutting")) return `${material} Cutting Machine`;
-    if (name.includes("cleaning")) return `${material} Cleaning Machine`;
-    if (name.includes("router") || name.includes("lock hole"))
-      return `${material} Copy Router & Lock Hole Machine`;
-    if (name.includes("mullion")) return `${material} Mullion Machine`;
-    if (name.includes("punch") || name.includes("crimping"))
-      return `${material} Punching & Crimping Machine`;
+    const lowerName = name.toLowerCase();
+    if (lowerName.includes("welding")) return `${material} Welding Machine`;
+    if (lowerName.includes("cutting")) return `${material} Cutting Machine`;
+    if (lowerName.includes("cleaning")) return `${material} Cleaning Machine`;
     return `${material} Machine`;
-  };
-
-  // Handlers for Modal
-  const openEnquiryModal = (product) => {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
-  };
-
-  const closeEnquiryModal = () => {
-    setIsModalOpen(false);
-    setSelectedProduct(null);
   };
 
   const filteredProducts =
     activeFilter === "all"
       ? products
-      : products.filter((product) => product.type === activeFilter);
+      : products.filter((p) => p.type === activeFilter);
 
-  if (loading) {
+  if (loading)
     return (
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4 text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading products...</p>
-        </div>
-      </section>
+      <div className="py-12 text-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto"></div>
+      </div>
     );
-  }
-
-  if (error) {
-    return (
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4 text-center">
-          <div className="text-red-500 text-4xl mb-4">⚠️</div>
-          <h2 className="text-xl font-bold text-gray-800 mb-2">
-            Something went wrong
-          </h2>
-          <p className="text-gray-600 mb-4">{error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
-          >
-            Try Again
-          </button>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section
@@ -493,80 +422,63 @@ const ProductShowcase = () => {
       }}
     >
       <div className="container mx-auto px-4">
-        {/* Header & Description aligned Left (ml-14) */}
         <div className="mb-8 ml-14 text-start">
           <h2 className="text-3xl font-bold text-gray-800 hover:text-red-600 transition-colors duration-300 inline-flex items-center">
-            OUR PRODUCTS
-            <span className="mx-3 h-0.5 w-12 bg-red-600"></span>
+            OUR PRODUCTS <span className="mx-3 h-0.5 w-12 bg-red-600"></span>
             <span className="text-gray-500 text-xl italic font-normal">
               best for you
             </span>
           </h2>
-          <div className="mt-4 max-w-3xl animate-fadeUp text-lg font-medium text-gray-600">
-            High-precision uPVC and aluminum window machinery engineered for
-            durable performance, advanced automation, and consistent production
-            quality.
+          <div className="mt-4 max-w-3xl text-lg font-medium text-gray-600 animate-fadeUp">
+            High-precision machinery engineered for durable performance and
+            consistent production quality.
           </div>
         </div>
 
-        {/* Filters Centered */}
         <div className="flex justify-center mb-8">
           <div className="inline-flex rounded-md shadow-sm">
-            <button
-              onClick={() => setActiveFilter("all")}
-              className={`px-4 py-2 text-sm font-medium rounded-l-lg ${
-                activeFilter === "all"
-                  ? "bg-red-600 text-white"
-                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-              }`}
-            >
-              All Products
-            </button>
-            <button
-              onClick={() => setActiveFilter("upvc")}
-              className={`px-4 py-2 text-sm font-medium ${
-                activeFilter === "upvc"
-                  ? "bg-red-600 text-white"
-                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-              }`}
-            >
-              uPVC Window Machines
-            </button>
-            <button
-              onClick={() => setActiveFilter("aluminum")}
-              className={`px-4 py-2 text-sm font-medium rounded-r-lg ${
-                activeFilter === "aluminum"
-                  ? "bg-red-600 text-white"
-                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-              }`}
-            >
-              Aluminum Window Machines
-            </button>
+            {["all", "upvc", "aluminum"].map((f) => (
+              <button
+                key={f}
+                onClick={() => setActiveFilter(f)}
+                className={`px-4 py-2 text-sm font-medium border border-gray-200 ${
+                  f === "all"
+                    ? "rounded-l-lg"
+                    : f === "aluminum"
+                    ? "rounded-r-lg"
+                    : ""
+                } ${
+                  activeFilter === f
+                    ? "bg-red-600 text-white"
+                    : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                }`}
+              >
+                {f === "all"
+                  ? "All Products"
+                  : f === "upvc"
+                  ? "uPVC Window Machines"
+                  : "Aluminum Window Machines"}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Product Grid */}
         <div className="grid grid-cols-1 mx-11 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.length === 0 ? (
-            <div className="col-span-full text-center text-gray-600">
-              No products found for the selected category.
-            </div>
-          ) : (
-            filteredProducts.map((product, index) => (
-              <ProductCard
-                key={`${product.type}-${product.link}-${index}`}
-                product={product}
-                onEnquire={openEnquiryModal} // Pass the handler
-              />
-            ))
-          )}
+          {filteredProducts.map((product, index) => (
+            <ProductCard
+              key={`${product.type}-${index}`}
+              product={product}
+              onEnquire={(p) => {
+                setSelectedProduct(p);
+                setIsModalOpen(true);
+              }}
+            />
+          ))}
         </div>
       </div>
-
-      {/* Render the Modal */}
       <EnquiryModal
         isOpen={isModalOpen}
-        onClose={closeEnquiryModal}
+        onClose={() => setIsModalOpen(false)}
         product={selectedProduct}
       />
     </section>

@@ -9,6 +9,13 @@ const SpecificationsSchema = new mongoose.Schema({}, { strict: false, _id: false
 
 const UpvcMachineSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  // ============================================================================
+  // LOGIC UPDATE: Custom 'id' field added
+  // Ye wahi field hai jo aapke screenshot mein "uPVC-Single-Head..." dikha raha hai.
+  // URL aur search logic isi string ka use karenge.
+  // ============================================================================
+  id: { type: String, unique: true }, 
+  
   code: { type: String, required: true, unique: true },
   description: String,
   images: [String],
