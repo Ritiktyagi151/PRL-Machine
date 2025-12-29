@@ -53,6 +53,7 @@ import AdminLogin from "../admin/AdminLogin";
 import MakinoPage from "../pages/turnkey/TurnKey";
 import TurnkeyPage from "../pages/turnkey/TurnKey";
 import TurnkeyDetailPage from "../pages/turnkey/TurnkeyDetailPage";
+import Admintestimonial from "../admin/sidebarpages/Admintestimonial";
 
 // ✅ Auth check function
 const isAuthenticated = () => {
@@ -152,6 +153,7 @@ const router = createBrowserRouter([
       { path: "footer", element: <AdminFooter /> },
       { path: "products", element: <AdminProducts /> },
       { path: "navbar", element: <AdminNarbar /> },
+       { path: "testimonial", element: <Admintestimonial /> },
       { path: "profile", element: <AdminProfile /> },
       { path: "settings", element: <AdminSettings /> },
       { path: "products/upvc", element: <AdminUpvcProducts /> },

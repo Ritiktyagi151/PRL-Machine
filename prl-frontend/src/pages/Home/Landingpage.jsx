@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // --- Desktop Data ---
 const SLIDE_DATA_DESKTOP = [
-  { id: 1, type: "video", src: "/assets/vedios/prllogovideo.mp4" },
+  { id: 1, type: "video", src: "/assets/vedios/PRLLogoLandscape.mp4" },
   { id: 2, type: "video", src: "/assets/vedios/parida-red-lion-video.mp4" },
   { id: 3, type: "image", src: "/assets/banners/prlhomepagebanner.jpg" },
   { id: 4, type: "image", src: "/assets/banners/slider/homepagebanner2.jpg" },
@@ -12,7 +12,7 @@ const SLIDE_DATA_DESKTOP = [
 
 // --- Mobile Data ---
 const SLIDE_DATA_MOBILE = [
-  { id: 1, type: "video", src: "/assets/vedios/prllogovideo.mp4" },
+  { id: 1, type: "video", src: "/assets/vedios/PRLLogoLandscape.mp4" },
   { id: 2, type: "video", src: "/assets/vedios/parida-red-lion-video.mp4" },
   {
     id: 3,
@@ -24,7 +24,11 @@ const SLIDE_DATA_MOBILE = [
     type: "image",
     src: "/assets/banners/mobile-view-banners/mobile-view-bannerprl2.jpg",
   },
-  { id: 5, type: "image", src: "/assets/banners/mobile-view-banners/mobile-view-bannerprl3.jpg" },
+  {
+    id: 5,
+    type: "image",
+    src: "/assets/banners/mobile-view-banners/mobile-view-bannerprl3.jpg",
+  },
 ];
 
 const Landingpage = () => {
@@ -108,7 +112,7 @@ const MobileBanner = ({ slides }) => {
   // Swipe Logic
   const minSwipeDistance = 50;
   const onTouchStart = (e) => {
-    setTouchEnd(null); 
+    setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
   };
   const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);

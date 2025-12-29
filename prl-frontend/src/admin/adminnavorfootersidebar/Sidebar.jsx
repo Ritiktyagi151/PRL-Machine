@@ -8,6 +8,8 @@ import {
   Menu,
   ChevronDown,
   ChevronRight,
+  MessageSquare,
+  Home,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
@@ -33,6 +35,14 @@ const Sidebar = ({ sidebarOpen }) => {
         { label: "Aluminum Window Machine", path: "products/aluminum" },
       ],
     },
+    {
+      label: "Home Page",
+      icon: Home,
+      subItems: [
+        { label: "Testimonials", icon: MessageSquare, path: "/admin/testimonial" },
+      ],
+    },
+    
     { label: "Contact Us", icon: Phone, path: "/admin/contact" },
     { label: "Footer", icon: Menu, path: "/admin/footer" },
   ];
