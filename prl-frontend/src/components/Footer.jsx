@@ -45,7 +45,6 @@ const getDefaultFooterData = () => {
       phone: "+917065500903",
       email: "r.k.parida015@gmail.com",
     },
-    // 🔹 Full Product List Restored
     products: [
       {
         name: "uPVC Window Machine",
@@ -68,22 +67,6 @@ const getDefaultFooterData = () => {
             name: "uPVC Copy Router & Lock Hole Machine",
             link: "/products/upvcwindowmachines",
           },
-          // {
-          //   name: "uPVC Glazing Bead Cutting Machine",
-          //   link: "/products/upvcwindowmachines",
-          // },
-          // {
-          //   name: "uPVC Drainage Water Slot Machine",
-          //   link: "/products/upvcwindowmachines",
-          // },
-          // {
-          //   name: "uPVC Mullion Cutting Machine",
-          //   link: "/products/upvcwindowmachines",
-          // },
-          // {
-          //   name: "uPVC Interlock punching (IPL-300)",
-          //   link: "/products/upvcwindowmachines",
-          // },
           {
             name: "Other Special Machine",
             link: "/products/upvcwindowmachines",
@@ -189,9 +172,8 @@ const Footer = () => {
   return (
     <footer className="relative mt-12 bg-gray-50 text-[#312674] pt-16 pb-8 border-t border-gray-200 rounded-t-[3rem] shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
       <div className="max-w-8xl mx-auto px-6 lg:px-8">
-        {/* Top Section: Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 mb-12">
-          {/* Column 1: Brand & Social (Spans 3 columns) */}
+          {/* Column 1: Brand */}
           <div className="lg:col-span-3 space-y-6">
             <Link to="/" className="inline-block">
               <img
@@ -203,8 +185,6 @@ const Footer = () => {
             <p className="text-gray-600 leading-relaxed text-sm pr-4 text-justify">
               {footerData.description}
             </p>
-
-            {/* Social Icons */}
             <div className="flex gap-3 flex-wrap">
               {footerData.socialLinks.map((social, index) => (
                 <a
@@ -220,7 +200,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Column 2: Quick Links (Spans 2 columns) */}
+          {/* Column 2: Quick Links */}
           <div className="lg:col-span-2">
             <h3 className="text-lg font-bold text-[#312674] mb-6 border-l-4 border-[#FC252E] pl-3">
               Quick Links
@@ -235,16 +215,13 @@ const Footer = () => {
                   >
                     <FiChevronRight className="mr-2 text-gray-400 group-hover:text-[#FC252E] transition-transform duration-200 group-hover:translate-x-1" />
                     <span className="text-sm font-medium">{item.name}</span>
-                    {item.target === "_blank" && (
-                      <FiArrowUpRight className="ml-1 w-3 h-3 opacity-50" />
-                    )}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Column 3: Products (Spans 4 columns - Expanded space for content) */}
+          {/* Column 3: Products */}
           <div className="lg:col-span-4">
             <h3 className="text-lg font-bold text-[#312674] mb-6 border-l-4 border-[#FC252E] pl-3">
               Our Products
@@ -252,7 +229,6 @@ const Footer = () => {
             <div className="space-y-8">
               {footerData.products.map((product, index) => (
                 <div key={index} className="group">
-                  {/* Main Product Category */}
                   <Link
                     to={product.link}
                     className="flex items-center gap-2 font-bold text-[#312674] hover:text-[#FC252E] transition-colors mb-3"
@@ -262,9 +238,6 @@ const Footer = () => {
                     </span>
                     {product.name}
                   </Link>
-
-                  {/* Sub Products - No Slicing, Full List */}
-                  {/* Using grid for better space utilization on longer lists */}
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 pl-2 border-l-2 border-gray-100 ml-3">
                     {product.subItems &&
                       product.subItems.map((sub, idx) => (
@@ -286,7 +259,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Column 4: Contact (Spans 3 columns) */}
+          {/* Column 4: Contact */}
           <div className="lg:col-span-3">
             <h3 className="text-lg font-bold text-[#312674] mb-6 border-l-4 border-[#FC252E] pl-3">
               Contact Us
@@ -339,6 +312,16 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
+      {/* 🔹 Google Tag Manager (noscript) Added Here */}
+      <noscript>
+        <iframe
+          src="https://www.googletagmanager.com/ns.html?id=GTM-PPMDF6KM"
+          height="0"
+          width="0"
+          style={{ display: "none", visibility: "hidden" }}
+        ></iframe>
+      </noscript>
     </footer>
   );
 };
