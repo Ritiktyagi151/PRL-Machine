@@ -37,6 +37,7 @@ import {
   FaNewspaper,
   FaQuestionCircle,
   FaBlog,
+  FaYoutube,
 } from "react-icons/fa";
 import LanguageSelector from "../common/LanguageSelector/LanguageSelector";
 
@@ -62,6 +63,7 @@ const iconMap = {
   FaNewspaper,
   FaQuestionCircle,
   FaBlog,
+  FaYoutube,
 };
 
 const RedLionNavbar = ({ onOpenQuote }) => {
@@ -301,7 +303,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
               {
                 platform: "LinkedIn",
                 icon: "FaLinkedin",
-                url: "https://linkedin.com/company/redlionmachinery",
+                url: "https://www.linkedin.com/in/rajesh-parida-1704b2b4/?originalSubdomain=in",
               },
             ]
           );
@@ -543,40 +545,9 @@ const RedLionNavbar = ({ onOpenQuote }) => {
   };
 
   const renderAnnouncementBar = () => {
-    const displayAnnouncements =
-      announcements.length > 0
-        ? announcements
-        : [
-            "Free Installation Support | 🚚 Free Shipping on Orders Over ₹50,000",
-            "New Product Launch | 🔥 Advanced uPVC Welding Machine Now Available",
-          ];
-    if (windowWidth < 768) {
-      return (
-        <div className="bg-[#FB252D] fixed w-full z-50 text-white text-center text-xs py-2 px-4">
-          <Swiper
-            direction="vertical"
-            modules={[Autoplay]}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            loop={true}
-            slidesPerView={1}
-            spaceBetween={0}
-            className="h-6"
-          >
-            {displayAnnouncements.map((announcement, index) => (
-              <SwiperSlide key={index}>
-                <div className="text-center whitespace-nowrap overflow-hidden text-ellipsis">
-                  <span className="font-bold text-yellow-300">
-                    {announcement}
-                  </span>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-      );
-    }
+    // Mobile aur Desktop dono ke liye text aur slider hata diye gaye hain
     return (
-      <div className="bg-[#FB252D] fixed w-full z-50 text-white text-center text-sm py-2 px-4 lg:px-8 xl:px-12 flex items-center justify-between gap-0">
+      <div className="bg-[#FB252D] fixed w-full z-50 text-white text-center text-xs md:text-sm py-2 px-4 lg:px-8 xl:px-12 flex items-center justify-between min-h-[36px]">
         <div className="items-center hidden md:flex space-x-3 mr-0">
           {socialLinks.map((social, index) => {
             const IconComponent = iconMap[social.icon] || FaFacebook;
@@ -593,7 +564,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
             );
           })}
         </div>
-        <div className="flex-1 max-w-2xl mx-auto md:ml-0 md:mx-0"></div>
+        <div className="flex-1"></div>
         <div className="md:flex hidden items-center space-x-2 lg:space-x-4 ml-0">
           <div className="flex items-center text-xs lg:text-sm">
             <FaPhone className="mr-1 lg:mr-2 text-yellow-300" />
@@ -779,14 +750,15 @@ const RedLionNavbar = ({ onOpenQuote }) => {
           </div>
         </div>
         <div
-          className={`lg:hidden bg-white/95 backdrop-blur-md border-t border-gray-200 overflow-y-auto overflow-x-hidden transition-all flex justify-center items-center duration-500 custom-scrollbar ${
+          className={`lg:hidden bg-white/95 backdrop-blur-md border-t border-gray-200 overflow-y-auto overflow-x-hidden transition-all duration-500 custom-scrollbar ${
             mobileOpen ? "max-h-[85vh] opacity-100" : "max-h-0 opacity-0"
           }`}
         >
-          <div className="px-4 py-3 space-y-2">
+          {/* Mobile view fix: flex-center aur pl-36 hata diya taaki layout sahi rahe */}
+          <div className="px-6 py-4 space-y-2">
             <Link
               to="/"
-              className="block py-3 px-3 text-gray-700 pl-36 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
+              className="block py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
               onClick={() => {
                 setMobileOpen(false);
                 setOpenDropdowns({});
@@ -796,7 +768,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
             </Link>
             <div>
               <button
-                className={`w-full flex justify-between pl-36 items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 ${
+                className={`w-full flex justify-between items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 ${
                   openDropdowns["mobileProducts"]
                     ? "bg-red-50 text-red-600"
                     : ""
@@ -832,7 +804,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
             </div>
             <div>
               <button
-                className={`w-full flex justify-between pl-36 items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 ${
+                className={`w-full flex justify-between items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 ${
                   openDropdowns["mobileServices"]
                     ? "bg-red-50 text-red-600"
                     : ""
@@ -857,7 +829,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
               <div
                 className={`overflow-hidden transition-all duration-500 ${
                   openDropdowns["mobileServices"]
-                    ? "max-h-64 opacity-100"
+                    ? "max-h-screen opacity-100"
                     : "max-h-0 opacity-0"
                 }`}
               >
@@ -883,7 +855,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
             </div>
             <div>
               <button
-                className={`w-full flex justify-between pl-36 items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 ${
+                className={`w-full flex justify-between items-center py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 ${
                   openDropdowns["mobileCompany"] ? "bg-red-50 text-red-600" : ""
                 }`}
                 onClick={() => toggleDropdown("mobileCompany")}
@@ -906,7 +878,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
               <div
                 className={`overflow-hidden transition-all duration-500 ${
                   openDropdowns["mobileCompany"]
-                    ? "max-h-96 opacity-100"
+                    ? "max-h-screen opacity-100"
                     : "max-h-0 opacity-0"
                 }`}
               >
@@ -932,7 +904,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
             </div>
             <Link
               to="/turnkeypage"
-              className="block py-3 px-3 text-gray-700 pl-36 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
+              className="block py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
               onClick={() => {
                 setMobileOpen(false);
                 setOpenDropdowns({});
@@ -942,7 +914,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
             </Link>
             <Link
               to="/casestudies"
-              className="block py-3 px-3 text-gray-700 pl-36 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
+              className="block py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
               onClick={() => {
                 setMobileOpen(false);
                 setOpenDropdowns({});
@@ -952,7 +924,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
             </Link>
             <Link
               to="/contact"
-              className="block py-3 px-3 text-gray-700 pl-36 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
+              className="block py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
               onClick={() => {
                 setMobileOpen(false);
                 setOpenDropdowns({});
