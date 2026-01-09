@@ -49,7 +49,81 @@ const getDefaultFooterData = () => {
       phone: "+917065500903",
       email: "r.k.parida015@gmail.com",
     },
-    products: [],
+    products: [
+      {
+        name: "uPVC Window Machine",
+
+        icon: "tools",
+
+        link: "/products/upvcwindowmachines",
+
+        subItems: [
+          {
+            name: "uPVC Welding Machine",
+
+            link: "/products/upvcwindowmachines",
+          },
+
+          {
+            name: "uPVC Cutting Machine",
+
+            link: "/products/upvcwindowmachines",
+          },
+
+          {
+            name: "uPVC Cleaning Machine",
+
+            link: "/products/upvcwindowmachines",
+          },
+
+          {
+            name: "uPVC Copy Router & Lock Hole Machine",
+
+            link: "/products/upvcwindowmachines",
+          },
+
+          {
+            name: "Other Special Machine",
+
+            link: "/products/upvcwindowmachines",
+          },
+        ],
+      },
+
+      {
+        name: "Aluminum Window Machine",
+
+        icon: "industry",
+
+        link: "/products/aluminumwindowmachines",
+
+        subItems: [
+          {
+            name: "Aluminum Cutting Machine",
+
+            link: "/products/aluminumwindowmachines",
+          },
+
+          {
+            name: "Aluminum Lock Hole Machine",
+
+            link: "/products/aluminumwindowmachines",
+          },
+
+          {
+            name: "Aluminum Mullion Machine",
+
+            link: "/products/aluminumwindowmachines",
+          },
+
+          {
+            name: "Aluminum Punching & Crimping Machine",
+
+            link: "/products/aluminumwindowmachines",
+          },
+        ],
+      },
+    ],
   };
 };
 
