@@ -54,6 +54,8 @@ import MakinoPage from "../pages/turnkey/TurnKey";
 import TurnkeyPage from "../pages/turnkey/TurnKey";
 import TurnkeyDetailPage from "../pages/turnkey/TurnkeyDetailPage";
 import Admintestimonial from "../admin/sidebarpages/Admintestimonial";
+import PrivacyPolicy from "../components/Privacy-policy";
+import TermsAndConditions from "../components/Term-conditiom";
 
 // ✅ Auth check function
 const isAuthenticated = () => {
@@ -83,6 +85,8 @@ const router = createBrowserRouter([
         element: <AluminumWindowMachine />,
       },
       { path: "contact", element: <Contact /> },
+      { path: "privacypolicy", element: <PrivacyPolicy /> },
+      { path: "termsandconditions", element: <TermsAndConditions /> },
       { path: "casestudies", element: <CaseStudiesPage /> },
       { path: "productdetailupvc/:id", element: <UpvcDetail /> },
       { path: "productdetailaluminium/:id", element: <AluminiumDetail /> }, // Fixed: Changed to "aluminium" to match link
@@ -153,7 +157,7 @@ const router = createBrowserRouter([
       { path: "footer", element: <AdminFooter /> },
       { path: "products", element: <AdminProducts /> },
       { path: "navbar", element: <AdminNarbar /> },
-       { path: "testimonial", element: <Admintestimonial /> },
+      { path: "testimonial", element: <Admintestimonial /> },
       { path: "profile", element: <AdminProfile /> },
       { path: "settings", element: <AdminSettings /> },
       { path: "products/upvc", element: <AdminUpvcProducts /> },

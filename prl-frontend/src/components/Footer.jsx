@@ -18,6 +18,19 @@ import axios from "axios";
 const API_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
 
+// 1. Manual Quick Links (Ab ye code se aayenge)
+const manualQuickLinks = [
+  { name: "About Us", link: "/about" },
+  { name: "Case Studies", link: "/casestudies" },
+  { name: "Careers", link: "/careers" },
+  { name: "Blogs", link: "/blogs" },
+  { name: "Services", link: "/services/machine-customization" },
+  { name: "Contact Us", link: "/contact" },
+  { name: "Admin Login", link: "/admin", target: "_blank" },
+  { name: "Privacy Policy", link: "/privacypolicy" },
+  { name: "Terms & Conditions", link: "/termsandconditions" },
+];
+
 const getDefaultFooterData = () => {
   return {
     logo: "/assets/logo/parida-red-new-logo.jpg",
@@ -30,73 +43,13 @@ const getDefaultFooterData = () => {
       { icon: "instagram", link: "https://instagram.com" },
       { icon: "youtube", link: "https://youtube.com" },
     ],
-    quickLinks: [
-      { name: "About Us", link: "/about" },
-      { name: "Case Studies", link: "/casestudies" },
-      { name: "Careers", link: "/careers" },
-      { name: "Blogs", link: "/blogs" },
-      { name: "Services", link: "/services/machine-customization" },
-      { name: "Contact Us", link: "/contact" },
-      { name: "Admin Login", link: "/admin", target: "_blank" },
-    ],
     contactInfo: {
       address:
         "PARIDA RED LION INDIA PVT LTD GST NO - 09AAJCP6402H1ZC Address - Plot No-106 ,Ecotec -3 Udhyog Kendra-1 ,Greater Noida Gautambuddha Nagar ,Uttar Pradesh ,201306",
       phone: "+917065500903",
       email: "r.k.parida015@gmail.com",
     },
-    products: [
-      {
-        name: "uPVC Window Machine",
-        icon: "tools",
-        link: "/products/upvcwindowmachines",
-        subItems: [
-          {
-            name: "uPVC Welding Machine",
-            link: "/products/upvcwindowmachines",
-          },
-          {
-            name: "uPVC Cutting Machine",
-            link: "/products/upvcwindowmachines",
-          },
-          {
-            name: "uPVC Cleaning Machine",
-            link: "/products/upvcwindowmachines",
-          },
-          {
-            name: "uPVC Copy Router & Lock Hole Machine",
-            link: "/products/upvcwindowmachines",
-          },
-          {
-            name: "Other Special Machine",
-            link: "/products/upvcwindowmachines",
-          },
-        ],
-      },
-      {
-        name: "Aluminum Window Machine",
-        icon: "industry",
-        link: "/products/aluminumwindowmachines",
-        subItems: [
-          {
-            name: "Aluminum Cutting Machine",
-            link: "/products/aluminumwindowmachines",
-          },
-          {
-            name: "Aluminum Lock Hole Machine",
-            link: "/products/aluminumwindowmachines",
-          },
-          {
-            name: "Aluminum Mullion Machine",
-            link: "/products/aluminumwindowmachines",
-          },
-          {
-            name: "Aluminum Punching & Crimping Machine",
-            link: "/products/aluminumwindowmachines",
-          },
-        ],
-      },
-    ],
+    products: [],
   };
 };
 
@@ -115,7 +68,7 @@ const Footer = () => {
           logo: data.logo || defaultData.logo,
           description: data.description || defaultData.description,
           socialLinks: data.socialLinks || defaultData.socialLinks,
-          quickLinks: data.quickLinks || defaultData.quickLinks,
+          // quickLinks: data.quickLinks || defaultData.quickLinks, // Is line ki ab zaroorat nahi
           contactInfo: data.contactInfo || defaultData.contactInfo,
           products: data.products || defaultData.products,
         };
@@ -200,13 +153,13 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* Column 2: Quick Links (Using manualQuickLinks instead of API) */}
           <div className="lg:col-span-2">
             <h3 className="text-lg font-bold text-[#312674] mb-6 border-l-4 border-[#FC252E] pl-3">
               Quick Links
             </h3>
             <ul className="space-y-3">
-              {footerData.quickLinks.map((item, index) => (
+              {manualQuickLinks.map((item, index) => (
                 <li key={index}>
                   <Link
                     to={item.link}
@@ -313,7 +266,6 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* 🔹 Google Tag Manager (noscript) Added Here */}
       <noscript>
         <iframe
           src="https://www.googletagmanager.com/ns.html?id=GTM-PPMDF6KM"
