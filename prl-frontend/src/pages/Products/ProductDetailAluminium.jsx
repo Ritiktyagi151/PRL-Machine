@@ -482,11 +482,18 @@ const AluminiumDetail = () => {
                   Description
                 </h2>
                 <div className="prose max-w-none">
-                  <p className="text-gray-700">{product.description}</p>
+                  {/* FIXED: HTML content rendering */}
+                  <div
+                    className="text-gray-700"
+                    dangerouslySetInnerHTML={{ __html: product.description }}
+                  />
                   {product.additionalDescription && (
-                    <p className="mt-4 text-gray-700">
-                      {product.additionalDescription}
-                    </p>
+                    <div
+                      className="mt-4 text-gray-700"
+                      dangerouslySetInnerHTML={{
+                        __html: product.additionalDescription,
+                      }}
+                    />
                   )}
                 </div>
               </div>
@@ -568,10 +575,10 @@ const AluminiumDetail = () => {
           </div>
 
           <div
-            className="sticky bottom-6 space-y-3 animate-fade-in-up"
+            className=" bottom-6 space-y-3 animate-fade-in-up"
             style={{ animationDelay: "0.2s" }}
           >
-            <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-100 transition-all duration-300 hover:shadow-xl">
+            <div className="bg-white shadow-lg rounded-xl p-2 border border-gray-100 transition-all duration-300 hover:shadow-xl">
               <div className="flex justify-between items-center mb-4">
                 {product.price ? (
                   <div className="text-2xl font-bold text-purple-700">
@@ -618,19 +625,18 @@ const AluminiumDetail = () => {
                 </button>
               </div>
               <div className="space-y-3">
-                {/* === MODIFIED BUTTON HERE === */}
+                {/* FIXED: Reduced Enquiry Button Size */}
                 <button
                   onClick={() => navigate("/contact")}
-                  className="w-full py-3 px-4 rounded-lg font-medium flex items-center justify-center transition-all duration-300 bg-purple-700 hover:bg-purple-800 text-white transform hover:scale-105"
+                  className="max-w-md mx-auto w-full py-2.5 px-4 rounded-lg font-medium flex items-center justify-center transition-all duration-300 bg-purple-700 hover:bg-purple-800 text-white transform hover:scale-105"
                 >
                   Make an Enquiry
                   <FiArrowLeft className="w-5 h-5 ml-2 transform rotate-180" />
                 </button>
-                {/* === END MODIFIED BUTTON === */}
 
                 <button
                   onClick={handleDownloadBrochure}
-                  className="w-full bg-white border border-purple-700 text-purple-700 hover:bg-purple-700 hover:text-white py-3 px-4 rounded-lg font-medium flex items-center justify-center transition-all duration-300 transform hover:scale-105"
+                  className="max-w-md mx-auto w-full bg-white border border-purple-700 text-purple-700 hover:bg-purple-700 hover:text-white py-2.5 px-4 rounded-lg font-medium flex items-center justify-center transition-all duration-300 transform hover:scale-105"
                 >
                   <FiDownload className="w-5 h-5 mr-2" />
                   Download Brochure

@@ -476,7 +476,6 @@ const ProductDetailuPVC = () => {
                         className="border-b border-gray-100 pb-3 last:border-b-0"
                       >
                         <p className="text-gray-600 text-sm">{key}</p>
-                        {/* FIX: Handled Object values to prevent crash */}
                         <p className="font-medium text-gray-900">
                           {typeof value === "object" && value !== null
                             ? JSON.stringify(value)
@@ -519,12 +518,17 @@ const ProductDetailuPVC = () => {
                 <h2 className="text-xl font-semibold mb-4 text-gray-800">
                   Description
                 </h2>
-                <div className="prose max-w-none">
-                  <p className="text-gray-700">{product.description}</p>
+                <div className="prose max-w-none text-gray-700">
+                  <div
+                    dangerouslySetInnerHTML={{ __html: product.description }}
+                  />
                   {product.additionalDescription && (
-                    <p className="mt-4 text-gray-700">
-                      {product.additionalDescription}
-                    </p>
+                    <div
+                      className="mt-4"
+                      dangerouslySetInnerHTML={{
+                        __html: product.additionalDescription,
+                      }}
+                    />
                   )}
                 </div>
               </div>
@@ -696,7 +700,7 @@ const ProductDetailuPVC = () => {
         </div>
       </div>
 
-      {/* Product Video */}
+      {/* Product Video Section */}
       <div
         className="mt-16 animate-fade-in-up"
         style={{ animationDelay: "0.4s" }}

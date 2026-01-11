@@ -6,9 +6,7 @@ const TermsAndConditions = () => {
       {/* Header */}
       <div className="bg-gray-900 text-white py-12">
         <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-3xl md:text-4xl font-bold">
-            Terms & Conditions
-          </h1>
+          <h1 className="text-3xl md:text-4xl font-bold">Terms & Conditions</h1>
           <p className="mt-2 text-gray-300">
             PARIDA RED LION INDIA PVT LTD (PRL)
           </p>
@@ -45,9 +43,7 @@ const TermsAndConditions = () => {
 
         {/* 2 */}
         <section>
-          <h2 className="text-xl font-semibold mb-3">
-            2. Scope of Services
-          </h2>
+          <h2 className="text-xl font-semibold mb-3">2. Scope of Services</h2>
           <p>
             PRL specializes in the design, manufacturing, supply, and servicing
             of uPVC and Aluminium window and door fabrication machinery. All
@@ -59,17 +55,13 @@ const TermsAndConditions = () => {
 
         {/* 3 */}
         <section>
-          <h2 className="text-xl font-semibold mb-3">
-            3. Website Usage Rules
-          </h2>
+          <h2 className="text-xl font-semibold mb-3">3. Website Usage Rules</h2>
           <ul className="list-disc pl-6 space-y-2">
             <li>Use the website only for lawful and legitimate purposes</li>
             <li>
               Do not attempt to gain unauthorized access to systems or data
             </li>
-            <li>
-              Do not upload malicious code, viruses, or harmful content
-            </li>
+            <li>Do not upload malicious code, viruses, or harmful content</li>
             <li>
               Do not misuse the website for misleading, fraudulent, or illegal
               activities
@@ -126,9 +118,7 @@ const TermsAndConditions = () => {
 
         {/* 7 */}
         <section>
-          <h2 className="text-xl font-semibold mb-3">
-            7. Warranty & Support
-          </h2>
+          <h2 className="text-xl font-semibold mb-3">7. Warranty & Support</h2>
           <p>
             Warranty coverage, service terms, and after-sales support conditions
             are specified in individual product agreements. PRL shall not be
@@ -152,9 +142,7 @@ const TermsAndConditions = () => {
 
         {/* 9 */}
         <section>
-          <h2 className="text-xl font-semibold mb-3">
-            9. Indemnification
-          </h2>
+          <h2 className="text-xl font-semibold mb-3">9. Indemnification</h2>
           <p>
             You agree to indemnify and hold harmless PRL, its directors,
             employees, and affiliates from any claims, liabilities, damages,
@@ -165,9 +153,7 @@ const TermsAndConditions = () => {
 
         {/* 10 */}
         <section>
-          <h2 className="text-xl font-semibold mb-3">
-            10. Third-Party Links
-          </h2>
+          <h2 className="text-xl font-semibold mb-3">10. Third-Party Links</h2>
           <p>
             The website may contain links to external third-party websites. PRL
             does not endorse and is not responsible for the content, policies,
@@ -201,9 +187,7 @@ const TermsAndConditions = () => {
 
         {/* 13 */}
         <section>
-          <h2 className="text-xl font-semibold mb-3">
-            13. Amendments
-          </h2>
+          <h2 className="text-xl font-semibold mb-3">13. Amendments</h2>
           <p>
             PRL reserves the right to update or modify these Terms at any time.
             Continued use of the website following changes constitutes
@@ -216,18 +200,19 @@ const TermsAndConditions = () => {
           <h2 className="text-xl font-semibold mb-3">
             14. Contact Information
           </h2>
-          <p className="font-medium">
-            PARIDA RED LION INDIA PVT LTD (PRL)
+          <p className="font-medium">PARIDA RED LION INDIA PVT LTD (PRL)</p>
+          <p>
+            📍 Plot No-106 ,Ecotec -3 Udhyog Kendra-1 ,Greater Noida
+            Gautambuddha Nagar ,Uttar Pradesh ,201306
           </p>
-          <p>📍 Greater Noida, Uttar Pradesh, India</p>
-          <p>📧 Email: info@paridaredlion.com</p>
-          <p>📞 Phone: +91-XXXXXXXXXX</p>
+          <p>📧 Email: r.k.parida015@gmail.com</p>
+          <p>📞 Phone: +91 7065500903</p>
         </section>
 
         {/* Footer */}
         <div className="border-t pt-4 text-sm text-gray-600">
-          By accessing or using this website, you acknowledge that you have read,
-          understood, and agreed to these Terms & Conditions.
+          By accessing or using this website, you acknowledge that you have
+          read, understood, and agreed to these Terms & Conditions.
         </div>
       </div>
     </div>
