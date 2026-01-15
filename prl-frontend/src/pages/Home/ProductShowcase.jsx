@@ -329,9 +329,13 @@ const ProductCard = ({ product, onEnquire }) => {
                 e.preventDefault();
                 onEnquire(product);
               }}
-              className="w-full bg-red-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-red-700 transition-colors duration-300"
+              className="relative group overflow-hidden w-full bg-gradient-to-r from-[#FB252D] to-[#e64754] text-white text-sm font-semibold py-2 px-4 rounded-md transition-all duration-300 shadow-md active:scale-95"
             >
-              Enquire Now
+              {/* Mirror Shine Effect */}
+              <span className="absolute top-0 -left-[100%] h-full w-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-25deg] transition-all duration-700 group-hover:left-[100%] ease-in-out"></span>
+
+              {/* Button Text */}
+              <span className="relative z-10">Enquire Now</span>
             </button>
           </div>
         </figcaption>

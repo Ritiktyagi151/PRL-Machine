@@ -400,25 +400,35 @@ const UPVCWindowMachinesPage = () => {
                       className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
                       whileHover={{ y: -5 }}
                     >
-                      <div className="relative h-40 overflow-hidden">
-                        <motion.img
-                          src={product.images?.[0] || "/placeholder-image.jpg"}
-                          alt={product.name}
-                          className="w-full h-full object-cover"
-                          whileHover={{ scale: 1.1 }}
-                          transition={{ duration: 0.3 }}
-                        />
-                        <div className="absolute top-2 right-2 bg-[#FB252E] text-white text-xs px-2 py-1 rounded">
-                          New
+                      <Link to={`/productdetailupvc/${product.id}`}>
+                        <div className="relative h-40 overflow-hidden">
+                          <motion.img
+                            src={
+                              product.images?.[0] || "/placeholder-image.jpg"
+                            }
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                            whileHover={{ scale: 1.1 }}
+                            transition={{ duration: 0.3 }}
+                          />
+                          <div className="absolute top-2 right-2 bg-[#FB252E] text-white text-xs px-2 py-1 rounded">
+                            New
+                          </div>
                         </div>
-                      </div>
+                      </Link>
+
                       <div className="p-3">
                         <h3 className="text-lg font-semibold mb-1 text-[#46266A]">
                           {product.name}
                         </h3>
-                        <p className="text-gray-600 text-sm mb-2 line-clamp-2">
-                          {product.description}
-                        </p>
+
+                        {/* UPDATE: Added dangerouslySetInnerHTML for HTML support */}
+                        <div
+                          className="text-gray-600 text-sm mb-2 line-clamp-2 prose prose-sm max-w-none"
+                          dangerouslySetInnerHTML={{
+                            __html: product.description,
+                          }}
+                        />
 
                         <div className="mb-3">
                           <h4 className="font-medium text-gray-800 text-sm mb-1">
@@ -448,7 +458,6 @@ const UPVCWindowMachinesPage = () => {
                               <FiShoppingCart className="mr-1" /> Enquire
                             </motion.button>
                           </Link>
-                          {/* LOGIC UPDATE: Link now uses product.id instead of product._id */}
                           <Link to={`/productdetailupvc/${product.id}`}>
                             <motion.button
                               className="flex items-center border border-[#FB252E] text-[#FB252E] px-3 py-1 rounded-md hover:bg-red-50 transition-colors text-sm"

@@ -20,7 +20,7 @@ const News = () => {
         <p>Parida Red Lion is proud to announce that our flagship division, Galaxy PackTech, has successfully expanded its operations to over 25 countries across the globe. This strategic expansion marks a significant milestone in our mission to provide world-class packaging solutions to clients worldwide.</p>
         <p class="mt-4">The expansion includes new regional offices in Europe, Southeast Asia, and Latin America, allowing us to better serve our international clients with localized support and faster response times. Our team has grown to include over 200 professionals dedicated to delivering exceptional packaging machinery and solutions.</p>
         <p class="mt-4">"This expansion represents our commitment to being a truly global partner in the packaging industry," said Mr. Rajesh Parida, CEO of Parida Red Lion. "We're now better positioned than ever to understand and meet the unique needs of clients in diverse markets."</p>
-      `
+      `,
     },
     {
       id: 2,
@@ -37,7 +37,7 @@ const News = () => {
         <p class="mt-4">The new GreenPack series features energy-efficient motors, reduced material consumption technology, and compatibility with biodegradable packaging materials. These machines can reduce energy consumption by up to 30% compared to conventional packaging equipment.</p>
         <p class="mt-4">"Sustainability is no longer an option—it's a necessity," said Dr. Priya Sharma, Head of R&D at Parida Red Lion. "Our GreenPack series represents our commitment to developing solutions that benefit both our clients and the planet."</p>
         <p class="mt-4">The initial response from clients has been overwhelmingly positive, with several major companies already placing orders for the new equipment.</p>
-      `
+      `,
     },
     {
       id: 3,
@@ -54,7 +54,7 @@ const News = () => {
         <p class="mt-4">The 100,000 square foot facility incorporates Industry 4.0 technologies, including IoT-enabled machinery, automated production lines, and real-time quality monitoring systems. This expansion increases our production capacity by 40% and allows us to reduce delivery times by approximately 25%.</p>
         <p class="mt-4">The facility also features dedicated R&D labs, testing centers, and training facilities for both our team and clients. "This new plant represents the future of manufacturing at Parida Red Lion," said Mr. Amit Kumar, Operations Director. "We're now better equipped than ever to meet the growing demand for our packaging solutions."</p>
         <p class="mt-4">The inauguration ceremony was attended by industry leaders, government officials, and long-term clients, who were given tours of the advanced facilities.</p>
-      `
+      `,
     },
     {
       id: 4,
@@ -71,7 +71,7 @@ const News = () => {
         <p class="mt-4">The award recognizes our AutoPack Pro series, which incorporates artificial intelligence and machine learning to optimize packaging processes, reduce material waste, and increase production efficiency. The system can adapt to different product types and packaging materials without manual reconfiguration.</p>
         <p class="mt-4">"We're incredibly proud to receive this recognition," said Ms. Neha Singh, Lead Engineer on the AutoPack Pro project. "This award validates our approach to innovation—focusing on practical solutions that deliver real value to our clients."</p>
         <p class="mt-4">The Innovation Excellence Award is considered one of the highest honors in the packaging industry, recognizing companies that demonstrate exceptional creativity, technical achievement, and market impact.</p>
-      `
+      `,
     },
     {
       id: 5,
@@ -80,15 +80,14 @@ const News = () => {
       category: "partnerships",
       excerpt:
         "Parida Red Lion announces a strategic partnership with a leading European pharmaceutical company to develop specialized packaging solutions.",
-      image:
-        "https://images.unsplash.com/photo-1581092581310-0c2f13e83c8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+      image: "/assets/new-img/newsprl.png",
       readTime: "3 min read",
       fullContent: `
         <p>Parida Red Lion has entered into a strategic partnership with BioPharm Europe, one of the continent's leading pharmaceutical companies, to develop specialized packaging solutions for sensitive medical products.</p>
         <p class="mt-4">The collaboration will focus on creating advanced packaging systems that maintain sterility, ensure tamper evidence, and provide precise dosing capabilities for pharmaceutical products. The partnership combines Parida Red Lion's engineering expertise with BioPharm Europe's deep understanding of pharmaceutical requirements.</p>
         <p class="mt-4">"This partnership represents a significant opportunity to expand our presence in the pharmaceutical packaging sector," said Mr. Vikram Mehta, Business Development Director at Parida Red Lion. "BioPharm Europe's stringent quality standards and innovative approach make them an ideal partner for this initiative."</p>
         <p class="mt-4">The first products from this collaboration are expected to reach the market in early 2026, with initial focus on packaging solutions for vaccines and temperature-sensitive medications.</p>
-      `
+      `,
     },
     {
       id: 6,
@@ -97,15 +96,14 @@ const News = () => {
       category: "innovation",
       excerpt:
         "Parida Red Lion establishes a new Research & Development center focused on creating next-generation packaging technologies and automation solutions.",
-      image:
-        "https://images.unsplash.com/photo-1581092446335-53dbfe7e46a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+      image: "/assets/new-img/news2prl.png",
       readTime: "3 min read",
       fullContent: `
         <p>Parida Red Lion has established a new Advanced Research & Development Center dedicated to creating the next generation of packaging technologies and automation solutions.</p>
         <p class="mt-4">The 20,000 square foot facility houses state-of-the-art laboratories, prototyping workshops, and testing facilities. It will serve as the innovation hub for developing new packaging technologies, with initial focus on sustainable materials, smart packaging, and Industry 4.0 integration.</p>
         <p class="mt-4">The center will employ over 50 researchers, engineers, and technicians, making it one of the largest dedicated packaging R&D facilities in the region. "This investment underscores our commitment to innovation and technological leadership," said Dr. Anjali Patel, Director of R&D. "We're creating an environment where our team can push the boundaries of what's possible in packaging technology."</p>
         <p class="mt-4">The R&D center will also collaborate with several academic institutions and research organizations to stay at the forefront of packaging innovation.</p>
-      `
+      `,
     },
   ];
 
@@ -121,14 +119,14 @@ const News = () => {
     setSelectedNews(newsItem);
     setIsModalOpen(true);
     // Prevent body scrolling when modal is open
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedNews(null);
     // Re-enable body scrolling
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = "auto";
   };
 
   const filteredNews =
@@ -197,7 +195,7 @@ const News = () => {
                 </p>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-500">{news.date}</span>
-                  <button 
+                  <button
                     onClick={() => openModal(news)}
                     className="text-[#281E5A] font-medium flex items-center group"
                   >
@@ -331,8 +329,8 @@ const News = () => {
         <div className="fixed inset-0 z-50 overflow-y-auto ">
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             {/* Background overlay */}
-            <div 
-              className="fixed inset-0 backdrop-blur-sm transition-opacity" 
+            <div
+              className="fixed inset-0 backdrop-blur-sm transition-opacity"
               onClick={closeModal}
             ></div>
 
@@ -345,13 +343,15 @@ const News = () => {
                       <span className="text-sm font-medium text-[#EC1C24] uppercase tracking-wide">
                         {selectedNews.category}
                       </span>
-                      <span className="text-xs text-gray-500">{selectedNews.readTime}</span>
+                      <span className="text-xs text-gray-500">
+                        {selectedNews.readTime}
+                      </span>
                     </div>
-                    
+
                     <h3 className="text-2xl font-bold text-[#281E5A] mb-4">
                       {selectedNews.title}
                     </h3>
-                    
+
                     <div className="h-64 overflow-hidden rounded-lg mb-6">
                       <img
                         src={selectedNews.image}
@@ -359,13 +359,19 @@ const News = () => {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    
+
                     <div className="text-gray-600 mb-6 prose max-w-none">
-                      <div dangerouslySetInnerHTML={{ __html: selectedNews.fullContent }} />
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: selectedNews.fullContent,
+                        }}
+                      />
                     </div>
-                    
+
                     <div className="flex justify-between items-center border-t pt-4">
-                      <span className="text-sm text-gray-500">{selectedNews.date}</span>
+                      <span className="text-sm text-gray-500">
+                        {selectedNews.date}
+                      </span>
                       <button
                         type="button"
                         className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#281E5A] text-base font-medium text-white hover:bg-[#1c1345] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#281E5A] sm:ml-3 sm:w-auto sm:text-sm"

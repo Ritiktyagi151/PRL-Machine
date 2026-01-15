@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { CheckCircle, MessageCircle } from "lucide-react"; // WhatsApp icon ke liye MessageCircle add kiya
 
 const EnquiryForm = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false); // New state for loading status
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -10,29 +12,26 @@ const EnquiryForm = () => {
     message: "",
   });
 
-  // Auto-open after 7 seconds (as per your code)
+  // WhatsApp Number (Apna number yaha change karein - bina '+' ke)
+  const whatsappNumber = "919650508381";
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsOpen(true);
     }, 7000);
-
     return () => clearTimeout(timer);
   }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // Disable button and show loading
+    setIsSubmitting(true);
 
     try {
-      // using the /ajax/ endpoint ensures the user stays on your page
       const response = await fetch(
         "https://formsubmit.co/ajax/r.k.parida015@gmail.com",
         {
@@ -42,164 +41,165 @@ const EnquiryForm = () => {
             Accept: "application/json",
           },
           body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            message: formData.message,
-            _subject: "New Enquiry from Parida Red Lion Website", // Custom email subject
-            _template: "table", // Formats the email nicely
-            // _captcha: "false" // Uncomment this line if you want to disable the reCAPTCHA
+            ...formData,
+            _subject: "New Enquiry from Parida Red Lion Website",
+            _template: "table",
           }),
         }
       );
 
-      const result = await response.json();
-
       if (response.ok) {
-        console.log("Form submitted:", result);
-        alert("Thank you for your enquiry! We will get back to you soon.");
-        setIsOpen(false);
+        setIsSubmitted(true);
         setFormData({ name: "", email: "", phone: "", message: "" });
+
+        // Success ke baad auto-close ko 10 sec kar diya taaki user WhatsApp button dekh sake
+        setTimeout(() => {
+          setIsOpen(false);
+          setIsSubmitted(false);
+        }, 10000);
       } else {
-        alert("Something went wrong. Please try again later.");
+        alert("Something went wrong. Please try again.");
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
       alert("Network error. Please check your connection.");
     } finally {
-      setIsSubmitting(false); // Re-enable button
+      setIsSubmitting(false);
     }
   };
 
   const closeModal = () => {
     setIsOpen(false);
+    setIsSubmitted(false);
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
-      <div className="relative bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/40">
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 to-red-600 rounded-t-lg p-6">
+        <div className="bg-gradient-to-r from-purple-600 to-red-600 p-6">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold text-white">Parida Red Lion</h2>
             <button
               onClick={closeModal}
-              className="text-white hover:text-gray-200 transition-colors text-2xl font-bold"
+              className="text-white hover:scale-125 transition-transform text-2xl font-bold"
             >
               ×
             </button>
           </div>
-          <p className="text-white mt-2 opacity-90">
-            We'd love to hear from you!
-          </p>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Full Name *
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              value={formData.name}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              placeholder="Enter your full name"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Email Address *
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              placeholder="Enter your email"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="phone"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              placeholder="Enter your phone number"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="message"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Message *
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              required
-              rows="4"
-              value={formData.message}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              placeholder="Tell us about your enquiry..."
-            />
-          </div>
-
-          <div className="flex space-x-3 pt-2">
+        {!isSubmitted ? (
+          /* Form Section */
+          <form onSubmit={handleSubmit} className="p-6 space-y-4">
+            <p className="text-gray-600 text-sm">We'd love to hear from you!</p>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Full Name *
+              </label>
+              <input
+                type="text"
+                name="name"
+                required
+                value={formData.name}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
+                placeholder="Enter your full name"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Email Address *
+              </label>
+              <input
+                type="email"
+                name="email"
+                required
+                value={formData.email}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
+                placeholder="Enter your email"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
+                placeholder="Enter your phone number"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Message *
+              </label>
+              <textarea
+                name="message"
+                required
+                rows="3"
+                value={formData.message}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
+                placeholder="Tell us about your enquiry..."
+              />
+            </div>
             <button
               type="submit"
-              disabled={isSubmitting} // Disable button while sending
-              className={`flex-1 text-white py-3 px-4 rounded-md font-semibold transition-all duration-200 transform shadow-lg ${
+              disabled={isSubmitting}
+              className={`w-full text-white py-3 rounded-xl font-bold transition-all shadow-lg ${
                 isSubmitting
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700 hover:scale-105"
+                  ? "bg-gray-400"
+                  : "bg-gradient-to-r from-red-600 to-purple-600 hover:brightness-110 active:scale-95"
               }`}
             >
               {isSubmitting ? "Sending..." : "Send Enquiry"}
             </button>
-            <button
-              type="button"
-              onClick={closeModal}
-              disabled={isSubmitting}
-              className="flex-1 bg-gray-300 text-gray-700 py-3 px-4 rounded-md font-semibold hover:bg-gray-400 transition-colors duration-200"
+          </form>
+        ) : (
+          /* Thank You + WhatsApp Section */
+          <div className="p-10 text-center animate-in fade-in zoom-in duration-300">
+            <div className="flex justify-center mb-4">
+              <div className="bg-green-100 p-4 rounded-full">
+                <CheckCircle className="w-12 h-12 text-green-600" />
+              </div>
+            </div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">
+              Thank You!
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Your enquiry has been received. Need an <b>instant</b> reply?
+            </p>
+
+            {/* WhatsApp Button */}
+            <a
+              href={`https://wa.me/${whatsappNumber}?text=Hi, I just submitted an enquiry on your website and would like to discuss further.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-3 rounded-xl font-bold transition-all shadow-md mb-4"
             >
-              Cancel
+              <MessageCircle size={22} />
+              Chat on WhatsApp
+            </a>
+
+            <button
+              onClick={closeModal}
+              className="text-gray-500 text-sm hover:underline"
+            >
+              Close this window
             </button>
           </div>
-        </form>
+        )}
 
         {/* Footer */}
-        <div className="bg-gray-50 rounded-b-lg px-6 py-3 border-t border-gray-200">
-          <p className="text-xs text-gray-500 text-center">
-            We respect your privacy. Your information is secure with us.
+        <div className="bg-gray-50 px-6 py-3 border-t border-gray-100 text-center">
+          <p className="text-[10px] text-gray-400 uppercase tracking-widest">
+            Privacy Guaranteed • Parida Red Lion
           </p>
         </div>
       </div>

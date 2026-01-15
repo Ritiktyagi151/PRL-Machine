@@ -355,25 +355,41 @@ const AluminumWindowMachinesPage = () => {
                       className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
                       whileHover={{ y: -5 }}
                     >
-                      <div className="relative h-40 overflow-hidden">
-                        <motion.img
-                          src={product.images?.[0] || "/placeholder-image.jpg"} // Safe access with fallback
-                          alt={product.name}
-                          className="w-full h-full object-cover"
-                          whileHover={{ scale: 1.1 }}
-                          transition={{ duration: 0.3 }}
-                        />
-                        <div className="absolute top-2 right-2 bg-[#FB252E] text-white text-xs px-2 py-1 rounded">
-                          New
+                      <Link
+                        to={`/productdetailaluminium/${
+                          product.id || product._id
+                        }`}
+                      >
+                        <div className="relative h-40 overflow-hidden">
+                          <motion.img
+                            src={
+                              product.images?.[0] || "/placeholder-image.jpg"
+                            } // Safe access with fallback
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                            whileHover={{ scale: 1.1 }}
+                            transition={{ duration: 0.3 }}
+                          />
+                          <div className="absolute top-2 right-2 bg-[#FB252E] text-white text-xs px-2 py-1 rounded">
+                            New
+                          </div>
                         </div>
-                      </div>
+                      </Link>
+
                       <div className="p-3">
                         <h3 className="text-lg font-semibold mb-1 text-[#46266A]">
                           {product.name}
                         </h3>
-                        <p className="text-gray-600 text-sm mb-2 line-clamp-2">
-                          {product.description || "No description available."}
-                        </p>
+
+                        {/* UPDATE: Description with HTML Support */}
+                        <div
+                          className="text-gray-600 text-sm mb-2 line-clamp-2"
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              product.description ||
+                              "No description available.",
+                          }}
+                        />
 
                         {/* Safe Specs Rendering */}
                         <div className="mb-3">

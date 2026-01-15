@@ -56,6 +56,7 @@ import TurnkeyDetailPage from "../pages/turnkey/TurnkeyDetailPage";
 import Admintestimonial from "../admin/sidebarpages/Admintestimonial";
 import PrivacyPolicy from "../components/Privacy-policy";
 import TermsAndConditions from "../components/Term-conditiom";
+import EnquiryForm from "../components/EnquiryForm";
 
 // ✅ Auth check function
 const isAuthenticated = () => {
@@ -91,6 +92,7 @@ const router = createBrowserRouter([
       { path: "productdetailupvc/:id", element: <UpvcDetail /> },
       { path: "productdetailaluminium/:id", element: <AluminiumDetail /> }, // Fixed: Changed to "aluminium" to match link
       { path: "blogs/:id", element: <BlogDetails /> },
+      { path: "enquiry", element: <EnquiryForm /> },
       // { path: "turnkey", element: <Turnkey /> },
       {
         path: "turnkeypage",
