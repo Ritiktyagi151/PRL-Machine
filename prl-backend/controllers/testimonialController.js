@@ -10,10 +10,17 @@ exports.getAllTestimonials = async (req, res) => {
   }
 };
 
-// 2. Add New Testimonial (POST)
+// 2. Add New Testimonial (POST) - Image handle logic added
 exports.saveTestimonial = async (req, res) => {
   try {
-    const newItem = new Testimonial(req.body);
+    const testimonialData = { ...req.body };
+
+    // Agar image upload hui hai toh filename save karein
+    if (req.file) {
+      testimonialData.image = req.file.filename;
+    }
+
+    const newItem = new Testimonial(testimonialData);
     await newItem.save();
     res.status(201).json({ success: true, data: newItem });
   } catch (err) {
@@ -21,14 +28,22 @@ exports.saveTestimonial = async (req, res) => {
   }
 };
 
-// 3. Update Existing Testimonial (PUT) - FIX FOR YOUR ERROR
+// 3. Update Existing Testimonial (PUT) - Image update logic added
 exports.updateTestimonial = async (req, res) => {
   try {
+    const updateData = { ...req.body };
+
+    // Agar nayi image upload hui hai toh use update karein
+    if (req.file) {
+      updateData.image = req.file.filename;
+    }
+
     const updatedItem = await Testimonial.findByIdAndUpdate(
       req.params.id,
-      req.body,
-      { new: true, runValidators: true }
+      updateData,
+      { new: true, runValidators: true },
     );
+
     if (!updatedItem) {
       return res
         .status(404)

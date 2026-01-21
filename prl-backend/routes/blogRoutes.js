@@ -1,9 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const path = require("path");
-
-// 🔹 FIX: Path issues ko khatam karne ke liye try-catch ya direct sahi path
-// Check karein aapka folder 'middleware' hai ya 'middlewares'
+// Aapke folder structure ke hisaab se 'middlewares' sahi path hai
 const upload = require("../middlewares/upload"); 
 
 const {
@@ -14,20 +11,19 @@ const {
   deleteBlog,
 } = require("../controllers/blogController");
 
-// ✅ 1. Sabhi blogs fetch karne ke liye
+// Sabhi blogs fetch karna
 router.get("/", getBlogs);
 
-// ✅ 2. Blog details slug (Title) ke hisaab se (SEO Friendly)
-// URL: localhost:5173/blogs/your-blog-title
+// Blog details by slug
 router.get("/:slug", getBlogBySlug);
 
-// ✅ 3. Naya blog banane ke liye (Multer Image upload logic)
+// Naya blog (Image upload ke sath)
 router.post("/", upload.single("image"), createBlog);
 
-// ✅ 4. Blog update karne ke liye (ID use karna safe hai update ke liye)
+// Blog update (Image change karne ke option ke sath)
 router.put("/:id", upload.single("image"), updateBlog);
 
-// ✅ 5. Blog delete karne ke liye
+// Blog delete
 router.delete("/:id", deleteBlog);
 
 module.exports = router;

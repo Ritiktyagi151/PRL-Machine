@@ -2,17 +2,32 @@ const multer = require("multer");
 const path = require("path");
 
 const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, "uploads/"); 
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
   },
-  filename(req, file, cb) {
-    cb(null, `${Date.now()}-${file.originalname.replace(/\s+/g, "-")}`);
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    // Best Practice: Lowercase karke spaces hatana
+    const cleanName = file.originalname.toLowerCase().replace(/\s+/g, "-");
+    cb(null, uniqueSuffix + "-" + cleanName);
   },
 });
 
-const upload = multer({ 
+const upload = multer({
   storage,
-  limits: { fileSize: 1024 * 1024 * 5 } // 5MB limit
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  fileFilter: (req, file, cb) => {
+    const filetypes = /jpeg|jpg|png|webp|jfif/;
+    const extname = filetypes.test(
+      path.extname(file.originalname).toLowerCase(),
+    );
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (extname && mimetype) {
+      return cb(null, true);
+    }
+    cb(new Error("Only images are allowed (jpg, jpeg, png, webp)"));
+  },
 });
 
 module.exports = upload;
