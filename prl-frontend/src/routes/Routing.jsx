@@ -27,7 +27,6 @@ import Installation from "../pages/services/Installation";
 import Maintenance from "../pages/services/Maintenance";
 import Training from "../pages/services/Training";
 import BlogDetails from "../pages/Blogs/Blogdetails";
-// import Turnkey from "../pages/turnkey/TurnKey";
 import FAQ from "../pages/ourcompany/FAQ";
 import OurTeam from "../pages/ourcompany/OurTeam";
 import News from "../pages/ourcompany/News";
@@ -90,10 +89,12 @@ const router = createBrowserRouter([
       { path: "termsandconditions", element: <TermsAndConditions /> },
       { path: "casestudies", element: <CaseStudiesPage /> },
       { path: "productdetailupvc/:id", element: <UpvcDetail /> },
-      { path: "productdetailaluminium/:id", element: <AluminiumDetail /> }, // Fixed: Changed to "aluminium" to match link
-      { path: "blogs/:id", element: <BlogDetails /> },
+      { path: "productdetailaluminium/:id", element: <AluminiumDetail /> },
+
+      // ✅ 🔹 UPDATED: blogs/:id ki jagah blogs/:slug use kiya hai
+      { path: "blogs/:slug", element: <BlogDetails /> },
+
       { path: "enquiry", element: <EnquiryForm /> },
-      // { path: "turnkey", element: <Turnkey /> },
       {
         path: "turnkeypage",
         element: <TurnkeyPage />,

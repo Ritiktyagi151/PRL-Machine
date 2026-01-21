@@ -4,7 +4,8 @@ const cors = require("cors");
 const path = require("path");
 const morgan = require("morgan");
 const helmet = require("helmet");
-const multer = require("multer"); // Image upload ke liye
+const multer = require("multer");
+const fs = require("fs");
 
 const connectDB = require("./config/db");
 
@@ -16,94 +17,102 @@ connectDB();
 
 const app = express();
 
-// Security headers
-app.use(
-  helmet({
-    crossOriginResourcePolicy: false, // Uploaded images ko frontend par dikhane ke liye zaroori hai
-  })
-);
-
-// Logger only in dev
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
+// 1. UPLOADS FOLDER SETUP: Auto-create folder if missing
+const uploadDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// CORS
+// 2. SECURITY & CORS: Cross-Origin Resource Policy 'false' is must for images
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  }),
+);
+
 app.use(
   cors({
     origin: process.env.FRONTEND_URL || "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-  })
+  }),
 );
 
-// Parsers
+// 3. LOGGING & PARSING
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
+
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
-// ======================= Image Upload Logic (Multer) =======================
+// 4. STATIC FOLDER: Serving images to browser
+// Important: Make sure this path is correct for both local and VPS
+app.use("/uploads", express.static(uploadDir));
+
+// 5. MULTER CONFIGURATION (For Blog/Testimonial Uploads)
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, "uploads/"); // Ensure ye folder exist karta ho
+    cb(null, "uploads/");
   },
   filename(req, file, cb) {
-    cb(null, `${Date.now()}-${file.originalname}`);
+    // Unique name with timestamp to avoid overwrite
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + "-" + file.originalname.replace(/\s+/g, "-"));
   },
 });
 
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+});
 
-// Image Upload Endpoint (Directly in server or move to routes)
-app.post("/api/upload", upload.single("file"), (req, res) => {
+// 6. DIRECT UPLOAD ENDPOINT (Optional - for manual uploads)
+app.post("/api/upload", upload.single("image"), (req, res) => {
   if (!req.file) return res.status(400).json({ message: "No file uploaded" });
   res.json({
     url: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`,
   });
 });
 
-// ======================= Routes =======================
+// 7. ROUTES SETUP
+app.use("/api/blogs", require("./routes/blogRoutes"));
 app.use("/api/navbar", require("./routes/navbarRoutes"));
 app.use("/api/footer", require("./routes/footerRoutes"));
-app.use("/api/blogs", require("./routes/blogRoutes"));
 app.use("/api/aluminum-machines", require("./routes/aluminummachineRoutes"));
 app.use("/api/upvcmachines", require("./routes/upvcmachineRoutes"));
-
-// --- NAYE ROUTES: Testimonial aur Stats ---
-app.use("/api/testimonials", require("./routes/testimonialRoutes")); // Testimonial CRUD
-app.use("/api/stats", require("./routes/testimonialRoutes")); // Stats bhi isi file mein handle honge
-
-// Contact & Site Config
+app.use("/api/testimonials", require("./routes/testimonialRoutes"));
 app.use("/api/contact", require("./routes/contactRoutes"));
 app.use("/api/site-config", require("./routes/siteConfigRoutes"));
 
-// Static folder for uploads
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-// Health check
+// 8. HEALTH CHECK & BASE ROUTE
 app.get("/", (req, res) => {
   res.json({
     success: true,
-    message: "✅ API is running...",
+    message: "🚀 PRL-Machine API is running successfully...",
+    environment: process.env.NODE_ENV,
+    storage_path: uploadDir,
   });
 });
 
-// 404 handler
+// 9. 404 HANDLER
 app.use((req, res) =>
-  res.status(404).json({ success: false, message: "❌ Route not found" })
+  res.status(404).json({ success: false, message: "❌ Route not found" }),
 );
 
-// Global error handler
+// 10. GLOBAL ERROR HANDLER
 app.use((err, req, res, next) => {
-  console.error("💥 Error:", err.stack || err);
-  res
-    .status(err.status || 500)
-    .json({ success: false, message: err.message || "Server error" });
+  console.error("💥 Global Error:", err.stack || err);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+  });
 });
 
-// Start server
+// 11. START SERVER
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(
-    `🚀 Server running in ${process.env.NODE_ENV} at http://localhost:${PORT}`
+    `🚀 Server running in ${process.env.NODE_ENV} at http://localhost:${PORT}`,
   );
 });

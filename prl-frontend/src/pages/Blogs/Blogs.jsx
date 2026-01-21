@@ -9,74 +9,44 @@ const Blogs = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // API endpoint
   const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/blogs`;
 
-  // Fetch blogs from API
+  // 🔹 IMAGE BASE URL Fix: Backend domain handle karne ke liye
+  const getBaseUrl = () => {
+    const apiURL = import.meta.env.VITE_API_BASE_URL;
+    return apiURL.endsWith("/api") ? apiURL.replace("/api", "") : apiURL;
+  };
+  const IMAGE_BASE_URL = `${getBaseUrl()}/uploads`;
+
   const fetchBlogs = async () => {
     setIsLoading(true);
     setError(null);
     try {
       const response = await fetch(API_BASE_URL);
-      console.log("API Response status:", response.status);
-
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(`HTTP error! status: ${response.status}`);
-      }
 
-      const responseText = await response.text();
-      console.log("API Response text:", responseText);
-
-      let data;
-      try {
-        data = JSON.parse(responseText);
-        console.log("API Response parsed:", data);
-      } catch (parseError) {
-        console.error("Failed to parse JSON:", parseError);
-        throw new Error("Invalid JSON response from server");
-      }
+      const data = await response.json();
 
       // Handle different API response structures
-      if (Array.isArray(data)) {
-        setBlogs(data);
-      } else if (data.blogs && Array.isArray(data.blogs)) {
-        setBlogs(data.blogs);
-      } else if (data.data && Array.isArray(data.data)) {
-        setBlogs(data.data);
-      } else {
-        console.warn("API response is not an array:", data);
-        setBlogs([]);
-        toast.warning("No blog data found in the response");
-      }
+      let blogData = Array.isArray(data) ? data : data.blogs || data.data || [];
+      setBlogs(blogData);
 
-      toast.success("Blogs loaded successfully!");
+      if (blogData.length > 0) toast.success("Blogs loaded successfully!");
     } catch (error) {
       console.error("Error fetching blogs:", error);
       setError("Failed to fetch blogs. Please check if the server is running.");
-      toast.error("Failed to load blogs. Please check your connection.");
-      setBlogs([]);
+      toast.error("Failed to load blogs.");
 
-      // Fallback to local data if API fails
       try {
         const localData = await import("../Blogs/Blogs.json");
-        if (Array.isArray(localData.default)) {
-          setBlogs(localData.default);
-          toast.info("Using local blog data");
-        } else if (
-          localData.default &&
-          Array.isArray(localData.default.blogs)
-        ) {
-          setBlogs(localData.default.blogs);
-        } else if (localData.default && Array.isArray(localData.default.data)) {
-          setBlogs(localData.default.data);
-        } else {
-          console.warn(
-            "Local data is not in expected format:",
-            localData.default
-          );
-        }
+        const fallback =
+          localData.default.blogs ||
+          localData.default.data ||
+          localData.default;
+        if (Array.isArray(fallback)) setBlogs(fallback);
       } catch (localError) {
-        console.error("Also failed to load local data:", localError);
+        console.error("Local data fallback failed");
       }
     } finally {
       setIsLoading(false);
@@ -87,15 +57,12 @@ const Blogs = () => {
     fetchBlogs();
   }, []);
 
-  // Animation variants
+  // Framer Motion Variants (Aapka original style)
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3,
-      },
+      transition: { staggerChildren: 0.15, delayChildren: 0.3 },
     },
   };
 
@@ -104,33 +71,33 @@ const Blogs = () => {
     visible: {
       y: 0,
       opacity: 1,
-      transition: {
-        duration: 0.6,
-        ease: [0.16, 1, 0.3, 1],
-      },
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
     },
     hover: {
       y: -8,
       boxShadow:
         "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-      transition: {
-        duration: 0.3,
-        ease: "easeOut",
-      },
+      transition: { duration: 0.3, ease: "easeOut" },
     },
   };
 
   const imageVariants = {
     hover: {
       scale: 1.08,
-      transition: {
-        duration: 0.5,
-        ease: [0.4, 0, 0.2, 1],
-      },
+      transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
     },
   };
 
-  // Format date function
+  // ✅ Image Handler
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return "https://via.placeholder.com/400x300?text=No+Image";
+    if (imagePath.startsWith("http")) return imagePath;
+    const cleanPath = imagePath.startsWith("/")
+      ? imagePath.substring(1)
+      : imagePath;
+    return `${IMAGE_BASE_URL}/${cleanPath}`;
+  };
+
   const formatDate = (dateString) => {
     if (!dateString) return "No date";
     try {
@@ -140,22 +107,17 @@ const Blogs = () => {
         day: "numeric",
       });
     } catch (error) {
-      console.error("Error formatting date:", dateString, error);
       return "Invalid date";
     }
   };
 
-  // Handle image errors
   const handleImageError = (e) => {
-    console.log("Image failed to load, using fallback");
-    e.target.src =
-      "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZWRlZGVkIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPldpbmRvdyBUZWNoIEJsb2c8L3RleHQ+Cjwvc3ZnPg==";
+    e.target.src = "https://via.placeholder.com/400x300?text=Window+Tech+Blog";
   };
 
   return (
     <div className="bg-amber-50 min-h-screen">
       <ToastContainer position="top-right" autoClose={3000} theme="light" />
-
       <motion.div
         className="relative"
         initial={{ opacity: 0 }}
@@ -167,11 +129,7 @@ const Blogs = () => {
           className="absolute inset-0 flex items-center justify-center"
           initial={{ y: -20 }}
           animate={{ y: 0 }}
-          transition={{
-            delay: 0.3,
-            duration: 0.8,
-            ease: [0.16, 1, 0.3, 1],
-          }}
+          transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
           <h1 className="text-3xl md:text-5xl font-serif font-bold text-amber-50 tracking-wider">
             Window Technology Blogs
@@ -180,19 +138,17 @@ const Blogs = () => {
       </motion.div>
 
       <div className="container mx-auto px-4 py-12 md:py-16">
-        {/* Loading & Error */}
         {error && (
           <motion.div
             className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-8 text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <strong className="font-bold">Error: </strong>
+            <strong className="font-bold">Error: </strong>{" "}
             <span className="block sm:inline">{error}</span>
           </motion.div>
         )}
 
-        {/* Blogs List */}
         {!isLoading && Array.isArray(blogs) && blogs.length > 0 && (
           <motion.div
             variants={containerVariants}
@@ -201,11 +157,12 @@ const Blogs = () => {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
           >
             {blogs.map((blog) => {
-              const blogId = blog._id || blog.id; // ✅ FIX
+              // 🔹 IMPORTANT: Link ke liye 'slug' ko priority dena zaroori hai
+              const blogIdentifier = blog.slug || blog._id || blog.id;
 
               return (
                 <motion.div
-                  key={blogId}
+                  key={blog._id || blog.id}
                   variants={cardVariants}
                   whileHover="hover"
                   className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-amber-100"
@@ -215,8 +172,8 @@ const Blogs = () => {
                     variants={imageVariants}
                   >
                     <img
-                      src={blog.image}
-                      alt={blog.title || "Blog image"}
+                      src={getImageUrl(blog.image)}
+                      alt={blog.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       onError={handleImageError}
                     />
@@ -225,27 +182,23 @@ const Blogs = () => {
                       {blog.category || "Uncategorized"}
                     </span>
                   </motion.div>
-
                   <div className="p-6">
                     <div className="flex justify-between text-xs text-gray-500 mb-3">
-                      <span className="font-medium">
-                        {formatDate(blog.date)}
-                      </span>
+                      <span>{formatDate(blog.date)}</span>
                       <span className="text-red-800 font-medium">
-                        By {blog.author || "Unknown Author"}
+                        By {blog.author || "Unknown"}
                       </span>
                     </div>
-
                     <h2 className="text-xl font-serif font-bold mb-3 text-gray-800 line-clamp-2">
                       {blog.title || "Untitled Blog"}
                     </h2>
-                    <p className="text-gray-600 mb-5 line-clamp-3 font-light">
+                    <p className="text-gray-600 mb-5 line-clamp-3 font-light text-sm">
                       {blog.excerpt || "No excerpt available."}
                     </p>
 
-                    {/* ✅ FIXED LINK */}
+                    {/* ✅ Slug based Link */}
                     <Link
-                      to={`/blogs/${blogId}`}
+                      to={`/blogs/${blogIdentifier}`}
                       className="inline-flex items-center text-red-900 hover:text-red-700 font-medium transition-colors group"
                     >
                       <span className="relative">
@@ -276,5 +229,4 @@ const Blogs = () => {
     </div>
   );
 };
-
 export default Blogs;

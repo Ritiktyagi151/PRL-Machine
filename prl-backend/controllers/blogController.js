@@ -1,67 +1,59 @@
 const mongoose = require("mongoose");
 const Blog = require("../models/Blog");
 
-// ✅ Get all blogs (with optional category filter & search)
+// ✅ 1. Get all blogs
 exports.getBlogs = async (req, res) => {
   try {
     const { category, search } = req.query;
     let filter = {};
-
     if (category) filter.category = category;
     if (search) filter.title = { $regex: search, $options: "i" };
 
     const blogs = await Blog.find(filter).sort({ date: -1 });
-
-    return res.status(200).json({
-      success: true,
-      count: blogs.length,
-      blogs,
-    });
+    return res.status(200).json(blogs);
   } catch (error) {
     console.error("Error fetching blogs:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
-// ✅ Get single blog by ID
-exports.getBlogById = async (req, res) => {
+// ✅ 2. Get single blog by SLUG or ID (Dual Check for SEO)
+exports.getBlogBySlug = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { slug } = req.params;
 
-    // Validate ObjectId
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Invalid blog ID" });
+    // Pehle Slug se dhoondo taaki SEO friendly URL chale
+    let blog = await Blog.findOne({ slug: slug });
+
+    // Agar Slug se nahi mila aur input valid MongoDB ID hai, toh ID se dhoondo
+    if (!blog && mongoose.Types.ObjectId.isValid(slug)) {
+      blog = await Blog.findById(slug);
     }
 
-    const blog = await Blog.findById(id);
     if (!blog) {
       return res
         .status(404)
         .json({ success: false, message: "Blog not found" });
     }
-
-    return res.status(200).json({ success: true, blog });
+    return res.status(200).json(blog);
   } catch (error) {
     console.error("Error fetching blog:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
-// ✅ Create blog
+// ✅ 3. Create blog
 exports.createBlog = async (req, res) => {
   try {
-    const {
-      title,
-      excerpt,
-      content,
-      date,
-      author,
-      image,
-      category,
-      specifications,
-    } = req.body;
+    let imagePath = req.body.image;
+
+    // Multer file upload check (Saving relative path for flexibility)
+    if (req.file) {
+      imagePath = req.file.filename;
+    }
+
+    const { title, excerpt, content, date, author, category, specifications } =
+      req.body;
 
     if (!title || !excerpt || !content || !author || !category) {
       return res
@@ -75,59 +67,64 @@ exports.createBlog = async (req, res) => {
       content,
       date: date || new Date(),
       author,
-      image,
+      image: imagePath,
       category,
       specifications,
     });
 
     await newBlog.save();
-    return res.status(201).json({
-      success: true,
-      message: "Blog created successfully",
-      blog: newBlog,
-    });
+    return res.status(201).json(newBlog);
   } catch (error) {
     console.error("Error creating blog:", error);
     res.status(400).json({ success: false, message: "Failed to create blog" });
   }
 };
 
-// ✅ Update blog
+// ✅ 4. Update blog
 exports.updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
-
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res
         .status(400)
         .json({ success: false, message: "Invalid blog ID" });
     }
 
-    const updatedBlog = await Blog.findByIdAndUpdate(id, req.body, {
+    let updateData = { ...req.body };
+    if (req.file) {
+      updateData.image = req.file.filename;
+    }
+
+    // Manual Slug Update (Kyunki update hook nahi chalta)
+    if (updateData.title) {
+      updateData.slug = updateData.title
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/[\s_-]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    const updatedBlog = await Blog.findByIdAndUpdate(id, updateData, {
       new: true,
     });
+
     if (!updatedBlog) {
       return res
         .status(404)
         .json({ success: false, message: "Blog not found" });
     }
-
-    return res.status(200).json({
-      success: true,
-      message: "Blog updated successfully",
-      blog: updatedBlog,
-    });
+    return res.status(200).json(updatedBlog);
   } catch (error) {
     console.error("Error updating blog:", error);
     res.status(400).json({ success: false, message: "Failed to update blog" });
   }
 };
 
-// ✅ Delete blog
+// ✅ 5. Delete blog
 exports.deleteBlog = async (req, res) => {
   try {
     const { id } = req.params;
-
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res
         .status(400)
@@ -140,7 +137,6 @@ exports.deleteBlog = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Blog not found" });
     }
-
     return res
       .status(200)
       .json({ success: true, message: "Blog deleted successfully" });
