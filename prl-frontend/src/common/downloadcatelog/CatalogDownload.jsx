@@ -40,7 +40,7 @@ const CatalogDownload = () => {
             _subject: "New Catalog Download Request",
             _template: "table",
           }),
-        }
+        },
       );
 
       // 2. Define the 3-second Delay
@@ -63,7 +63,7 @@ const CatalogDownload = () => {
   };
 
   const handleDownload = () => {
-    const pdfUrl = "/catalog.pdf"; // Replace with your actual PDF path
+    const pdfUrl = "/assets/pdf/cataloge-of-parida.pdf"; // Replace with your actual PDF path
     const link = document.createElement("a");
     link.href = pdfUrl;
     link.download = "Window-Machinery-Catalog.pdf";
