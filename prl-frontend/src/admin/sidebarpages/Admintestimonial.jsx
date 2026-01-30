@@ -29,10 +29,19 @@ export default function TestimonialManager() {
 
   // 🔹 API URLs
   const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-  // Images server se fetch karne ke liye base path banaya
+  // Production URL banane ke liye '/api' ko '/uploads' se replace kiya
   const IMAGE_BASE_URL = BASE_URL.replace("/api", "/uploads");
   const TESTIMONIAL_API = `${BASE_URL}/testimonials`;
   const STATS_API = `${BASE_URL}/testimonials/data/stats`;
+
+  // 🔹 Helper function: Full image URL handle karne ke liye
+  const getFullImgPath = (imgName) => {
+    if (!imgName) return "https://via.placeholder.com/60";
+    // Agar link localhost wala hai ya pura URL hai, toh direct return karein
+    if (imgName.startsWith("http")) return imgName;
+    // Agar sirf filename hai, toh server ka base path lagayein
+    return `${IMAGE_BASE_URL}/${imgName}`;
+  };
 
   // 🔹 Fetch Data on Load
   useEffect(() => {
@@ -160,13 +169,6 @@ export default function TestimonialManager() {
     setTimeout(() => setIsSaved(false), 2000);
   };
 
-  // Helper function: Full URL banane ke liye
-  const getFullImgPath = (imgName) => {
-    if (!imgName) return "https://via.placeholder.com/60";
-    if (imgName.startsWith("http")) return imgName; // Pura URL hai toh direct return
-    return `${IMAGE_BASE_URL}/${imgName}`; // Filename hai toh prefix lagao
-  };
-
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -240,7 +242,7 @@ export default function TestimonialManager() {
                 >
                   <img
                     src={getFullImgPath(item.image)}
-                    alt=""
+                    alt={item.name}
                     className="w-16 h-16 rounded-full object-cover border-2 border-red-100"
                   />
                   <div className="flex-1">
