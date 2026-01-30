@@ -11,6 +11,7 @@ import {
   Save,
   Upload,
   Eye,
+  FileDown,
 } from "lucide-react";
 
 const API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
@@ -86,7 +87,6 @@ const MachineForm = memo(
             </div>
           </div>
 
-          {/* 🔹 UPDATED: Description with HTML support info */}
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1">
               Description (HTML Supported)
@@ -105,107 +105,198 @@ const MachineForm = memo(
             </p>
           </div>
 
-          {/* Images */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-1 flex items-center">
-              <ImageIcon size={16} className="mr-1" /> Images
+          {/* Images Section */}
+          <div className="mb-4 border-b pb-4">
+            <label className="block text-sm font-medium mb-2 flex items-center">
+              <ImageIcon size={16} className="mr-1" /> Product Images (Upload or
+              URL)
             </label>
-            <div className="grid grid-cols-3 md:grid-cols-4 gap-2 mb-2">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-3">
               {currentMachine.images?.map((img, i) => (
-                <div key={`image-${i}`} className="relative group">
-                  <img
-                    src={img}
-                    alt=""
-                    className="h-24 w-full object-cover rounded"
-                  />
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-all">
-                    <button
-                      onClick={() => handlePreview(img, "image")}
-                      className="text-white"
-                    >
-                      <Eye size={16} />
-                    </button>
-                    <button
-                      onClick={() => handleRemoveField("images", i)}
-                      className="text-red-300"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
+                <div key={`image-${i}`} className="relative border rounded p-2">
                   <input
                     type="text"
                     value={img}
                     onChange={(e) =>
                       handleArrayChange(i, "images", e.target.value)
                     }
-                    className="border p-1 text-xs w-full mt-1"
+                    placeholder="Image URL"
+                    className="border p-1 text-xs w-full mb-1"
                   />
+                  <div className="relative h-20 bg-gray-50 flex items-center justify-center overflow-hidden rounded">
+                    {img ? (
+                      <img
+                        src={img}
+                        alt=""
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <ImageIcon className="text-gray-300" />
+                    )}
+                    <button
+                      onClick={() => handleRemoveField("images", i)}
+                      className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-bl"
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
-            <label className="border-2 border-dashed p-4 rounded-lg flex items-center justify-center cursor-pointer">
-              <Upload size={16} className="mr-2" /> Upload Images
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={(e) => handleFileUpload(e, "images")}
-                className="hidden"
-              />
-            </label>
+            <div className="flex gap-2">
+              <label className="flex-1 border-2 border-dashed p-3 rounded-lg flex items-center justify-center cursor-pointer hover:bg-violet-50 transition-colors">
+                <Upload size={16} className="mr-2" /> Upload Images
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={(e) => handleFileUpload(e, "images")}
+                  className="hidden"
+                />
+              </label>
+              <button
+                onClick={() => handleAddField("images")}
+                className="px-4 border border-violet-600 text-violet-600 rounded-lg hover:bg-violet-600 hover:text-white transition-colors"
+              >
+                <Plus size={16} />
+              </button>
+            </div>
           </div>
 
-          {/* Videos */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-1 flex items-center">
-              <Video size={16} className="mr-1" /> Videos
+          {/* Videos Section */}
+          <div className="mb-4 border-b pb-4">
+            <label className="block text-sm font-medium mb-2 flex items-center">
+              <Video size={16} className="mr-1" /> Product Videos (Upload or
+              URL)
             </label>
-            <div className="grid grid-cols-3 md:grid-cols-4 gap-2 mb-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
               {currentMachine.videos?.map((vid, i) => (
-                <div key={`video-${i}`} className="relative group">
-                  <video
-                    src={vid}
-                    className="h-24 w-full object-cover rounded"
-                  />
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-all">
-                    <button
-                      onClick={() => handlePreview(vid, "video")}
-                      className="text-white"
-                    >
-                      <Eye size={16} />
-                    </button>
+                <div key={`video-${i}`} className="border rounded p-2">
+                  <div className="flex gap-2 mb-2">
+                    <input
+                      type="text"
+                      value={vid}
+                      onChange={(e) =>
+                        handleArrayChange(i, "videos", e.target.value)
+                      }
+                      placeholder="Video URL"
+                      className="border p-1 text-xs flex-1"
+                    />
                     <button
                       onClick={() => handleRemoveField("videos", i)}
-                      className="text-red-300"
+                      className="text-red-500"
                     >
                       <Trash2 size={16} />
                     </button>
                   </div>
-                  <input
-                    type="text"
-                    value={vid}
-                    onChange={(e) =>
-                      handleArrayChange(i, "videos", e.target.value)
-                    }
-                    className="border p-1 text-xs w-full mt-1"
-                  />
+                  {vid && (
+                    <video
+                      src={vid}
+                      className="h-20 w-full object-cover rounded"
+                    />
+                  )}
                 </div>
               ))}
             </div>
-            <label className="border-2 border-dashed p-4 rounded-lg flex items-center justify-center cursor-pointer">
-              <Upload size={16} className="mr-2" /> Upload Videos
-              <input
-                type="file"
-                multiple
-                accept="video/*"
-                onChange={(e) => handleFileUpload(e, "videos")}
-                className="hidden"
-              />
+            <div className="flex gap-2">
+              <label className="flex-1 border-2 border-dashed p-3 rounded-lg flex items-center justify-center cursor-pointer hover:bg-violet-50 transition-colors">
+                <Upload size={16} className="mr-2" /> Upload Videos
+                <input
+                  type="file"
+                  multiple
+                  accept="video/*"
+                  onChange={(e) => handleFileUpload(e, "videos")}
+                  className="hidden"
+                />
+              </label>
+              <button
+                onClick={() => handleAddField("videos")}
+                className="px-4 border border-violet-600 text-violet-600 rounded-lg hover:bg-violet-600 hover:text-white transition-colors"
+              >
+                <Plus size={16} />
+              </button>
+            </div>
+          </div>
+
+          {/* Brochure/PDF Section */}
+          <div className="mb-4 border-b pb-4">
+            <label className="block text-sm font-medium mb-2 flex items-center">
+              <FileDown size={16} className="mr-1" /> PDF Brochure / Catalog
+              (Upload or URL)
             </label>
+            <div className="space-y-2 mb-3">
+              <div className="flex gap-2 items-center">
+                <input
+                  type="text"
+                  name="brochureUrl"
+                  value={currentMachine.brochureUrl || ""}
+                  onChange={handleChange}
+                  placeholder="Enter PDF URL or Upload below"
+                  className="border p-3 flex-1 rounded-lg"
+                />
+                {currentMachine.brochureUrl && (
+                  <a
+                    href={currentMachine.brochureUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-3 bg-gray-100 rounded-lg text-violet-600"
+                  >
+                    <Eye size={20} />
+                  </a>
+                )}
+              </div>
+              <label className="border-2 border-dashed p-4 rounded-lg flex items-center justify-center cursor-pointer hover:bg-violet-50 transition-colors">
+                <Upload size={16} className="mr-2" /> Upload PDF Brochure
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  onChange={(e) => handleFileUpload(e, "brochureUrl")}
+                  className="hidden"
+                />
+              </label>
+            </div>
+          </div>
+
+          {/* Technical Drawings Section */}
+          <div className="mb-4 border-b pb-4">
+            <label className="block text-sm font-medium mb-2 flex items-center">
+              <ImageIcon size={16} className="mr-1" /> Technical Drawings
+              (Upload or URL)
+            </label>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {[
+                "technicalDrawing",
+                "technicalDrawingFront",
+                "technicalDrawingSide",
+              ].map((field) => (
+                <div key={field} className="space-y-2">
+                  <span className="text-xs font-semibold uppercase text-gray-500">
+                    {field.replace("technicalDrawing", "") || "Main"} View
+                  </span>
+                  <input
+                    type="text"
+                    name={field}
+                    value={currentMachine[field] || ""}
+                    onChange={handleChange}
+                    placeholder="URL"
+                    className="border p-2 text-xs w-full rounded"
+                  />
+                  <label className="border border-dashed p-2 rounded flex items-center justify-center cursor-pointer text-xs hover:bg-gray-50">
+                    <Upload size={12} className="mr-1" /> Upload
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleFileUpload(e, field)}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Specifications */}
-          <div className="mb-4">
+          <div className="mb-4 border-b pb-4">
             <label className="block text-sm font-medium mb-1 flex items-center">
               <FileText size={16} className="mr-1" /> Specifications
             </label>
@@ -216,14 +307,14 @@ const MachineForm = memo(
                     <input
                       type="text"
                       value={key}
-                      placeholder="Key"
+                      placeholder="Key (e.g. Power)"
                       onChange={(e) => handleSpecKeyUpdate(key, e.target.value)}
                       className="border p-2 flex-1 rounded"
                     />
                     <input
                       type="text"
                       value={value}
-                      placeholder="Value"
+                      placeholder="Value (e.g. 5kW)"
                       onChange={(e) => handleSpecChange(key, e.target.value)}
                       className="border p-2 flex-1 rounded"
                     />
@@ -234,30 +325,15 @@ const MachineForm = memo(
                       <Trash2 size={16} />
                     </button>
                   </div>
-                )
+                ),
               )}
             </div>
             <button
               onClick={handleAddSpec}
-              className="text-violet-600 hover:text-violet-800 flex items-center"
+              className="text-violet-600 hover:text-violet-800 flex items-center text-sm font-medium"
             >
               <Plus size={16} className="mr-1" /> Add Specification
             </button>
-          </div>
-
-          {/* Technical Drawing */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">
-              Technical Drawing URL
-            </label>
-            <input
-              type="text"
-              name="technicalDrawing"
-              value={currentMachine.technicalDrawing || ""}
-              onChange={handleChange}
-              placeholder="Enter technical drawing URL"
-              className="border p-3 w-full rounded-lg"
-            />
           </div>
 
           {/* FAQ */}
@@ -269,15 +345,13 @@ const MachineForm = memo(
               {currentMachine.faq?.map((item, i) => (
                 <div
                   key={`faq-${i}`}
-                  className="border p-3 rounded-lg relative"
+                  className="border p-3 rounded-lg relative bg-gray-50"
                 >
                   <div className="mb-2">
-                    <label className="block text-xs font-medium mb-1">
-                      Question
-                    </label>
                     <input
                       type="text"
                       value={item.question || ""}
+                      placeholder="Question"
                       onChange={(e) =>
                         handleFaqChange(i, "question", e.target.value)
                       }
@@ -285,11 +359,9 @@ const MachineForm = memo(
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium mb-1">
-                      Answer
-                    </label>
                     <textarea
                       value={item.answer || ""}
+                      placeholder="Answer"
                       onChange={(e) =>
                         handleFaqChange(i, "answer", e.target.value)
                       }
@@ -308,25 +380,25 @@ const MachineForm = memo(
             </div>
             <button
               onClick={() => handleAddField("faq")}
-              className="text-violet-600 hover:text-violet-800 flex items-center"
+              className="text-violet-600 hover:text-violet-800 flex items-center text-sm font-medium"
             >
               <Plus size={16} className="mr-1" /> Add FAQ Item
             </button>
           </div>
         </div>
 
-        <div className="flex justify-end gap-3">
+        <div className="flex justify-end gap-3 sticky bottom-0 bg-white pt-4 border-t">
           {!isEdit && (
             <button
               onClick={handleLoadExample}
-              className="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg flex items-center"
+              className="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg"
             >
               Load Example
             </button>
           )}
           <button
             onClick={handleCancel}
-            className="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg flex items-center"
+            className="bg-gray-100 text-gray-800 px-6 py-3 rounded-lg flex items-center"
           >
             <X size={18} className="mr-2" /> Cancel
           </button>
@@ -336,21 +408,16 @@ const MachineForm = memo(
             disabled={uploading}
           >
             {uploading ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></div>
-                {isEdit ? "Saving..." : "Adding..."}
-              </>
+              <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></div>
             ) : (
-              <>
-                <Save size={18} className="mr-2" />
-                {isEdit ? "Save Changes" : "Add Machine"}
-              </>
+              <Save size={18} className="mr-2" />
             )}
+            {isEdit ? "Save Changes" : "Add Machine"}
           </button>
         </div>
       </div>
     );
-  }
+  },
 );
 MachineForm.displayName = "MachineForm";
 
@@ -418,21 +485,7 @@ const AdminUpvcWindowMachine = () => {
     technicalDrawing: "",
     technicalDrawingFront: "",
     technicalDrawingSide: "",
-    faq: [],
-    inStock: true,
-  };
-
-  const exampleMachine = {
-    code: "UPVC-WELD-01",
-    name: "Automatic uPVC Welding Machine",
-    description:
-      "<b>Key Features:</b><ul><li>Four-head seamless welding</li><li>Automatic control</li></ul>",
-    images: [
-      "https://images.unsplash.com/photo-1579552940218-f6a896d8a8f1?auto=format&fit=crop&w=1350&q=80",
-    ],
-    videos: [],
-    specifications: { "Welding Range": "400-3500mm", Power: "4.5kW" },
-    technicalDrawing: "",
+    brochureUrl: "",
     faq: [],
     inStock: true,
   };
@@ -440,20 +493,20 @@ const AdminUpvcWindowMachine = () => {
   const [currentMachine, setCurrentMachine] = useState(emptyMachine);
 
   useEffect(() => {
-    const loadMachines = async () => {
-      setIsLoading(true);
-      try {
-        const res = await axios.get(API_URL);
-        setMachines(res.data || []);
-      } catch (error) {
-        showNotification("Error loading machines", "error");
-        setMachines([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     loadMachines();
   }, []);
+
+  const loadMachines = async () => {
+    setIsLoading(true);
+    try {
+      const res = await axios.get(API_URL);
+      setMachines(res.data || []);
+    } catch (error) {
+      showNotification("Error loading machines", "error");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const showNotification = (message, type = "success") => {
     setSaveStatus({ message, type });
@@ -535,35 +588,49 @@ const AdminUpvcWindowMachine = () => {
   const handleFileUpload = async (e, field) => {
     const files = e.target.files;
     if (!files.length) return;
+
     setUploading(true);
-    showNotification(`Uploading ${files.length} file(s)...`, "info");
-    const resourceType = field === "images" ? "image" : "video";
-    const uploadUrl = `${CLOUDINARY_API_BASE}/${resourceType}/upload`;
+    showNotification(`Uploading...`, "info");
 
     const uploadPromises = Array.from(files).map(async (file) => {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+      // Resource type determination
+      let resourceType = "image";
+      if (file.type.includes("video")) resourceType = "video";
+      if (file.type.includes("pdf")) resourceType = "raw"; // Cloudinary uses 'raw' for PDFs
+
       try {
-        const res = await axios.post(uploadUrl, formData);
+        const res = await axios.post(
+          `${CLOUDINARY_API_BASE}/${resourceType}/upload`,
+          formData,
+        );
         return res.data.secure_url;
       } catch (err) {
+        console.error("Cloudinary Error:", err);
         return null;
       }
     });
 
     try {
       const uploadedUrls = await Promise.all(uploadPromises);
-      const newFiles = uploadedUrls.filter((url) => url !== null);
-      if (newFiles.length > 0) {
-        setCurrentMachine((prev) => ({
-          ...prev,
-          [field]: [...(prev[field] || []), ...newFiles],
-        }));
-        showNotification(`✅ Uploaded successfully!`);
+      const successfulUrls = uploadedUrls.filter((u) => u !== null);
+
+      if (successfulUrls.length > 0) {
+        setCurrentMachine((prev) => {
+          if (Array.isArray(prev[field])) {
+            return { ...prev, [field]: [...prev[field], ...successfulUrls] };
+          } else {
+            // For single fields like brochureUrl, technicalDrawing etc.
+            return { ...prev, [field]: successfulUrls[0] };
+          }
+        });
+        showNotification("Uploaded successfully!");
       }
     } catch (error) {
-      showNotification("Upload failed.", "error");
+      showNotification("Upload failed", "error");
     } finally {
       setUploading(false);
       e.target.value = null;
@@ -580,9 +647,9 @@ const AdminUpvcWindowMachine = () => {
       const res = await axios.post(API_URL, currentMachine);
       setMachines((prev) => [...prev, res.data]);
       handleCancel();
-      showNotification("✅ Machine added successfully!");
+      showNotification("Machine added!");
     } catch (error) {
-      showNotification("❌ Error adding machine", "error");
+      showNotification("Error adding machine", "error");
     } finally {
       setUploading(false);
     }
@@ -599,29 +666,28 @@ const AdminUpvcWindowMachine = () => {
       setUploading(true);
       const res = await axios.put(
         `${API_URL}/${currentMachine._id}`,
-        currentMachine
+        currentMachine,
       );
       const updated = [...machines];
       updated[editingIndex] = res.data;
       setMachines(updated);
       handleCancel();
-      showNotification("✅ Machine updated successfully!");
+      showNotification("Machine updated!");
     } catch (error) {
-      showNotification("❌ Error updating machine", "error");
+      showNotification("Error updating machine", "error");
     } finally {
       setUploading(false);
     }
   };
 
   const handleDelete = async (index) => {
-    const machine = machines[index];
-    if (!window.confirm(`Delete "${machine.name}"?`)) return;
+    if (!window.confirm("Delete this machine?")) return;
     try {
-      await axios.delete(`${API_URL}/${machine._id}`);
+      await axios.delete(`${API_URL}/${machines[index]._id}`);
       setMachines(machines.filter((_, i) => i !== index));
-      showNotification("✅ Deleted successfully!");
+      showNotification("Deleted successfully!");
     } catch (error) {
-      showNotification("❌ Delete failed", "error");
+      showNotification("Delete failed", "error");
     }
   };
 
@@ -634,7 +700,13 @@ const AdminUpvcWindowMachine = () => {
 
   const handlePreview = (url, type) =>
     setPreviewItem({ url, type, visible: true });
-  const handleLoadExample = () => setCurrentMachine(exampleMachine);
+  const handleLoadExample = () =>
+    setCurrentMachine({
+      ...emptyMachine,
+      code: "UPVC-EX-01",
+      name: "Example Machine",
+      description: "<b>Powerful</b> welding machine.",
+    });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 to-red-50 p-6">
@@ -644,7 +716,7 @@ const AdminUpvcWindowMachine = () => {
             uPVC Machine Manager
           </h1>
           <p className="text-gray-600">
-            Manage uPVC window machines with HTML description support
+            Manage machines, brochures, and technical drawings.
           </p>
         </div>
 
@@ -654,21 +726,15 @@ const AdminUpvcWindowMachine = () => {
           </div>
         ) : (
           <>
-            <div className="mb-8">
-              <button
-                onClick={() => {
-                  setCurrentMachine(emptyMachine);
-                  setShowAddModal(true);
-                }}
-                className="bg-violet-600 text-white px-6 py-3 rounded-lg flex items-center"
-              >
-                <Plus size={18} className="mr-2" /> Add New Machine
-              </button>
-            </div>
-
-            <h2 className="text-2xl font-bold mb-6 text-violet-800">
-              Machines ({machines.length})
-            </h2>
+            <button
+              onClick={() => {
+                setCurrentMachine(emptyMachine);
+                setShowAddModal(true);
+              }}
+              className="bg-violet-600 text-white px-6 py-3 rounded-lg flex items-center mb-8"
+            >
+              <Plus size={18} className="mr-2" /> Add New Machine
+            </button>
 
             <div className="grid md:grid-cols-2 gap-6">
               {machines.map((machine, index) => (
@@ -677,39 +743,16 @@ const AdminUpvcWindowMachine = () => {
                   className="border rounded-xl p-5 shadow-md bg-white hover:shadow-lg transition-shadow"
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-xl font-bold">
-                      {machine.name || "Unnamed"}
-                    </h3>
+                    <h3 className="text-xl font-bold">{machine.name}</h3>
                     <span className="bg-violet-100 text-violet-800 text-xs font-medium px-2 py-1 rounded">
                       {machine.code}
                     </span>
                   </div>
-
-                  {/* 🔹 UPDATED: Rendering HTML Description using dangerouslySetInnerHTML */}
                   <div
-                    className="text-gray-700 mb-4 line-clamp-3 text-sm prose prose-sm max-w-none"
-                    dangerouslySetInnerHTML={{
-                      __html: machine.description || "No description",
-                    }}
+                    className="text-gray-700 mb-4 line-clamp-2 text-sm"
+                    dangerouslySetInnerHTML={{ __html: machine.description }}
                   />
-
-                  {machine.images?.length > 0 && (
-                    <div className="flex gap-2 overflow-x-auto mb-4">
-                      {machine.images.slice(0, 3).map((img, i) => (
-                        <img
-                          key={i}
-                          src={img}
-                          alt=""
-                          className="w-20 h-20 object-cover rounded-lg border"
-                        />
-                      ))}
-                    </div>
-                  )}
-
                   <div className="flex justify-between items-center mt-4">
-                    <div className="text-sm text-gray-500">
-                      {Object.keys(machine.specifications || {}).length} specs
-                    </div>
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleEdit(index)}
@@ -733,13 +776,7 @@ const AdminUpvcWindowMachine = () => {
 
         {saveStatus && (
           <div
-            className={`fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-[1000] ${
-              saveStatus.type === "error"
-                ? "bg-red-500"
-                : saveStatus.type === "info"
-                ? "bg-blue-500"
-                : "bg-green-500"
-            } text-white flex items-center`}
+            className={`fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-[1000] text-white ${saveStatus.type === "error" ? "bg-red-500" : "bg-green-500"}`}
           >
             {saveStatus.message}
           </div>
@@ -769,7 +806,6 @@ const AdminUpvcWindowMachine = () => {
             />
           </div>
         )}
-
         <PreviewModal
           item={previewItem}
           onClose={() => setPreviewItem({ ...previewItem, visible: false })}

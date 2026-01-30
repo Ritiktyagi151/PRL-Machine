@@ -3,11 +3,12 @@ const path = require("path");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");
+    // Hamesha absolute path use karein taaki PM2 ke sath error na aaye
+    cb(null, path.join(__dirname, "../uploads/"));
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    // Best Practice: Lowercase karke spaces hatana
+    // Spaces ko dashes se replace karna best practice hai
     const cleanName = file.originalname.toLowerCase().replace(/\s+/g, "-");
     cb(null, uniqueSuffix + "-" + cleanName);
   },
@@ -15,7 +16,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
   fileFilter: (req, file, cb) => {
     const filetypes = /jpeg|jpg|png|webp|jfif/;
     const extname = filetypes.test(

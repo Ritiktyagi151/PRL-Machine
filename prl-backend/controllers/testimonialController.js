@@ -10,16 +10,14 @@ exports.getAllTestimonials = async (req, res) => {
   }
 };
 
-// 2. Add New Testimonial (POST) - Image handle logic added
+// 2. Save Testimonial
 exports.saveTestimonial = async (req, res) => {
   try {
     const testimonialData = { ...req.body };
-
-    // Agar image upload hui hai toh filename save karein
+    // Agar image middleware se aayi hai toh sirf filename save karein
     if (req.file) {
       testimonialData.image = req.file.filename;
     }
-
     const newItem = new Testimonial(testimonialData);
     await newItem.save();
     res.status(201).json({ success: true, data: newItem });
@@ -28,34 +26,27 @@ exports.saveTestimonial = async (req, res) => {
   }
 };
 
-// 3. Update Existing Testimonial (PUT) - Image update logic added
+// 3. Update Testimonial
 exports.updateTestimonial = async (req, res) => {
   try {
     const updateData = { ...req.body };
-
-    // Agar nayi image upload hui hai toh use update karein
     if (req.file) {
       updateData.image = req.file.filename;
     }
-
     const updatedItem = await Testimonial.findByIdAndUpdate(
       req.params.id,
       updateData,
       { new: true, runValidators: true },
     );
-
-    if (!updatedItem) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Testimonial not found" });
-    }
+    if (!updatedItem)
+      return res.status(404).json({ success: false, message: "Not found" });
     res.json({ success: true, data: updatedItem });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
   }
 };
 
-// 4. Delete Testimonial
+// 4. Delete & Stats (Same as your code)
 exports.deleteTestimonial = async (req, res) => {
   try {
     await Testimonial.findByIdAndDelete(req.params.id);
@@ -65,7 +56,6 @@ exports.deleteTestimonial = async (req, res) => {
   }
 };
 
-// 5. Get Stats
 exports.getStats = async (req, res) => {
   try {
     let stats = await Stats.findOne();
@@ -76,7 +66,6 @@ exports.getStats = async (req, res) => {
   }
 };
 
-// 6. Update Stats
 exports.updateStats = async (req, res) => {
   try {
     const stats = await Stats.findOneAndUpdate({}, req.body, {
