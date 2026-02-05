@@ -39,7 +39,7 @@ export default function ContactUsPage() {
         // Fallback to static data in case of API failure
         setPageData({
           contactInfo: {
-            address: `PARIDA RED LION INDIA PVT LTD\nGST NO - 09AAJCP6402H1ZC\nAddress - Plot No-106, Ecotec -3\nUdhyog Kendra-1, Greater Noida\nGautambuddha Nagar, Uttar Pradesh, 201306`,
+            address: `PARIDA RED LION INDIA PVT LTD\nGST NO - 09AAJCP6402H1ZC\nAddress - Khasra No 295, Jalpura,\nGreater Noida, Gautam buddha Nagar ,\nUttar Pradesh, 201306`,
             phone: "+91 7065500903",
             email: "r.k.parida015@gmail.com",
             hours:
@@ -75,7 +75,7 @@ export default function ContactUsPage() {
     ) {
       setLoading(false);
       alert(
-        "Please fill out all required fields: Name, Email, Subject, and Message."
+        "Please fill out all required fields: Name, Email, Subject, and Message.",
       );
       return;
     }
@@ -110,7 +110,7 @@ export default function ContactUsPage() {
             _template: "table", // Formats the email neatly
             // _captcha: "false" // Uncomment to disable ReCaptcha if needed
           }),
-        }
+        },
       );
 
       const data = await res.json();
