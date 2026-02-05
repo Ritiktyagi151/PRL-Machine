@@ -17,11 +17,6 @@ import {
 
 const API_URL = `${import.meta.env.VITE_API_BASE_URL}/aluminum-machines`;
 
-// 🔹 Cloudinary Configuration
-const CLOUDINARY_CLOUD_NAME = "dr5myqvnp";
-const CLOUDINARY_UPLOAD_PRESET = "jaikvik";
-const CLOUDINARY_API_BASE = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}`;
-
 // ============================================================================
 // MOVED COMPONENT 1: MachineForm
 // ============================================================================
@@ -47,6 +42,13 @@ const MachineForm = memo(
     uploading,
   }) => {
     const [showHtmlPreview, setShowHtmlPreview] = useState(false);
+
+    // Helper to get full server URL
+    const getFullUrl = (path) => {
+      if (!path) return "";
+      if (path.startsWith("http")) return path;
+      return `${import.meta.env.VITE_API_BASE_URL.replace("/api", "")}${path}`;
+    };
 
     return (
       <div className="bg-white rounded-xl max-h-[85vh] overflow-y-auto shadow-md p-6 w-full max-w-4xl">
@@ -138,7 +140,7 @@ const MachineForm = memo(
           <div className="border p-4 rounded-xl bg-gray-50/50">
             <label className="block text-sm font-bold mb-3 flex items-center text-gray-700">
               <ImageIcon size={18} className="mr-2 text-violet-600" /> Images
-              (URL or Upload)
+              (Server Upload)
             </label>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
               {currentMachine.images?.map((img, i) => (
@@ -146,18 +148,9 @@ const MachineForm = memo(
                   key={i}
                   className="group relative border rounded-lg bg-white p-1 shadow-sm"
                 >
-                  <input
-                    type="text"
-                    value={img}
-                    onChange={(e) =>
-                      handleArrayChange(i, "images", e.target.value)
-                    }
-                    className="border-b w-full text-[10px] mb-1 p-1 outline-none"
-                    placeholder="Image URL"
-                  />
                   <div className="h-20 overflow-hidden rounded relative">
                     <img
-                      src={img}
+                      src={getFullUrl(img)}
                       className="w-full h-full object-cover"
                       alt=""
                     />
@@ -183,20 +176,14 @@ const MachineForm = memo(
                   className="hidden"
                 />
               </label>
-              <button
-                onClick={() => handleAddField("images")}
-                className="bg-white border border-violet-600 text-violet-600 px-4 rounded-lg"
-              >
-                <Plus size={18} />
-              </button>
             </div>
           </div>
 
           {/* Video Section */}
           <div className="border p-4 rounded-xl bg-gray-50/50">
             <label className="block text-sm font-bold mb-3 flex items-center text-gray-700">
-              <Video size={18} className="mr-2 text-violet-600" /> Videos (URL
-              or Upload)
+              <Video size={18} className="mr-2 text-violet-600" /> Videos
+              (Server Upload)
             </label>
             <div className="space-y-2 mb-3">
               {currentMachine.videos?.map((vid, i) => (
@@ -204,15 +191,13 @@ const MachineForm = memo(
                   key={i}
                   className="flex gap-2 items-center bg-white p-2 border rounded-lg shadow-sm"
                 >
-                  <input
-                    type="text"
-                    value={vid}
-                    onChange={(e) =>
-                      handleArrayChange(i, "videos", e.target.value)
-                    }
-                    className="flex-1 text-sm outline-none"
-                    placeholder="Video URL"
+                  <video
+                    src={getFullUrl(vid)}
+                    className="h-10 w-16 object-cover rounded bg-black"
                   />
+                  <span className="flex-1 text-xs truncate text-gray-500">
+                    {vid}
+                  </span>
                   <button
                     onClick={() => handleRemoveField("videos", i)}
                     className="text-red-500"
@@ -225,25 +210,19 @@ const MachineForm = memo(
             <div className="flex gap-2">
               <label className="flex-1 border-2 border-dashed border-gray-300 rounded-lg p-3 text-center cursor-pointer hover:border-violet-400 hover:bg-violet-50 transition-all">
                 <Upload size={16} className="inline mr-2" />{" "}
-                <span className="text-sm">Upload Video</span>
+                <span className="text-sm">Upload Machine Video</span>
                 <input
                   type="file"
                   multiple
-                  accept="video/*"
+                  accept="video/mp4,video/webm"
                   onChange={(e) => handleFileUpload(e, "videos")}
                   className="hidden"
                 />
               </label>
-              <button
-                onClick={() => handleAddField("videos")}
-                className="bg-white border border-violet-600 text-violet-600 px-4 rounded-lg"
-              >
-                <Plus size={18} />
-              </button>
             </div>
           </div>
 
-          {/* Brochure/PDF Section */}
+          {/* Brochure/PDF Section - FIXED LOGIC */}
           <div className="border p-4 rounded-xl bg-gray-50/50">
             <label className="block text-sm font-bold mb-3 flex items-center text-gray-700">
               <FileDown size={18} className="mr-2 text-violet-600" /> Machine
@@ -254,23 +233,25 @@ const MachineForm = memo(
                 type="text"
                 name="brochureUrl"
                 value={currentMachine.brochureUrl || ""}
-                onChange={handleChange}
-                placeholder="Enter PDF Brochure URL"
-                className="flex-1 border p-3 rounded-lg bg-white shadow-sm"
+                readOnly
+                placeholder="No brochure uploaded"
+                className="flex-1 border p-3 rounded-lg bg-gray-50 shadow-sm text-xs"
               />
               {currentMachine.brochureUrl && (
                 <a
-                  href={currentMachine.brochureUrl}
+                  href={getFullUrl(currentMachine.brochureUrl)}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-3 bg-violet-100 rounded-lg text-violet-700"
+                  className="p-3 bg-violet-100 rounded-lg text-violet-700 hover:bg-violet-200"
+                  title="View PDF"
                 >
                   <Eye size={20} />
                 </a>
               )}
             </div>
             <label className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-violet-400 hover:bg-violet-50 transition-all block">
-              <Upload size={16} className="inline mr-2" /> Upload PDF File
+              <Upload size={16} className="inline mr-2" />
+              <span className="text-sm font-medium">Upload PDF File</span>
               <input
                 type="file"
                 accept="application/pdf"
@@ -295,14 +276,16 @@ const MachineForm = memo(
                   <span className="text-[10px] font-bold uppercase text-gray-500">
                     {field.replace("technicalDrawing", "") || "Main View"}
                   </span>
-                  <input
-                    type="text"
-                    name={field}
-                    value={currentMachine[field] || ""}
-                    onChange={handleChange}
-                    placeholder="Image URL"
-                    className="w-full text-xs p-1 border-b mb-2 bg-transparent outline-none"
-                  />
+                  <div className="h-20 bg-white border rounded mb-2 overflow-hidden flex items-center justify-center">
+                    {currentMachine[field] ? (
+                      <img
+                        src={getFullUrl(currentMachine[field])}
+                        className="h-full object-contain"
+                      />
+                    ) : (
+                      <ImageIcon className="text-gray-200" size={30} />
+                    )}
+                  </div>
                   <label className="flex items-center justify-center gap-1 border border-dashed p-2 rounded text-xs cursor-pointer hover:bg-white transition-colors">
                     <Upload size={12} /> Upload
                     <input
@@ -443,6 +426,10 @@ MachineForm.displayName = "MachineForm";
 // ============================================================================
 const PreviewModal = ({ item, onClose }) => {
   if (!item.visible) return null;
+  const fullUrl = item.url.startsWith("http")
+    ? item.url
+    : `${import.meta.env.VITE_API_BASE_URL.replace("/api", "")}${item.url}`;
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[600] p-4 backdrop-blur-sm">
       <div className="bg-white rounded-2xl p-4 max-w-4xl max-h-[90vh] overflow-auto shadow-2xl">
@@ -457,13 +444,13 @@ const PreviewModal = ({ item, onClose }) => {
         <div className="flex justify-center">
           {item.type === "image" ? (
             <img
-              src={item.url}
+              src={fullUrl}
               alt="Preview"
               className="max-h-[70vh] rounded-lg object-contain"
             />
           ) : (
             <video
-              src={item.url}
+              src={fullUrl}
               controls
               autoPlay
               className="max-h-[70vh] rounded-lg"
@@ -507,6 +494,8 @@ const AdminAluminumWindowMachine = () => {
     faq: [],
     inStock: true,
   };
+
+  const [currentMachine, setCurrentMachine] = useState(emptyMachine);
 
   useEffect(() => {
     loadMachines();
@@ -605,24 +594,19 @@ const AdminAluminumWindowMachine = () => {
     const files = Array.from(e.target.files);
     if (!files.length) return;
     setUploading(true);
-    showNotification("Uploading...", "info");
+    showNotification("Uploading to server...", "info");
 
     const uploadPromises = files.map(async (file) => {
       const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-
-      let resourceType = "image";
-      if (file.type.includes("video")) resourceType = "video";
-      if (file.type.includes("pdf")) resourceType = "raw";
+      formData.append("file", file); // Backend upload route expects 'file'
 
       try {
-        const res = await axios.post(
-          `${CLOUDINARY_API_BASE}/${resourceType}/upload`,
-          formData,
-        );
-        return res.data.secure_url;
+        const res = await axios.post(`${API_URL}/upload-file`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        return res.data.url; // Returns relative path: /uploads/filename.ext
       } catch (err) {
+        console.error("Upload error", err);
         return null;
       }
     });
@@ -637,7 +621,7 @@ const AdminAluminumWindowMachine = () => {
           }
           return { ...prev, [field]: validUrls[0] };
         });
-        showNotification("Uploaded!");
+        showNotification("Uploaded successfully!");
       }
     } catch (e) {
       showNotification("Upload failed", "error");
@@ -695,14 +679,15 @@ const AdminAluminumWindowMachine = () => {
     }
   };
 
-  const [currentMachine, setCurrentMachine] = useState(emptyMachine);
   const handleCancel = () => {
     setCurrentMachine(emptyMachine);
     setShowAddModal(false);
     setShowEditModal(false);
   };
+
   const handlePreview = (url, type) =>
     setPreviewItem({ url, type, visible: true });
+
   const handleLoadExample = () =>
     setCurrentMachine({
       ...emptyMachine,
@@ -779,7 +764,11 @@ const AdminAluminumWindowMachine = () => {
                     {machine.images?.slice(0, 3).map((img, i) => (
                       <img
                         key={i}
-                        src={img}
+                        src={
+                          img.startsWith("http")
+                            ? img
+                            : `${import.meta.env.VITE_API_BASE_URL.replace("/api", "")}${img}`
+                        }
                         className="w-8 h-8 rounded-full border-2 border-white object-cover bg-gray-100"
                       />
                     ))}

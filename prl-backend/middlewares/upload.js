@@ -2,11 +2,13 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-// Sabse pehle 'uploads' folder ka absolute path define karein
-// Ye path prl-backend ke root me 'uploads' folder ko point karega
+/**
+ * 1. UPLOADS FOLDER SETUP
+ * path.resolve se hamesha backend root ke 'uploads' folder ka absolute path milega.
+ */
 const uploadDir = path.resolve(__dirname, "..", "uploads");
 
-// Sync check: Agar folder nahi hai toh auto-create karein (Linux permissions ke liye zaroori)
+// Directory check aur creation (Linux server permissions ke liye zaroori)
 if (!fs.existsSync(uploadDir)) {
   try {
     fs.mkdirSync(uploadDir, { recursive: true });
@@ -16,9 +18,12 @@ if (!fs.existsSync(uploadDir)) {
   }
 }
 
+/**
+ * 2. STORAGE CONFIGURATION
+ */
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    // Production par hamesha absolute path bhejien
+    // Production par hamesha absolute path bhejien taaki file sahi jagah save ho
     cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
@@ -29,20 +34,27 @@ const storage = multer.diskStorage({
     const cleanName = path
       .basename(file.originalname, ext)
       .toLowerCase()
-      .replace(/[^a-z0-9]/g, "-") // Sirf numbers aur letters allow karein
-      .replace(/-+/g, "-"); // Double dashes hataein
+      .replace(/[^a-z0-9]/g, "-")
+      .replace(/-+/g, "-");
 
     cb(null, `${uniqueSuffix}-${cleanName}${ext}`);
   },
 });
 
+/**
+ * 3. MULTI-TYPE FILE FILTER
+ */
 const upload = multer({
   storage,
   limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB limit (Production par 5MB kabhi kam pad jati hai)
+    // Limit ko 50MB kiya gaya hai taaki heavy videos aur brochures upload ho sakein
+    fileSize: 50 * 1024 * 1024,
   },
   fileFilter: (req, file, cb) => {
-    const filetypes = /jpeg|jpg|png|webp|jfif|avif/;
+    // Allowed extensions: Images, Videos, aur PDFs
+    const filetypes = /jpeg|jpg|png|webp|jfif|avif|mp4|webm|pdf/;
+
+    // Extension aur MimeType dono check karein security ke liye
     const extname = filetypes.test(
       path.extname(file.originalname).toLowerCase(),
     );
@@ -51,8 +63,12 @@ const upload = multer({
     if (extname && mimetype) {
       return cb(null, true);
     }
+
+    // Agar format match nahi karta toh error bhejien
     cb(
-      new Error("Error: Only image files (jpeg, jpg, png, webp) are allowed!"),
+      new Error(
+        "Error: Only Images (jpg, png, etc.), Videos (mp4, webm), and PDFs are allowed!",
+      ),
     );
   },
 });

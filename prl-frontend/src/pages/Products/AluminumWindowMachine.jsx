@@ -12,6 +12,8 @@ import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 
 const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/aluminum-machines`;
+// 🔹 Backend URL without /api to access the uploads folder
+const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
 const AluminumWindowMachinesPage = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -19,6 +21,13 @@ const AluminumWindowMachinesPage = () => {
   const [aluminumData, setAluminumData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // 🔹 Helper function to handle local server paths vs legacy URLs
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return "/placeholder-image.jpg";
+    if (imagePath.startsWith("http")) return imagePath;
+    return `${IMAGE_BASE_URL}${imagePath}`;
+  };
 
   // Fetch data from API
   const fetchAluminumData = async () => {
@@ -66,7 +75,7 @@ const AluminumWindowMachinesPage = () => {
       filterFn: (products) =>
         products.filter(
           (product) =>
-            getCategoryFromName(product.name) === "Aluminum Cutting Machines"
+            getCategoryFromName(product.name) === "Aluminum Cutting Machines",
         ),
     },
     {
@@ -75,7 +84,7 @@ const AluminumWindowMachinesPage = () => {
       filterFn: (products) =>
         products.filter(
           (product) =>
-            getCategoryFromName(product.name) === "Aluminum Lock Hole Machines"
+            getCategoryFromName(product.name) === "Aluminum Lock Hole Machines",
         ),
     },
     {
@@ -84,7 +93,7 @@ const AluminumWindowMachinesPage = () => {
       filterFn: (products) =>
         products.filter(
           (product) =>
-            getCategoryFromName(product.name) === "Aluminum Mullion Machines"
+            getCategoryFromName(product.name) === "Aluminum Mullion Machines",
         ),
     },
     {
@@ -93,7 +102,8 @@ const AluminumWindowMachinesPage = () => {
       filterFn: (products) =>
         products.filter(
           (product) =>
-            getCategoryFromName(product.name) === "Punching & Crimping Machines"
+            getCategoryFromName(product.name) ===
+            "Punching & Crimping Machines",
         ),
     },
     {
@@ -102,7 +112,7 @@ const AluminumWindowMachinesPage = () => {
       filterFn: (products) =>
         products.filter(
           (product) =>
-            getCategoryFromName(product.name) === "Other Special Machines"
+            getCategoryFromName(product.name) === "Other Special Machines",
         ),
     },
   ].map((cat) => ({
@@ -362,9 +372,7 @@ const AluminumWindowMachinesPage = () => {
                       >
                         <div className="relative h-40 overflow-hidden">
                           <motion.img
-                            src={
-                              product.images?.[0] || "/placeholder-image.jpg"
-                            } // Safe access with fallback
+                            src={getImageUrl(product.images?.[0])}
                             alt={product.name}
                             className="w-full h-full object-cover"
                             whileHover={{ scale: 1.1 }}
@@ -381,7 +389,7 @@ const AluminumWindowMachinesPage = () => {
                           {product.name}
                         </h3>
 
-                        {/* UPDATE: Description with HTML Support */}
+                        {/* Description with HTML Support */}
                         <div
                           className="text-gray-600 text-sm mb-2 line-clamp-2"
                           dangerouslySetInnerHTML={{
