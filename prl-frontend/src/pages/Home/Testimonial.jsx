@@ -18,7 +18,17 @@ const TestimonialSlider = () => {
   const [animating, setAnimating] = useState(false);
   const timeoutRef = useRef(null);
 
+  // 🔹 API & Image Path Setup (Fixed for Production)
   const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const SERVER_ROOT = BASE_URL.split("/api")[0];
+  const IMAGE_BASE_URL = `${SERVER_ROOT}/uploads`;
+
+  // 🔹 Helper function: Image path handle karne ke liye
+  const getFullImgPath = (imgName) => {
+    if (!imgName) return "https://via.placeholder.com/60";
+    if (imgName.startsWith("http")) return imgName;
+    return `${IMAGE_BASE_URL}/${imgName}`;
+  };
 
   // 🔹 Fetch Data
   useEffect(() => {
@@ -55,7 +65,7 @@ const TestimonialSlider = () => {
   }, []);
 
   const videoTestimonials = testimonials.filter(
-    (t) => t.video && t.video.trim() !== ""
+    (t) => t.video && t.video.trim() !== "",
   );
   const getActiveList = () =>
     activeTab === "written" ? testimonials : videoTestimonials;
@@ -67,7 +77,7 @@ const TestimonialSlider = () => {
     setTimeout(() => {
       setCurrent(newIndex);
       setAnimating(false);
-    }, 300); // Matches transition duration
+    }, 300);
   };
 
   const nextSlide = () => {
@@ -90,18 +100,21 @@ const TestimonialSlider = () => {
 
   if (loading)
     return (
-      <div className="py-20 text-center text-white bg-gray-900">Loading...</div>
+      <div className="py-20 text-center text-white bg-gray-900 font-bold">
+        Loading Testimonials...
+      </div>
     );
+
   if (!testimonials || testimonials.length === 0) return null;
 
   const currentItems = getActiveList().slice(
     current * itemsPerSlide,
-    current * itemsPerSlide + itemsPerSlide
+    current * itemsPerSlide + itemsPerSlide,
   );
 
   const QuoteIcon = () => (
     <svg
-      className="w-8 h-8 text-red-300"
+      className="w-8 h-8 text-red-400 opacity-50"
       fill="currentColor"
       viewBox="0 0 32 32"
     >
@@ -111,7 +124,7 @@ const TestimonialSlider = () => {
 
   const StarIcon = ({ filled }) => (
     <svg
-      className={`w-4 h-4 ${filled ? "text-red-400" : "text-gray-300"}`}
+      className={`w-4 h-4 ${filled ? "text-yellow-400" : "text-gray-300"}`}
       fill="currentColor"
       viewBox="0 0 20 20"
     >
@@ -121,7 +134,7 @@ const TestimonialSlider = () => {
 
   return (
     <section
-      className="py-8 lg:py-20 bg-gradient-to-b from-gray-900 to-red-900 relative overflow-hidden"
+      className="py-8 lg:py-20 bg-gray-900 relative overflow-hidden"
       style={{
         backgroundImage:
           "url('https://5.imimg.com/data5/SELLER/Default/2025/4/506635522/RT/QB/EE/245044699/upvc-window-manufacturing.jpg')",
@@ -130,26 +143,27 @@ const TestimonialSlider = () => {
         backgroundAttachment: "fixed",
       }}
     >
-      <div className="absolute inset-0 bg-black/50 "></div>
+      <div className="absolute inset-0 bg-black/70"></div>
 
       <div className="container mx-auto px-4 sm:px-12 lg:px-20 relative z-10">
-        <div className="text-center mb-5">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-white uppercase tracking-wider">
-            What Our Clients Say
+        <div className="text-center mb-10">
+          <h2 className="text-4xl lg:text-5xl font-extrabold mb-4 text-white uppercase tracking-tight">
+            What Our Clients <span className="text-red-600">Say</span>
           </h2>
-          <p className="text-lg text-red-200 max-w-3xl mx-auto italic">
-            Trusted by Indian industry leaders for world-class machinery
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto italic">
+            Trusted by Indian industry leaders for world-class machinery.
           </p>
         </div>
 
-        <div className="flex justify-center mb-6">
-          <div className="inline-flex rounded-xl bg-white/10 p-1 backdrop-blur-md border border-white/20">
+        {/* Tab Switcher */}
+        <div className="flex justify-center mb-10">
+          <div className="inline-flex rounded-full bg-white/10 p-1 backdrop-blur-md border border-white/20">
             <button
               onClick={() => {
                 setActiveTab("written");
                 setCurrent(0);
               }}
-              className={`px-6 py-2 text-sm font-bold rounded-lg transition-all ${
+              className={`px-8 py-2.5 text-sm font-bold rounded-full transition-all ${
                 activeTab === "written"
                   ? "bg-red-600 text-white shadow-lg"
                   : "text-gray-300 hover:text-white"
@@ -162,7 +176,7 @@ const TestimonialSlider = () => {
                 setActiveTab("video");
                 setCurrent(0);
               }}
-              className={`px-6 py-2 text-sm font-bold rounded-lg transition-all ${
+              className={`px-8 py-2.5 text-sm font-bold rounded-full transition-all ${
                 activeTab === "video"
                   ? "bg-red-600 text-white shadow-lg"
                   : "text-gray-300 hover:text-white"
@@ -174,14 +188,14 @@ const TestimonialSlider = () => {
         </div>
 
         <div
-          className="relative group"
+          className="relative group min-h-[400px]"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          {/* 🔹 Arrow Buttons */}
+          {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
-            className="absolute -left-4 lg:-left-12 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-red-600 text-white p-3 rounded-full backdrop-blur-md transition-all border border-white/30 opacity-0 group-hover:opacity-100 hidden sm:block"
+            className="absolute -left-4 lg:-left-16 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-red-600 text-white p-4 rounded-full backdrop-blur-md transition-all border border-white/20 opacity-0 group-hover:opacity-100 hidden sm:block"
           >
             <svg
               className="w-6 h-6"
@@ -199,7 +213,7 @@ const TestimonialSlider = () => {
           </button>
           <button
             onClick={nextSlide}
-            className="absolute -right-4 lg:-right-12 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-red-600 text-white p-3 rounded-full backdrop-blur-md transition-all border border-white/30 opacity-0 group-hover:opacity-100 hidden sm:block"
+            className="absolute -right-4 lg:-right-16 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-red-600 text-white p-4 rounded-full backdrop-blur-md transition-all border border-white/20 opacity-0 group-hover:opacity-100 hidden sm:block"
           >
             <svg
               className="w-6 h-6"
@@ -216,37 +230,37 @@ const TestimonialSlider = () => {
             </svg>
           </button>
 
-          {/* 🔹 Grid with Smooth Transition */}
+          {/* Testimonial Grid */}
           <div
             className={`grid gap-8 transition-all duration-500 ease-in-out ${
-              animating
-                ? "opacity-0 translate-y-4"
-                : "opacity-100 translate-y-0"
+              animating ? "opacity-0 scale-95" : "opacity-100 scale-100"
             } ${
               itemsPerSlide === 1
                 ? "grid-cols-1"
                 : itemsPerSlide === 2
-                ? "grid-cols-2"
-                : "grid-cols-3"
+                  ? "grid-cols-2"
+                  : "grid-cols-3"
             }`}
           >
             {currentItems.map((testimonial) => (
               <div
                 key={testimonial._id || testimonial.id}
                 className={`${
-                  activeTab === "written" ? "bg-white/95" : "bg-gray-800/90"
-                } rounded-3xl shadow-2xl p-8 h-full transition-transform hover:-translate-y-2 border border-white/10 flex flex-col`}
+                  activeTab === "written" ? "bg-white" : "bg-gray-800"
+                } rounded-3xl shadow-2xl p-8 h-full transition-all hover:shadow-red-900/20 border border-white/5 flex flex-col`}
               >
                 <div className="flex-grow">
                   {activeTab === "written" ? (
                     <>
                       <QuoteIcon />
-                      <p className="text-gray-700 text-base my-6 leading-relaxed italic">
+                      <p
+                        className={`text-base my-6 leading-relaxed italic ${activeTab === "written" ? "text-gray-700" : "text-gray-300"}`}
+                      >
                         "{testimonial.content}"
                       </p>
                     </>
                   ) : (
-                    <div className="relative pt-[56.25%] mb-6 rounded-2xl overflow-hidden shadow-lg bg-black">
+                    <div className="relative pt-[56.25%] mb-6 rounded-2xl overflow-hidden shadow-2xl bg-black">
                       <iframe
                         src={testimonial.video}
                         className="absolute top-0 left-0 w-full h-full"
@@ -258,25 +272,23 @@ const TestimonialSlider = () => {
                   )}
                 </div>
 
-                <div className="flex items-center mt-6 pt-6 border-t border-gray-200/50">
+                <div className="flex items-center mt-6 pt-6 border-t border-gray-100/10">
                   <img
-                    src={testimonial.image || "https://via.placeholder.com/60"}
+                    src={getFullImgPath(testimonial.image)}
                     alt={testimonial.name}
-                    className="w-14 h-14 rounded-2xl object-cover mr-4 border-2 border-red-500 shadow-md"
+                    className="w-14 h-14 rounded-2xl object-cover mr-4 border-2 border-red-500 shadow-lg"
+                    onError={(e) => {
+                      e.target.src = "https://via.placeholder.com/60";
+                    }}
                   />
                   <div className="min-w-0">
                     <h4
-                      className={`font-bold text-lg truncate ${
-                        activeTab === "written" ? "text-gray-900" : "text-white"
-                      }`}
+                      className={`font-bold text-lg truncate ${activeTab === "written" ? "text-gray-900" : "text-white"}`}
                     >
                       {testimonial.name}
                     </h4>
-                    <p className="text-red-600 text-xs font-bold uppercase tracking-tighter">
+                    <p className="text-red-600 text-xs font-bold uppercase tracking-widest">
                       {testimonial.role}
-                    </p>
-                    <p className="text-gray-400 text-xs truncate">
-                      {testimonial.company}
                     </p>
                     <div className="flex mt-1">
                       {[...Array(5)].map((_, i) => (
@@ -289,15 +301,15 @@ const TestimonialSlider = () => {
             ))}
           </div>
 
-          {/* 🔹 Dots Indicators */}
+          {/* Dots */}
           {length > 1 && (
             <div className="flex justify-center mt-12 space-x-3">
               {[...Array(length)].map((_, index) => (
                 <button
                   key={index}
                   onClick={() => handleSlideChange(index)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    index === current ? "bg-red-500 w-12" : "bg-white/30 w-3"
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                    index === current ? "bg-red-500 w-10" : "bg-white/20 w-2.5"
                   }`}
                 />
               ))}
@@ -305,8 +317,8 @@ const TestimonialSlider = () => {
           )}
         </div>
 
-        {/* 🔹 Stats Section */}
-        <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-6">
+        {/* Stats Grid */}
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { val: stats.machinesSold, label: "Machines Sold" },
             { val: stats.satisfaction, label: "Satisfaction" },
@@ -315,12 +327,12 @@ const TestimonialSlider = () => {
           ].map((s, i) => (
             <div
               key={i}
-              className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-center border border-white/20 shadow-xl"
+              className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 text-center border border-white/10 shadow-lg"
             >
               <div className="text-4xl font-black text-white mb-1 tracking-tighter">
                 {s.val}
               </div>
-              <div className="text-red-400 text-xs font-bold uppercase tracking-widest">
+              <div className="text-red-500 text-xs font-bold uppercase tracking-widest">
                 {s.label}
               </div>
             </div>

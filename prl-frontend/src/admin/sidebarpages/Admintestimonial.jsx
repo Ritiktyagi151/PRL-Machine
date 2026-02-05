@@ -27,19 +27,26 @@ export default function TestimonialManager() {
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
 
-  // 🔹 API URLs
+  // 🔹 API URLs Setup (Production Optimized)
   const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-  // Production URL banane ke liye '/api' ko '/uploads' se replace kiya
-  const IMAGE_BASE_URL = BASE_URL.replace("/api", "/uploads");
+
+  /**
+   * FIX: IMAGE_BASE_URL logic
+   * Agar BASE_URL "https://domain.com/api" hai, toh ye use "https://domain.com/uploads" banayega.
+   * Agar aap localhost par hain, toh ye "http://localhost:3000/uploads" banayega.
+   */
+  const SERVER_ROOT = BASE_URL.split("/api")[0];
+  const IMAGE_BASE_URL = `${SERVER_ROOT}/uploads`;
+
   const TESTIMONIAL_API = `${BASE_URL}/testimonials`;
   const STATS_API = `${BASE_URL}/testimonials/data/stats`;
 
   // 🔹 Helper function: Full image URL handle karne ke liye
   const getFullImgPath = (imgName) => {
     if (!imgName) return "https://via.placeholder.com/60";
-    // Agar link localhost wala hai ya pura URL hai, toh direct return karein
+    // Agar full URL hai (e.g. cloud storage), toh direct return karein
     if (imgName.startsWith("http")) return imgName;
-    // Agar sirf filename hai, toh server ka base path lagayein
+    // Server static folder se image fetch karein
     return `${IMAGE_BASE_URL}/${imgName}`;
   };
 
@@ -83,17 +90,31 @@ export default function TestimonialManager() {
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
+
+    // Check file size (5MB limit frontend check)
+    if (file.size > 5 * 1024 * 1024) {
+      setError("File is too large! Max 5MB allowed.");
+      return;
+    }
+
     setUploading(true);
     const uploadData = new FormData();
-    // ⚠️ Backend middleware "image" field expect kar raha hai
     uploadData.append("image", file);
+
     try {
-      const res = await axios.post(`${BASE_URL}/upload`, uploadData);
-      // ⚠️ DB mein sirf filename save karein taaki localhost URL save na ho
-      setFormData({ ...formData, image: res.data.filename });
+      // Direct upload endpoint par call karein
+      const res = await axios.post(`${BASE_URL}/upload`, uploadData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (res.data.success) {
+        // DB mein sirf filename save karein
+        setFormData((prev) => ({ ...prev, image: res.data.filename }));
+      }
       setUploading(false);
     } catch (err) {
-      setError("Image upload failed.");
+      console.error("Upload error:", err.response?.data || err.message);
+      setError("Image upload failed. Check server permissions.");
       setUploading(false);
     }
   };
@@ -148,6 +169,7 @@ export default function TestimonialManager() {
     });
     setEditId(null);
     setEditingSection(null);
+    setError("");
   };
 
   const openEdit = (item) => {
@@ -171,7 +193,7 @@ export default function TestimonialManager() {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center font-bold">
         Loading Data...
       </div>
     );
@@ -179,7 +201,7 @@ export default function TestimonialManager() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-red-50 p-6">
       <div className="max-w-6xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border-l-4 border-red-600 flex justify-between items-center">
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border-l-4 border-red-600 flex flex-wrap justify-between items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold text-gray-800">
               Testimonial Manager
@@ -190,7 +212,7 @@ export default function TestimonialManager() {
           </div>
           <button
             onClick={() => setEditingSection("testimonial")}
-            className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-all"
+            className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-all shadow-md active:scale-95"
           >
             + Add New Review
           </button>
@@ -243,7 +265,10 @@ export default function TestimonialManager() {
                   <img
                     src={getFullImgPath(item.image)}
                     alt={item.name}
-                    className="w-16 h-16 rounded-full object-cover border-2 border-red-100"
+                    className="w-16 h-16 rounded-full object-cover border-2 border-red-100 shadow-sm"
+                    onError={(e) => {
+                      e.target.src = "https://via.placeholder.com/60";
+                    }}
                   />
                   <div className="flex-1">
                     <div className="flex justify-between items-start">
@@ -258,13 +283,13 @@ export default function TestimonialManager() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => openEdit(item)}
-                          className="text-blue-600 bg-blue-50 px-3 py-1 rounded text-sm"
+                          className="text-blue-600 bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded text-sm transition-colors"
                         >
                           Edit
                         </button>
                         <button
                           onClick={() => handleDelete(item._id)}
-                          className="text-red-600 bg-red-50 px-3 py-1 rounded text-sm"
+                          className="text-red-600 bg-red-50 hover:bg-red-100 px-3 py-1 rounded text-sm transition-colors"
                         >
                           Delete
                         </button>
@@ -281,7 +306,7 @@ export default function TestimonialManager() {
                 </div>
               ))
             ) : (
-              <p className="text-center p-10 bg-white rounded-xl text-gray-400">
+              <p className="text-center p-10 bg-white rounded-xl text-gray-400 border border-dashed">
                 No testimonials found.
               </p>
             )}
@@ -291,37 +316,47 @@ export default function TestimonialManager() {
         {/* --- MODAL --- */}
         {editingSection && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto scale-in-center">
               <div className="p-6 border-b sticky top-0 bg-white z-10 flex justify-between items-center">
                 <h2 className="text-2xl font-bold text-gray-800">
                   {editId ? "Edit" : "Add"}{" "}
                   {editingSection === "stats" ? "Stats" : "Review"}
                 </h2>
-                <button onClick={resetForm} className="text-gray-400 text-2xl">
+                <button
+                  onClick={resetForm}
+                  className="text-gray-400 hover:text-gray-600 text-3xl font-light"
+                >
                   &times;
                 </button>
               </div>
+
               <div className="p-6">
                 {editingSection === "testimonial" ? (
                   <form
                     onSubmit={handleTestimonialSubmit}
                     className="space-y-4"
                   >
-                    <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                    <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
                       <img
                         src={getFullImgPath(formData.image)}
-                        className="w-16 h-16 rounded-full object-cover"
+                        className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm"
                         alt="preview"
+                        onError={(e) => {
+                          e.target.src = "https://via.placeholder.com/60";
+                        }}
                       />
-                      <label className="bg-red-600 text-white px-4 py-2 rounded-lg cursor-pointer text-sm">
+                      <label className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg cursor-pointer text-sm font-medium transition-colors">
                         {uploading ? "Uploading..." : "Upload Photo"}
                         <input
                           type="file"
                           className="hidden"
+                          accept="image/*"
                           onChange={handleImageUpload}
+                          disabled={uploading}
                         />
                       </label>
                     </div>
+
                     <input
                       type="text"
                       placeholder="Full Name"
@@ -329,9 +364,10 @@ export default function TestimonialManager() {
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      className="w-full p-3 border rounded-xl"
+                      className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none transition-all"
                       required
                     />
+
                     <div className="grid grid-cols-2 gap-4">
                       <input
                         type="text"
@@ -340,7 +376,7 @@ export default function TestimonialManager() {
                         onChange={(e) =>
                           setFormData({ ...formData, role: e.target.value })
                         }
-                        className="p-3 border rounded-xl"
+                        className="p-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none"
                         required
                       />
                       <input
@@ -350,51 +386,66 @@ export default function TestimonialManager() {
                         onChange={(e) =>
                           setFormData({ ...formData, company: e.target.value })
                         }
-                        className="p-3 border rounded-xl"
+                        className="p-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none"
                         required
                       />
                     </div>
+
                     <textarea
                       placeholder="Feedback Content"
                       value={formData.content}
                       onChange={(e) =>
                         setFormData({ ...formData, content: e.target.value })
                       }
-                      className="w-full p-3 border rounded-xl h-32"
+                      className="w-full p-3 border rounded-xl h-32 focus:ring-2 focus:ring-red-500 outline-none resize-none"
                       required
                     />
+
                     <div className="grid grid-cols-2 gap-4">
-                      <input
-                        type="number"
-                        placeholder="Rating"
-                        value={formData.rating}
-                        onChange={(e) =>
-                          setFormData({ ...formData, rating: e.target.value })
-                        }
-                        className="p-3 border rounded-xl"
-                        min="1"
-                        max="5"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Video Embed URL"
-                        value={formData.video}
-                        onChange={(e) =>
-                          setFormData({ ...formData, video: e.target.value })
-                        }
-                        className="p-3 border rounded-xl"
-                      />
+                      <div>
+                        <label className="text-xs font-bold text-gray-400 ml-1">
+                          RATING (1-5)
+                        </label>
+                        <input
+                          type="number"
+                          value={formData.rating}
+                          onChange={(e) =>
+                            setFormData({ ...formData, rating: e.target.value })
+                          }
+                          className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none"
+                          min="1"
+                          max="5"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs font-bold text-gray-400 ml-1">
+                          VIDEO URL (OPTIONAL)
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Embed URL"
+                          value={formData.video}
+                          onChange={(e) =>
+                            setFormData({ ...formData, video: e.target.value })
+                          }
+                          className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-red-500 outline-none"
+                        />
+                      </div>
                     </div>
-                    <button className="w-full bg-red-600 text-white py-3 rounded-xl font-bold">
-                      Save Testimonial
+
+                    <button
+                      type="submit"
+                      className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-bold shadow-lg transition-all active:scale-[0.98]"
+                    >
+                      {editId ? "Update Review" : "Save Testimonial"}
                     </button>
                   </form>
                 ) : (
                   <div className="space-y-4">
                     {Object.keys(stats).map((key) => (
                       <div key={key}>
-                        <label className="text-xs font-bold text-gray-500 uppercase">
-                          {key}
+                        <label className="text-xs font-bold text-gray-500 uppercase ml-1">
+                          {key.replace(/([A-Z])/g, " $1")}
                         </label>
                         <input
                           type="text"
@@ -402,13 +453,13 @@ export default function TestimonialManager() {
                           onChange={(e) =>
                             setStats({ ...stats, [key]: e.target.value })
                           }
-                          className="w-full p-3 border rounded-xl mt-1"
+                          className="w-full p-3 border rounded-xl mt-1 focus:ring-2 focus:ring-gray-800 outline-none"
                         />
                       </div>
                     ))}
                     <button
                       onClick={handleStatsUpdate}
-                      className="w-full bg-gray-900 text-white py-3 rounded-xl font-bold"
+                      className="w-full bg-gray-900 hover:bg-black text-white py-3 rounded-xl font-bold shadow-lg transition-all active:scale-[0.98]"
                     >
                       Update Statistics
                     </button>
@@ -418,13 +469,15 @@ export default function TestimonialManager() {
             </div>
           </div>
         )}
+
+        {/* Notifications */}
         {isSaved && (
-          <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-[100]">
-            ✅ Saved!
+          <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-2xl z-[100] animate-bounce">
+            ✅ Successfully Saved!
           </div>
         )}
         {error && (
-          <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-[100]">
+          <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-6 py-3 rounded-lg shadow-2xl z-[100]">
             ❌ {error}
           </div>
         )}
