@@ -1,3 +1,4 @@
+// ProductDetailuPVC.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -15,15 +16,8 @@ import OurPartners from "../Home/TrustedSlider";
 import ValuedClients from "../Home/Our-Clients";
 
 const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
-
-const slugify = (text = "") =>
-  text
-    .toString()
-    .toLowerCase()
-    .trim()
-    .replace(/&/g, "-and-")
-    .replace(/[\s\W-]+/g, "-") // collapse spaces, punctuation
-    .replace(/^-+|-+$/g, "");
+// 🔹 Backend URL without /api to access the uploads folder
+const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
 const ProductDetailuPVC = () => {
   const { id: idParam } = useParams(); // URL parameter (Custom ID string)
@@ -38,6 +32,13 @@ const ProductDetailuPVC = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  // 🔹 Helper function to handle local server paths vs absolute URLs
+  const getFullUrl = (path) => {
+    if (!path) return "";
+    if (path.startsWith("http")) return path;
+    return `${IMAGE_BASE_URL}${path}`;
+  };
 
   useEffect(() => {
     const fetchUpvcData = async () => {
@@ -74,20 +75,20 @@ const ProductDetailuPVC = () => {
   const nextSlide = () => {
     if (!product || !product.images || product.images.length === 0) return;
     setCurrentSlide((prev) =>
-      prev === product.images.length - 1 ? 0 : prev + 1
+      prev === product.images.length - 1 ? 0 : prev + 1,
     );
     setActiveImage((prev) =>
-      prev === product.images.length - 1 ? 0 : prev + 1
+      prev === product.images.length - 1 ? 0 : prev + 1,
     );
   };
 
   const prevSlide = () => {
     if (!product || !product.images || product.images.length === 0) return;
     setCurrentSlide((prev) =>
-      prev === 0 ? product.images.length - 1 : prev - 1
+      prev === 0 ? product.images.length - 1 : prev - 1,
     );
     setActiveImage((prev) =>
-      prev === 0 ? product.images.length - 1 : prev - 1
+      prev === 0 ? product.images.length - 1 : prev - 1,
     );
   };
 
@@ -143,9 +144,11 @@ const ProductDetailuPVC = () => {
   };
 
   const handleDownloadBrochure = () => {
-    if (!product) return;
+    if (!product || !product.brochureUrl) return;
     const link = document.createElement("a");
-    link.href = product.brochureUrl || "#";
+    // 🔹 Logic updated to use server path
+    link.href = getFullUrl(product.brochureUrl);
+    link.target = "_blank";
     link.download = `${product.name.replace(/\s+/g, "_")}_brochure.pdf`;
     document.body.appendChild(link);
     link.click();
@@ -153,7 +156,7 @@ const ProductDetailuPVC = () => {
 
     const toast = document.createElement("div");
     toast.className =
-      "fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50 flex items-center";
+      "fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50 flex items-center animate-fade-in";
     toast.textContent = "Brochure download started";
     document.body.appendChild(toast);
 
@@ -276,7 +279,7 @@ const ProductDetailuPVC = () => {
                     }`}
                   >
                     <img
-                      src={img}
+                      src={getFullUrl(img)}
                       alt={`${product.name} - Slide ${index + 1}`}
                       className="w-full h-full object-cover"
                       onLoad={() => setImageLoaded(true)}
@@ -289,18 +292,22 @@ const ProductDetailuPVC = () => {
             </div>
 
             {/* Navigation Arrows */}
-            <button
-              onClick={prevSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-80 p-3 rounded-full shadow hover:bg-opacity-100 transition-all opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0"
-            >
-              <FiChevronLeft className="w-6 h-6" />
-            </button>
-            <button
-              onClick={nextSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-80 p-3 rounded-full shadow hover:bg-opacity-100 transition-all opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0"
-            >
-              <FiChevronRight className="w-6 h-6" />
-            </button>
+            {product.images && product.images.length > 1 && (
+              <>
+                <button
+                  onClick={prevSlide}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-80 p-3 rounded-full shadow hover:bg-opacity-100 transition-all opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0"
+                >
+                  <FiChevronLeft className="w-6 h-6" />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-80 p-3 rounded-full shadow hover:bg-opacity-100 transition-all opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0"
+                >
+                  <FiChevronRight className="w-6 h-6" />
+                </button>
+              </>
+            )}
 
             {/* Indicators */}
             <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
@@ -337,7 +344,7 @@ const ProductDetailuPVC = () => {
                 }`}
               >
                 <img
-                  src={img}
+                  src={getFullUrl(img)}
                   alt={`Thumbnail ${idx + 1}`}
                   className="w-full h-20 object-cover"
                   loading="lazy"
@@ -484,7 +491,7 @@ const ProductDetailuPVC = () => {
                             : String(value)}
                         </p>
                       </div>
-                    )
+                    ),
                   )}
                 </div>
                 <p className="mt-4 text-gray-600">
@@ -503,11 +510,11 @@ const ProductDetailuPVC = () => {
                 <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                   <img
                     src={
-                      product.technicalDrawing ||
+                      getFullUrl(product.technicalDrawing) ||
                       "/images/technical-drawing-placeholder.jpg"
                     }
                     alt={`${product.name} Technical Drawing`}
-                    className="w-full h-auto max-h-96 object-contain"
+                    className="w-full h-auto max-h-96 object-contain mx-auto"
                   />
                 </div>
               </div>
@@ -535,25 +542,19 @@ const ProductDetailuPVC = () => {
             )}
 
             {activeTab === "video" && (
-              <div className="animate-fade-in">
+              <div className="animate-fade-in text-center">
                 <h2 className="text-xl font-semibold mb-4 text-gray-800">
-                  Product Video
+                  Demonstration Video
                 </h2>
-                <div className="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center border border-gray-200">
-                  {product.videos && product.videos.length > 0 ? (
+                <div className="aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden border">
+                  {product.videos?.[0] && (
                     <video controls className="w-full h-full">
-                      <source src={product.videos[0]} type="video/mp4" />
+                      <source
+                        src={getFullUrl(product.videos[0])}
+                        type="video/mp4"
+                      />
                       Your browser does not support the video tag.
                     </video>
-                  ) : (
-                    <div className="text-center p-8">
-                      <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <FiPlay className="w-8 h-8 text-purple-600" />
-                      </div>
-                      <p className="text-gray-500">
-                        No video available for this product
-                      </p>
-                    </div>
                   )}
                 </div>
               </div>
@@ -562,179 +563,141 @@ const ProductDetailuPVC = () => {
             {activeTab === "faq" && (
               <div className="animate-fade-in">
                 <h2 className="text-xl font-semibold mb-4 text-gray-800">
-                  Frequently Asked Questions
+                  FAQ
                 </h2>
-                <div className="space-y-6">
-                  {product.faq && product.faq.length > 0 ? (
-                    product.faq.map((item, index) => (
-                      <div
-                        key={index}
-                        className="border-b border-gray-100 pb-4 last:border-b-0"
-                      >
-                        <h3 className="font-medium text-gray-900 mb-2">
-                          {item.question}
-                        </h3>
-                        <p className="text-gray-700">{item.answer}</p>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-gray-600 text-center py-8">
-                      No FAQs available for this product.
-                    </p>
-                  )}
+                <div className="space-y-4">
+                  {product.faq?.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="border-b border-gray-100 pb-4 last:border-b-0"
+                    >
+                      <h3 className="font-medium text-gray-900 mb-1">
+                        {item.question}
+                      </h3>
+                      <p className="text-gray-700">{item.answer}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
 
             {activeTab === "catalog" && (
-              <div className="animate-fade-in">
+              <div className="animate-fade-in text-center">
                 <h2 className="text-xl font-semibold mb-4 text-gray-800">
                   Product Catalog
                 </h2>
-                <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 text-center">
+                <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
                   <FiDownload className="w-12 h-12 text-purple-600 mx-auto mb-4" />
                   <p className="text-gray-700 mb-6">
-                    Download our comprehensive product catalog with detailed
-                    specifications, technical drawings, and application guides.
+                    Download detailed technical drawings and guides.
                   </p>
                   <button
                     onClick={handleDownloadBrochure}
-                    className="bg-purple-700 hover:bg-purple-800 text-white py-3 px-6 rounded-lg font-medium flex items-center justify-center mx-auto transition-colors duration-300 transform hover:scale-105"
+                    className="bg-purple-700 hover:bg-purple-800 text-white py-3 px-6 rounded-lg font-medium flex items-center justify-center mx-auto transition-all transform hover:scale-105"
                   >
-                    <FiDownload className="w-5 h-5 mr-2" />
-                    Download Full Catalog (PDF)
+                    <FiDownload className="mr-2" /> Download Catalog (PDF)
                   </button>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Action Buttons */}
+          {/* Pricing & Inquiry */}
           <div
-            className="bottom-6 space-y-3 animate-fade-in-up"
+            className="bg-white shadow-lg rounded-xl p-6 border border-gray-100 animate-fade-in-up"
             style={{ animationDelay: "0.2s" }}
           >
-            <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-100 transition-all duration-300 hover:shadow-xl">
-              <div className="flex justify-between items-center mb-4">
-                {product.price ? (
-                  <div className="text-2xl font-bold text-purple-700">
-                    ${product.price.toFixed(2)}
-                  </div>
-                ) : (
-                  <div className="text-lg font-medium text-gray-600">
-                    Price on request
-                  </div>
-                )}
-                <div
-                  className={`px-3 py-1 rounded-full text-sm font-medium transition-colors duration-300 ${
-                    product.inStock
-                      ? "bg-green-100 text-green-800 hover:bg-green-200"
-                      : "bg-red-100 text-red-800 hover:bg-red-200"
-                  }`}
-                >
-                  {product.inStock ? "In Stock" : "Out of Stock"}
-                </div>
+            <div className="flex justify-between items-center mb-6">
+              <div className="text-2xl font-bold text-purple-700">
+                {product.price
+                  ? `$${product.price.toFixed(2)}`
+                  : "Price on request"}
               </div>
-
-              <div className="space-y-3">
+              <div
+                className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  product.inStock
+                    ? "bg-green-100 text-green-800"
+                    : "bg-red-100 text-red-800"
+                }`}
+              >
+                {product.inStock ? "In Stock" : "Out of Stock"}
+              </div>
+            </div>
+            <div className="flex items-center mb-6">
+              <span className="text-lg font-semibold mr-4">Quantity:</span>
+              <div className="flex items-center border rounded-lg overflow-hidden">
                 <button
-                  onClick={() => navigate("/contact")}
-                  className="w-full py-3 px-4 rounded-lg font-medium flex items-center justify-center transition-all duration-300 bg-purple-700 hover:bg-purple-800 text-white transform hover:scale-105"
+                  onClick={handleDecrement}
+                  className="p-2 px-4 hover:bg-gray-100"
                 >
-                  Make an Enquiry
-                  <FiArrowLeft className="w-5 h-5 ml-2 transform rotate-180" />
+                  -
                 </button>
-
+                <input
+                  type="number"
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                  className="w-16 text-center py-2 outline-none border-x"
+                />
                 <button
-                  onClick={handleDownloadBrochure}
-                  className="w-full bg-white border border-purple-700 text-purple-700 hover:bg-purple-700 hover:text-white py-3 px-4 rounded-lg font-medium flex items-center justify-center transition-all duration-300 transform hover:scale-105"
+                  onClick={handleIncrement}
+                  className="p-2 px-4 hover:bg-gray-100"
                 >
-                  <FiDownload className="w-5 h-5 mr-2" />
-                  Download Brochure
+                  +
                 </button>
               </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <button
+                onClick={() => navigate("/contact")}
+                className="w-full bg-purple-700 hover:bg-purple-800 text-white py-3 rounded-lg font-bold flex items-center justify-center transition-all transform hover:scale-105"
+              >
+                Make an Enquiry <FiArrowLeft className="ml-2 rotate-180" />
+              </button>
+              <button
+                onClick={handleDownloadBrochure}
+                className="w-full border border-purple-700 text-purple-700 hover:bg-purple-50 py-3 rounded-lg font-bold flex items-center justify-center transition-all"
+              >
+                Download Brochure
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Technical Drawings */}
+      {/* Technical Drawings Views */}
       <div
         className="mt-16 animate-fade-in-up"
         style={{ animationDelay: "0.3s" }}
       >
         <h2 className="text-2xl font-bold mb-8 text-gray-800">
-          Technical Drawings
+          Detailed Views
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
-            <h3 className="text-lg font-semibold mb-4 text-gray-800">
-              Front View
-            </h3>
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+          <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+            <h3 className="text-lg font-semibold mb-4">Front View</h3>
+            <div className="bg-gray-50 p-4 rounded-lg border">
               <img
                 src={
-                  product.technicalDrawingFront ||
-                  "/images/technical-drawing-front.jpg"
+                  getFullUrl(product.technicalDrawingFront) ||
+                  "/images/front-placeholder.jpg"
                 }
-                alt={`${product.name} Front View`}
-                className="w-full h-auto max-h-64 object-contain"
+                alt="Front View"
+                className="mx-auto max-h-64 object-contain"
               />
             </div>
           </div>
-          <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
-            <h3 className="text-lg font-semibold mb-4 text-gray-800">
-              Side View
-            </h3>
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+          <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+            <h3 className="text-lg font-semibold mb-4">Side View</h3>
+            <div className="bg-gray-50 p-4 rounded-lg border">
               <img
                 src={
-                  product.technicalDrawingSide ||
-                  "/images/technical-drawing-side.jpg"
+                  getFullUrl(product.technicalDrawingSide) ||
+                  "/images/side-placeholder.jpg"
                 }
-                alt={`${product.name} Side View`}
-                className="w-full h-auto max-h-64 object-contain"
+                alt="Side View"
+                className="mx-auto max-h-64 object-contain"
               />
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Product Video Section */}
-      <div
-        className="mt-16 animate-fade-in-up"
-        style={{ animationDelay: "0.4s" }}
-      >
-        <h2 className="text-2xl font-bold mb-8 text-gray-800">
-          Product Video Demonstration
-        </h2>
-        <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
-          <div className="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
-            {product.videos && product.videos.length > 0 ? (
-              <video
-                controls
-                className="w-full h-full"
-                poster={product.images && product.images[0]}
-              >
-                <source src={product.videos[0]} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            ) : (
-              <div className="w-full h-full flex items-center justify-center p-12">
-                <div className="text-center">
-                  <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <FiPlay className="w-10 h-10 text-purple-600" />
-                  </div>
-                  <h3 className="text-lg font-medium text-gray-800 mb-2">
-                    Video Coming Soon
-                  </h3>
-                  <p className="text-gray-600">
-                    We're preparing a detailed video demonstration for this
-                    product.
-                  </p>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -749,131 +712,54 @@ const ProductDetailuPVC = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {upvcData
-            .filter((p) => p.id !== product.id)
+            .filter((p) => p.id !== product.id && p._id !== product._id)
             .slice(0, 3)
-            .map((relatedProduct, index) => (
+            .map((related, idx) => (
               <div
-                key={index}
-                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer border border-gray-100"
+                key={idx}
+                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all cursor-pointer border border-gray-100"
                 onClick={() =>
-                  navigate(`/productdetailupvc/${relatedProduct.id}`)
+                  navigate(`/productdetailupvc/${related.id || related._id}`)
                 }
               >
                 <div className="h-48 bg-gray-100 overflow-hidden relative">
                   <img
                     src={
-                      (relatedProduct.images && relatedProduct.images[0]) ||
-                      "https://images.pexels.com/photos/20341733/pexels-photo-20341733/free-photo-of-3d-printer-in-a-factory.jpeg?auto=compress&cs=tinysrgb&w=600"
+                      getFullUrl(related.images?.[0]) ||
+                      "https://images.pexels.com/photos/20341733/pexels-photo-20341733/free-photo-of-3d-printer-in-a-factory.jpeg"
                     }
-                    alt={relatedProduct.name}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    alt={related.name}
+                    className="w-full h-full object-cover"
                   />
-                  <div className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-md">
-                    <FiHeart className="w-4 h-4 text-gray-400" />
-                  </div>
                 </div>
                 <div className="p-5">
                   <h3 className="font-semibold text-lg mb-2 text-gray-800">
-                    {relatedProduct.name}
+                    {related.name}
                   </h3>
                   <div className="flex justify-between items-center">
                     <span className="text-purple-700 font-bold">
-                      {relatedProduct.price
-                        ? `$${relatedProduct.price.toFixed(2)}`
+                      {related.price
+                        ? `$${related.price.toFixed(2)}`
                         : "Price on request"}
                     </span>
                     <span
                       className={`text-xs px-2 py-1 rounded-full ${
-                        relatedProduct.inStock
+                        related.inStock
                           ? "bg-green-100 text-green-800"
                           : "bg-red-100 text-red-800"
                       }`}
                     >
-                      {relatedProduct.inStock ? "In Stock" : "Out of Stock"}
+                      {related.inStock ? "In Stock" : "Out of Stock"}
                     </span>
                   </div>
-                  <button className="mt-4 text-purple-700 hover:text-purple-800 font-medium text-sm transition-colors duration-200 flex items-center">
-                    View Details
-                    <FiChevronRight className="ml-1 w-4 h-4" />
-                  </button>
                 </div>
               </div>
             ))}
         </div>
       </div>
 
-      {/* Contact CTA and Process */}
-      <div
-        className="mt-16 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-2xl p-8 animate-fade-in-up"
-        style={{ animationDelay: "0.6s" }}
-      >
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">
-            Have some questions?
-          </h2>
-          <p className="text-gray-600 mb-6">
-            If something is missing or you can't find the answer for your
-            question - you can always drop us a letter with all your questions.
-          </p>
-          <button
-            onClick={() => navigate("/contact")}
-            className="bg-purple-700 hover:bg-purple-800 text-white py-3 px-8 rounded-lg font-medium transition-colors duration-300 transform hover:scale-105 inline-flex items-center"
-          >
-            Contact Us
-            <FiArrowLeft className="ml-2 transform rotate-180" />
-          </button>
-        </div>
-      </div>
-
-      <div
-        className="mt-16 animate-fade-in-up"
-        style={{ animationDelay: "0.7s" }}
-      >
-        <h2 className="text-2xl font-bold mb-8 text-gray-800">Our Process</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-          {[
-            {
-              title: "Contact",
-              desc: "It starts with a conversation",
-              icon: "📞",
-            },
-            {
-              title: "Consultation",
-              desc: "Discuss details of the project",
-              icon: "💬",
-            },
-            { title: "SOW", desc: "Document the detailed plan", icon: "📋" },
-            { title: "Quote", desc: "Send you an estimation", icon: "💰" },
-            {
-              title: "Project",
-              desc: "We do the work that was specified",
-              icon: "🛠️",
-            },
-            {
-              title: "Delivery",
-              desc: "The solution is delivered in time",
-              icon: "🚚",
-            },
-          ].map((step, index) => (
-            <div
-              key={index}
-              className="bg-white p-5 rounded-xl shadow-md border border-gray-100 text-center group hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
-            >
-              <div className="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center text-xl mx-auto mb-4 group-hover:bg-purple-200 transition-colors duration-300">
-                {step.icon}
-              </div>
-              <h3 className="font-semibold mb-2 text-gray-800">{step.title}</h3>
-              <p className="text-sm text-gray-600">{step.desc}</p>
-              <div className="mt-4 text-xs text-purple-700 font-medium">
-                Step {index + 1}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <OurPartners />
-        <ValuedClients />
-      </div>
+      <OurPartners />
+      <ValuedClients />
 
       <style jsx>{`
         @keyframes fadeIn {

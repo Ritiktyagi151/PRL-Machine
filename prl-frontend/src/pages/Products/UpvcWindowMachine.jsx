@@ -1,3 +1,4 @@
+// UPVCWindowMachinesPage.jsx
 import React, { useEffect, useState } from "react";
 import {
   FiArrowRight,
@@ -12,6 +13,8 @@ import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 
 const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
+// 🔹 Backend URL without /api to access the uploads folder
+const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
 const UPVCWindowMachinesPage = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -19,6 +22,13 @@ const UPVCWindowMachinesPage = () => {
   const [upvcData, setUpvcData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // 🔹 Helper function to handle local server paths vs legacy URLs
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return "/placeholder-image.jpg";
+    if (imagePath.startsWith("http")) return imagePath;
+    return `${IMAGE_BASE_URL}${imagePath}`;
+  };
 
   // Fetch data on mount
   useEffect(() => {
@@ -64,102 +74,19 @@ const UPVCWindowMachinesPage = () => {
 
   // Product categories data
   const categories = [
-    {
-      id: 1,
-      name: "uPVC Welding Machines",
-      filterFn: (products) =>
-        products.filter(
-          (product) =>
-            getCategoryFromName(product.name) === "uPVC Welding Machines"
-        ),
-    },
-    {
-      id: 2,
-      name: "uPVC Cutting Machines",
-      filterFn: (products) =>
-        products.filter(
-          (product) =>
-            getCategoryFromName(product.name) === "uPVC Cutting Machines"
-        ),
-    },
-    {
-      id: 3,
-      name: "uPVC Cleaning Machines",
-      filterFn: (products) =>
-        products.filter(
-          (product) =>
-            getCategoryFromName(product.name) === "uPVC Cleaning Machines"
-        ),
-    },
-    {
-      id: 4,
-      name: "uPVC Copy Router & Lock Hole Machines",
-      filterFn: (products) =>
-        products.filter(
-          (product) =>
-            getCategoryFromName(product.name) ===
-            "uPVC Copy Router & Lock Hole Machines"
-        ),
-    },
-    {
-      id: 5,
-      name: "uPVC Glazing Bead Cutting Machines",
-      filterFn: (products) =>
-        products.filter(
-          (product) =>
-            getCategoryFromName(product.name) ===
-            "uPVC Glazing Bead Cutting Machines"
-        ),
-    },
-    {
-      id: 6,
-      name: "uPVC Drainage Water Slot Machines",
-      filterFn: (products) =>
-        products.filter(
-          (product) =>
-            getCategoryFromName(product.name) ===
-            "uPVC Drainage Water Slot Machines"
-        ),
-    },
-    {
-      id: 7,
-      name: "uPVC Mullion Cutting Machines",
-      filterFn: (products) =>
-        products.filter(
-          (product) =>
-            getCategoryFromName(product.name) ===
-            "uPVC Mullion Cutting Machines"
-        ),
-    },
-    {
-      id: 8,
-      name: "uPVC Interlock Punching",
-      filterFn: (products) =>
-        products.filter(
-          (product) =>
-            getCategoryFromName(product.name) === "uPVC Interlock Punching"
-        ),
-    },
-    {
-      id: 9,
-      name: "Hand Tools",
-      filterFn: (products) =>
-        products.filter(
-          (product) => getCategoryFromName(product.name) === "Hand Tools"
-        ),
-    },
-    {
-      id: 10,
-      name: "Other Special Machines",
-      filterFn: (products) =>
-        products.filter(
-          (product) =>
-            getCategoryFromName(product.name) === "Other Special Machines"
-        ),
-    },
+    { id: 1, name: "uPVC Welding Machines" },
+    { id: 2, name: "uPVC Cutting Machines" },
+    { id: 3, name: "uPVC Cleaning Machines" },
+    { id: 4, name: "uPVC Copy Router & Lock Hole Machines" },
+    { id: 5, name: "uPVC Glazing Bead Cutting Machines" },
+    { id: 6, name: "uPVC Drainage Water Slot Machines" },
+    { id: 7, name: "uPVC Mullion Cutting Machines" },
+    { id: 8, name: "uPVC Interlock Punching" },
+    { id: 9, name: "Hand Tools" },
+    { id: 10, name: "Other Special Machines" },
   ].map((cat) => ({
     ...cat,
-    products: cat.filterFn(upvcData),
+    products: upvcData.filter((p) => getCategoryFromName(p.name) === cat.name),
   }));
 
   const fadeIn = {
@@ -403,9 +330,7 @@ const UPVCWindowMachinesPage = () => {
                       <Link to={`/productdetailupvc/${product.id}`}>
                         <div className="relative h-40 overflow-hidden">
                           <motion.img
-                            src={
-                              product.images?.[0] || "/placeholder-image.jpg"
-                            }
+                            src={getImageUrl(product.images?.[0])}
                             alt={product.name}
                             className="w-full h-full object-cover"
                             whileHover={{ scale: 1.1 }}
@@ -422,7 +347,7 @@ const UPVCWindowMachinesPage = () => {
                           {product.name}
                         </h3>
 
-                        {/* UPDATE: Added dangerouslySetInnerHTML for HTML support */}
+                        {/* Description with HTML support */}
                         <div
                           className="text-gray-600 text-sm mb-2 line-clamp-2 prose prose-sm max-w-none"
                           dangerouslySetInnerHTML={{
@@ -491,13 +416,15 @@ const UPVCWindowMachinesPage = () => {
               Our experts can help you select the perfect uPVC window machines
               for your production needs.
             </p>
-            <motion.button
-              className="bg-white text-[#46266A] px-4 py-2 rounded-md font-medium hover:bg-gray-100 transition-colors text-sm"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Contact Our Specialists
-            </motion.button>
+            <Link to="/contact">
+              <motion.button
+                className="bg-white text-[#46266A] px-4 py-2 rounded-md font-medium hover:bg-gray-100 transition-colors text-sm"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Contact Our Specialists
+              </motion.button>
+            </Link>
           </motion.div>
         </div>
       </div>
