@@ -22,7 +22,7 @@ const TeamSection = () => {
     id: 1,
     name: "Rajesh Kumar Parida",
     position: "Managing Director",
-    image: "/assets/rajesh-kumar.jpeg", // Aap apni original image path yahan replace kar sakte hain
+    image: "/assets/extra-img/rajesh-parida.jpeg", // Aap apni original image path yahan replace kar sakte hain
     bio: "Visionary leader and entrepreneur with extensive experience in the uPVC and Aluminium machinery industry. Under his guidance, Parida Red Lion has become a trusted name for quality and innovation.",
   };
 
