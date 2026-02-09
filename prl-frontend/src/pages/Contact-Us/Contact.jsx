@@ -41,7 +41,7 @@ export default function ContactUsPage() {
           contactInfo: {
             address: `PARIDA RED LION INDIA PVT LTD\nGST NO - 09AAJCP6402H1ZC\nAddress - Khasra No 295, Jalpura,\nGreater Noida, Gautam buddha Nagar ,\nUttar Pradesh, 201306`,
             phone: "+91 7065500903",
-            email: "r.k.parida015@gmail.com",
+            email: "prlinquiry@gmail.com",
             hours:
               "Monday - Friday: 9:00 AM - 6:00 PM\nSaturday: 10:00 AM - 4:00 PM\nSunday: Closed",
           },
@@ -93,7 +93,7 @@ export default function ContactUsPage() {
 
       // Using the AJAX endpoint ensures the user stays on your React page
       const res = await fetch(
-        "https://formsubmit.co/ajax/r.k.parida015@gmail.com",
+        "https://formsubmit.co/ajax/prlinquiry@gmail.com",
         {
           method: "POST",
           headers: {

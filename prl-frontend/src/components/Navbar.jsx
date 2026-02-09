@@ -305,13 +305,13 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                 icon: "FaLinkedin",
                 url: "https://www.linkedin.com/in/rajesh-parida-1704b2b4/?originalSubdomain=in",
               },
-            ]
+            ],
           );
           setContactInfo(
             data.contactInfo || {
               phone: "+91 7065500903",
-              email: "r.k.parida015@gmail.com",
-            }
+              email: "prlinquiry@gmail.com",
+            },
           );
           if (data.products && data.products.length > 0)
             setApiProducts(mapIconsToData(data.products));
@@ -348,7 +348,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
           ]);
           setContactInfo({
             phone: "+91 7065500903",
-            email: "r.k.parida015@gmail.com",
+            email: "prlinquiry@gmail.com",
           });
           setApiProducts(mapIconsToData(fallbackProducts));
           setApiServices(mapIconsToData(fallbackServices));
@@ -972,7 +972,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                   >
                     {tag}
                   </Link>
-                )
+                ),
               )}
             </div>
           </div>

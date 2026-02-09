@@ -47,7 +47,7 @@ const getDefaultFooterData = () => {
       address:
         "PARIDA RED LION INDIA PVT LTD GST NO - 09AAJCP6402H1ZC Address - Khasra No 295, Jalpura, Greater Noida, Gautam buddha Nagar ,Uttar Pradesh, 201306",
       phone: "+917065500903",
-      email: "r.k.parida015@gmail.com",
+      email: "prlinquiry@gmail.com",
     },
     products: [
       {
