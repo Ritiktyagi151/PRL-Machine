@@ -57,7 +57,7 @@ const GetQuoteModal = ({ isOpen, onClose }) => {
     try {
       // Using /ajax/ ensures the user isn't redirected to a captcha page
       const response = await fetch(
-        "https://formsubmit.co/ajax/r.k.parida015@gmail.com",
+        "https://formsubmit.co/ajax/prlinquiry@gmail.com",
         {
           method: "POST",
           headers: {
@@ -71,7 +71,7 @@ const GetQuoteModal = ({ isOpen, onClose }) => {
             _template: "table", // Sends email data in a clean table
             _captcha: "false", // Optional: disables the captcha requirement
           }),
-        }
+        },
       );
 
       if (response.ok) {

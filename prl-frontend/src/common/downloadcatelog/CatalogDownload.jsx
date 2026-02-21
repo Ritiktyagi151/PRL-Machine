@@ -23,25 +23,22 @@ const CatalogDownload = () => {
 
     try {
       // 1. Define the API Request
-      const apiCall = fetch(
-        "https://formsubmit.co/ajax/r.k.parida015@gmail.com",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            company: formData.company,
-            interest: formData.interest,
-            _subject: "New Catalog Download Request",
-            _template: "table",
-          }),
+      const apiCall = fetch("https://formsubmit.co/ajax/prlinquiry@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-      );
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          company: formData.company,
+          interest: formData.interest,
+          _subject: "New Catalog Download Request",
+          _template: "table",
+        }),
+      });
 
       // 2. Define the 3-second Delay
       const delay = new Promise((resolve) => setTimeout(resolve, 3000));
