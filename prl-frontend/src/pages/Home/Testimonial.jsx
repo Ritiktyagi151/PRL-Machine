@@ -18,12 +18,39 @@ const TestimonialSlider = () => {
   const [animating, setAnimating] = useState(false);
   const timeoutRef = useRef(null);
 
-  // 🔹 API & Image Path Setup (Fixed for Production)
+  // 🔹 API & Image Path Setup
   const BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const SERVER_ROOT = BASE_URL.split("/api")[0];
   const IMAGE_BASE_URL = `${SERVER_ROOT}/uploads`;
 
-  // 🔹 Helper function: Image path handle karne ke liye
+  // 🔹 Helper: Extract URL from iframe tag or convert watch link to embed
+  const getEmbedUrl = (input) => {
+    if (!input) return "";
+
+    let url = input.trim();
+
+    // Case 1: Agar user ne poora <iframe> tag paste kar diya ho
+    if (url.includes("<iframe")) {
+      const srcMatch = url.match(/src=["']([^"']+)["']/);
+      url = srcMatch ? srcMatch[1] : url;
+    }
+
+    // Case 2: Agar URL pehle se embed format mein hai
+    if (url.includes("youtube.com/embed/")) return url;
+
+    // Case 3: Regular watch?v= ya youtu.be links ko convert karna
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+
+    if (match && match[2].length === 11) {
+      return `https://www.youtube.com/embed/${match[2]}`;
+    }
+
+    return url;
+  };
+
+  // 🔹 Helper: Image path handle karne ke liye
   const getFullImgPath = (imgName) => {
     if (!imgName) return "https://via.placeholder.com/60";
     if (imgName.startsWith("http")) return imgName;
@@ -71,7 +98,6 @@ const TestimonialSlider = () => {
     activeTab === "written" ? testimonials : videoTestimonials;
   const length = Math.ceil(getActiveList().length / itemsPerSlide);
 
-  // 🔹 Smooth Slide Logic
   const handleSlideChange = (newIndex) => {
     setAnimating(true);
     setTimeout(() => {
@@ -163,11 +189,7 @@ const TestimonialSlider = () => {
                 setActiveTab("written");
                 setCurrent(0);
               }}
-              className={`px-8 py-2.5 text-sm font-bold rounded-full transition-all ${
-                activeTab === "written"
-                  ? "bg-red-600 text-white shadow-lg"
-                  : "text-gray-300 hover:text-white"
-              }`}
+              className={`px-8 py-2.5 text-sm font-bold rounded-full transition-all ${activeTab === "written" ? "bg-red-600 text-white shadow-lg" : "text-gray-300 hover:text-white"}`}
             >
               Written
             </button>
@@ -176,11 +198,7 @@ const TestimonialSlider = () => {
                 setActiveTab("video");
                 setCurrent(0);
               }}
-              className={`px-8 py-2.5 text-sm font-bold rounded-full transition-all ${
-                activeTab === "video"
-                  ? "bg-red-600 text-white shadow-lg"
-                  : "text-gray-300 hover:text-white"
-              }`}
+              className={`px-8 py-2.5 text-sm font-bold rounded-full transition-all ${activeTab === "video" ? "bg-red-600 text-white shadow-lg" : "text-gray-300 hover:text-white"}`}
             >
               Videos
             </button>
@@ -232,22 +250,12 @@ const TestimonialSlider = () => {
 
           {/* Testimonial Grid */}
           <div
-            className={`grid gap-8 transition-all duration-500 ease-in-out ${
-              animating ? "opacity-0 scale-95" : "opacity-100 scale-100"
-            } ${
-              itemsPerSlide === 1
-                ? "grid-cols-1"
-                : itemsPerSlide === 2
-                  ? "grid-cols-2"
-                  : "grid-cols-3"
-            }`}
+            className={`grid gap-8 transition-all duration-500 ease-in-out ${animating ? "opacity-0 scale-95" : "opacity-100 scale-100"} ${itemsPerSlide === 1 ? "grid-cols-1" : itemsPerSlide === 2 ? "grid-cols-2" : "grid-cols-3"}`}
           >
             {currentItems.map((testimonial) => (
               <div
                 key={testimonial._id || testimonial.id}
-                className={`${
-                  activeTab === "written" ? "bg-white" : "bg-gray-800"
-                } rounded-3xl shadow-2xl p-8 h-full transition-all hover:shadow-red-900/20 border border-white/5 flex flex-col`}
+                className={`${activeTab === "written" ? "bg-white" : "bg-gray-800"} rounded-3xl shadow-2xl p-8 h-full transition-all hover:shadow-red-900/20 border border-white/5 flex flex-col`}
               >
                 <div className="flex-grow">
                   {activeTab === "written" ? (
@@ -262,9 +270,10 @@ const TestimonialSlider = () => {
                   ) : (
                     <div className="relative pt-[56.25%] mb-6 rounded-2xl overflow-hidden shadow-2xl bg-black">
                       <iframe
-                        src={testimonial.video}
+                        src={getEmbedUrl(testimonial.video)}
                         className="absolute top-0 left-0 w-full h-full"
                         frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen
                         title={testimonial.name}
                       ></iframe>
@@ -308,9 +317,7 @@ const TestimonialSlider = () => {
                 <button
                   key={index}
                   onClick={() => handleSlideChange(index)}
-                  className={`h-2.5 rounded-full transition-all duration-300 ${
-                    index === current ? "bg-red-500 w-10" : "bg-white/20 w-2.5"
-                  }`}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${index === current ? "bg-red-500 w-10" : "bg-white/20 w-2.5"}`}
                 />
               ))}
             </div>

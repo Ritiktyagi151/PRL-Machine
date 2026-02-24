@@ -23,7 +23,7 @@ const TeamSection = () => {
     name: "Rajesh Kumar Parida",
     position: "Managing Director",
     image: "/assets/extra-img/rajesh-parida.jpeg", // Aap apni original image path yahan replace kar sakte hain
-    bio: "Visionary leader and entrepreneur with extensive experience in the uPVC and Aluminium machinery industry. Under his guidance, Parida Red Lion has become a trusted name for quality and innovation.",
+    bio: "My journey began in a small corner of Odisha after completing my engineering studies. I started this path with a heart full of dreams but empty pockets—no money, no support, and no clear direction, only pure determination. The early days were filled with intense challenges that tested both my body and spirit, with sleepless nights, days without food, and constant negativity from people who doubted me. Despite the hardships and moments that pushed me to give up, I survived purely on the determination to change my life and create something truly meaningful.",
   };
 
   const containerVariants = {
@@ -138,7 +138,7 @@ const TeamSection = () => {
                 <div className="inline-flex space-x-6">
                   {/* LinkedIn Icon */}
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/in/rajesh-kumar-parida-806389218/"
                     className="text-violet-600 hover:text-red-500 transition-all transform hover:scale-125"
                   >
                     <svg

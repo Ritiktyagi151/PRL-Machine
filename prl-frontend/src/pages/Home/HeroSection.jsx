@@ -10,7 +10,7 @@ const HeroSection = () => {
       title: "Our Vision",
       subtitle: "Precision Machinery Since 1995",
       description: "Discover our award-winning manufacturing solutions",
-      videoUrl: "/assets/vedios/videoupvc.mp4",
+      videoUrl: "/assets/vedios/vedio1.mp4",
 
       bgColor: "from-navy-800/80 to-navy-900/80",
     },
@@ -19,7 +19,7 @@ const HeroSection = () => {
       title: "Our Mission",
       subtitle: "Cutting-Edge Technology",
       description: "Automated solutions for modern manufacturing",
-      videoUrl: "/assets/vedios/upvc3.mp4",
+      videoUrl: "/assets/vedios/video2.mp4",
 
       bgColor: "from-red-700/20 to-red-800/30",
     },
@@ -28,7 +28,7 @@ const HeroSection = () => {
       title: "Our Strategic Focus",
       subtitle: "Worldwide Operations",
       description: "Serving industries across 5 continents",
-      videoUrl: "/assets/vedios/upvcvideo.mp4",
+      videoUrl: "/assets/vedios/video3.mp4",
 
       bgColor: "from-gray-800/20 to-gray-900/40",
     },
