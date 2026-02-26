@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Seo from "../../common/seo/Seo";
 
 const BlogDetails = () => {
   const { slug } = useParams(); // URL se title/slug uthayega
@@ -91,6 +92,12 @@ const BlogDetails = () => {
   if (error || !blog)
     return (
       <div className="container mt-28 mx-auto px-4 py-8 text-center">
+        <Seo
+          title="Blog Not Found | Parida Red Lion"
+          description="The requested blog could not be found."
+          canonicalPath={`/blogs/${slug || ""}`}
+          noindex
+        />
         <h2 className="text-2xl font-bold mb-4">Blog Not Found</h2>
         <Link to="/ourcompany/ourblogs" className="text-orange-500 underline">
           Back to Blogs
@@ -98,8 +105,44 @@ const BlogDetails = () => {
       </div>
     );
 
+  const blogTitle = blog.title || "Window Technology Blog";
+  const blogDescription =
+    blog.excerpt || blog.content || "Read blog insights from Parida Red Lion.";
+  const canonicalPath = `/blogs/${blog.slug || slug}`;
+  const blogImage = getImageUrl(blog.image);
+  const blogJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: blogTitle,
+    description: blogDescription,
+    image: blogImage,
+    datePublished: blog.date,
+    author: {
+      "@type": "Person",
+      name: blog.author || "Parida Red Lion Team",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Parida Red Lion",
+      logo: {
+        "@type": "ImageObject",
+        url: "/assets/logo/parida-red-new-logo.jpg",
+      },
+    },
+    mainEntityOfPage: canonicalPath,
+  };
+
   return (
     <div className="container mt-28 mx-auto px-4 py-8 max-w-7xl">
+      <Seo
+        title={`${blogTitle} | Parida Red Lion`}
+        description={blogDescription}
+        canonicalPath={canonicalPath}
+        image={blogImage}
+        type="article"
+        keywords={[blog.category, "window technology blog", "Parida Red Lion"]}
+        jsonLd={blogJsonLd}
+      />
       <ToastContainer position="top-right" autoClose={3000} theme="light" />
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="lg:w-2/3">

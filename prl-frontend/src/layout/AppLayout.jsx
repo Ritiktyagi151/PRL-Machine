@@ -6,6 +6,7 @@ import GetQuoteModal from "../common/GetAquote/Getaquote";
 import ParidaRedLionChatbot from "../chatbot/Chatbot";
 import CatalogDownload from "../common/downloadcatelog/CatalogDownload";
 import SideButtons from "../common/Sidebaar/SideBar";
+import RouteSeo from "../common/seo/RouteSeo";
 
 
 const AppLayout = () => {
@@ -21,6 +22,7 @@ const AppLayout = () => {
 
   return (
     <>
+      <RouteSeo />
       <ScrollRestoration />
       <Navbar onOpenQuote={handleOpenQuote} />
       <GetQuoteModal isOpen={isQuoteModalOpen} onClose={handleCloseQuote} />

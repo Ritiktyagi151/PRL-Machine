@@ -14,6 +14,7 @@ import {
 } from "react-icons/fi";
 import OurPartners from "../Home/TrustedSlider";
 import ValuedClients from "../Home/Our-Clients";
+import Seo from "../../common/seo/Seo";
 
 const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
 // 🔹 Backend URL without /api to access the uploads folder
@@ -180,8 +181,43 @@ const ProductDetailuPVC = () => {
     return null;
   }
 
+  const canonicalPath = `/productdetailupvc/${product.id || product._id || idParam}`;
+  const productImage = getFullUrl(product.images?.[0]);
+  const productDescription =
+    product.description || "Explore technical details of this uPVC window machinery.";
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    image: product.images?.map((img) => getFullUrl(img)).filter(Boolean),
+    description: productDescription.replace(/<[^>]*>/g, " ").trim(),
+    sku: product.code || product.id || product._id,
+    brand: {
+      "@type": "Brand",
+      name: "Parida Red Lion",
+    },
+    offers: {
+      "@type": "Offer",
+      availability: product.inStock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      priceCurrency: "USD",
+      price: product.price || undefined,
+      url: canonicalPath,
+    },
+  };
+
   return (
     <div className="max-w-7xl mt-12 mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <Seo
+        title={`${product.name} | uPVC Machine | Parida Red Lion`}
+        description={productDescription}
+        canonicalPath={canonicalPath}
+        image={productImage}
+        type="product"
+        keywords={["uPVC machine", product.name, "window fabrication machinery"]}
+        jsonLd={productJsonLd}
+      />
       {/* Breadcrumb */}
       <nav className="flex mb-8" aria-label="Breadcrumb">
         <ol className="flex items-center space-x-2 text-sm text-gray-500">
