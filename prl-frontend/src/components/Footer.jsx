@@ -20,15 +20,15 @@ const API_URL =
 
 // 1. Manual Quick Links (Ab ye code se aayenge)
 const manualQuickLinks = [
-  { name: "About Us", link: "/about" },
-  { name: "Case Studies", link: "/casestudies" },
-  { name: "Careers", link: "/careers" },
+  { name: "About Us", link: "/our-company/about" },
+  { name: "Case Studies", link: "/case-studies" },
+  // { name: "Careers", link: "/careers" },
   { name: "Blogs", link: "/blogs" },
   { name: "Services", link: "/services/machine-customization" },
-  { name: "Contact Us", link: "/contact" },
+  { name: "Contact Us", link: "/contact-us" },
   { name: "Admin Login", link: "/admin", target: "_blank" },
-  { name: "Privacy Policy", link: "/privacypolicy" },
-  { name: "Terms & Conditions", link: "/termsandconditions" },
+  { name: "Privacy Policy", link: "/privacy-policy" },
+  { name: "Terms & Conditions", link: "/terms-and-conditions" },
 ];
 
 const getDefaultFooterData = () => {
@@ -55,37 +55,37 @@ const getDefaultFooterData = () => {
 
         icon: "tools",
 
-        link: "/products/upvcwindowmachines",
+        link: "/products/upvc-window-machines",
 
         subItems: [
           {
             name: "uPVC Welding Machine",
 
-            link: "/products/upvcwindowmachines",
+            link: "/products/upvc-window-machines",
           },
 
           {
             name: "uPVC Cutting Machine",
 
-            link: "/products/upvcwindowmachines",
+            link: "/products/upvc-window-machines",
           },
 
           {
             name: "uPVC Cleaning Machine",
 
-            link: "/products/upvcwindowmachines",
+            link: "/products/upvc-window-machines",
           },
 
           {
             name: "uPVC Copy Router & Lock Hole Machine",
 
-            link: "/products/upvcwindowmachines",
+            link: "/products/upvc-window-machines",
           },
 
           {
             name: "Other Special Machine",
 
-            link: "/products/upvcwindowmachines",
+            link: "/products/upvc-window-machines",
           },
         ],
       },
@@ -95,31 +95,31 @@ const getDefaultFooterData = () => {
 
         icon: "industry",
 
-        link: "/products/aluminumwindowmachines",
+        link: "/products/aluminum-window-machines",
 
         subItems: [
           {
             name: "Aluminum Cutting Machine",
 
-            link: "/products/aluminumwindowmachines",
+            link: "/products/aluminum-window-machines",
           },
 
           {
             name: "Aluminum Lock Hole Machine",
 
-            link: "/products/aluminumwindowmachines",
+            link: "/products/aluminum-window-machines",
           },
 
           {
             name: "Aluminum Mullion Machine",
 
-            link: "/products/aluminumwindowmachines",
+            link: "/products/aluminum-window-machines",
           },
 
           {
             name: "Aluminum Punching & Crimping Machine",
 
-            link: "/products/aluminumwindowmachines",
+            link: "/products/aluminum-window-machines",
           },
         ],
       },

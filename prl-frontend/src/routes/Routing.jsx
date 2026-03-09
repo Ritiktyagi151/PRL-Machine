@@ -79,15 +79,23 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "blogs", element: <Blogs /> },
       { path: "products", element: <AllProducts /> },
-      { path: "products/upvcwindowmachines", element: <Windowmachine /> },
+      { path: "products/upvc-window-machines", element: <Windowmachine /> },
       {
-        path: "products/aluminumwindowmachines",
+        path: "products/upvc-window-machines/:categorySlug",
+        element: <Windowmachine />,
+      },
+      {
+        path: "products/aluminum-window-machines",
         element: <AluminumWindowMachine />,
       },
-      { path: "contact", element: <Contact /> },
-      { path: "privacypolicy", element: <PrivacyPolicy /> },
-      { path: "termsandconditions", element: <TermsAndConditions /> },
-      { path: "casestudies", element: <CaseStudiesPage /> },
+      {
+        path: "products/aluminum-window-machines/:categorySlug",
+        element: <AluminumWindowMachine />,
+      },
+      { path: "contact-us", element: <Contact /> },
+      { path: "privacy-policy", element: <PrivacyPolicy /> },
+      { path: "terms-and-conditions", element: <TermsAndConditions /> },
+      { path: "case-studies", element: <CaseStudiesPage /> },
       { path: "productdetailupvc/:id", element: <UpvcDetail /> },
       { path: "productdetailaluminium/:id", element: <AluminiumDetail /> },
 
@@ -96,7 +104,7 @@ const router = createBrowserRouter([
 
       { path: "enquiry", element: <EnquiryForm /> },
       {
-        path: "turnkeypage",
+        path: "turn-key",
         element: <TurnkeyPage />,
       },
       { path: "turnkeydetailpage", element: <TurnkeyDetailPage /> },
@@ -107,16 +115,16 @@ const router = createBrowserRouter([
       },
       // 🏢 Our Company Nested Routes
       {
-        path: "ourcompany",
+        path: "our-company",
         element: <OurCompanyPage />,
         children: [
           { index: true, element: <Navigate to="about" replace /> },
           { path: "about", element: <AboutPage /> },
           { path: "faq", element: <FAQ /> },
-          { path: "ourblogs", element: <Blogspage /> },
+          { path: "our-blogs", element: <Blogspage /> },
           { path: "team", element: <OurTeam /> },
           { path: "news", element: <News /> },
-          { path: "missionvision", element: <MissionVision /> },
+          { path: "mission-vision", element: <MissionVision /> },
         ],
       },
 

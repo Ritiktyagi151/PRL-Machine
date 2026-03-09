@@ -1,5 +1,5 @@
 // AluminumWindowMachinesPage.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   FiShoppingCart,
   FiInfo,
@@ -9,13 +9,18 @@ import {
 } from "react-icons/fi";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { scrollToElementId } from "../../utils/hashScroll";
+import { ALUMINUM_CATEGORIES } from "../../utils/aluminumCategories";
 
 const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/aluminum-machines`;
 // 🔹 Backend URL without /api to access the uploads folder
 const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
 const AluminumWindowMachinesPage = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { categorySlug } = useParams();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState(1);
   const [aluminumData, setAluminumData] = useState([]);
@@ -67,58 +72,16 @@ const AluminumWindowMachinesPage = () => {
     return "Other Special Machines";
   };
 
-  // Grouped Categories dynamically
-  const groupedCategories = [
-    {
-      id: 1,
-      name: "Aluminum Cutting Machines",
-      filterFn: (products) =>
-        products.filter(
-          (product) =>
-            getCategoryFromName(product.name) === "Aluminum Cutting Machines",
+  const groupedCategories = useMemo(
+    () =>
+      ALUMINUM_CATEGORIES.map((category) => ({
+        ...category,
+        products: aluminumData.filter(
+          (product) => getCategoryFromName(product.name) === category.name,
         ),
-    },
-    {
-      id: 2,
-      name: "Aluminum Lock Hole Machines",
-      filterFn: (products) =>
-        products.filter(
-          (product) =>
-            getCategoryFromName(product.name) === "Aluminum Lock Hole Machines",
-        ),
-    },
-    {
-      id: 3,
-      name: "Aluminum Mullion Machines",
-      filterFn: (products) =>
-        products.filter(
-          (product) =>
-            getCategoryFromName(product.name) === "Aluminum Mullion Machines",
-        ),
-    },
-    {
-      id: 4,
-      name: "Punching & Crimping Machines",
-      filterFn: (products) =>
-        products.filter(
-          (product) =>
-            getCategoryFromName(product.name) ===
-            "Punching & Crimping Machines",
-        ),
-    },
-    {
-      id: 5,
-      name: "Other Special Machines",
-      filterFn: (products) =>
-        products.filter(
-          (product) =>
-            getCategoryFromName(product.name) === "Other Special Machines",
-        ),
-    },
-  ].map((cat) => ({
-    ...cat,
-    products: cat.filterFn(aluminumData),
-  }));
+      })),
+    [aluminumData],
+  );
 
   // Animation variants
   const fadeIn = {
@@ -161,14 +124,46 @@ const AluminumWindowMachinesPage = () => {
     );
   };
 
-  const scrollToCategory = (categoryId) => {
-    setActiveCategory(categoryId);
-    const element = document.getElementById(`category-${categoryId}`);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+  const scrollToCategory = (category) => {
+    if (!category) return;
+
+    setActiveCategory(category.id);
     setIsMobileSidebarOpen(false);
+
+    const targetPath = `/products/aluminum-window-machines/${category.slug}`;
+    if (location.pathname !== targetPath) {
+      navigate(targetPath);
+      return;
+    }
+
+    scrollToElementId(`category-${category.id}`);
   };
+
+  useEffect(() => {
+    if (loading || groupedCategories.length === 0) return;
+    if (!categorySlug) return;
+
+    const category = groupedCategories.find((item) => item.slug === categorySlug);
+    if (!category) return;
+
+    setActiveCategory(category.id);
+    let attempts = 0;
+    let timeoutId;
+
+    const tryScroll = () => {
+      attempts += 1;
+      const behavior = attempts === 1 ? "auto" : "smooth";
+      const didScroll = scrollToElementId(`category-${category.id}`, behavior);
+      if (didScroll || attempts >= 40) return;
+      timeoutId = window.setTimeout(tryScroll, 100);
+    };
+
+    timeoutId = window.setTimeout(tryScroll, 0);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [categorySlug, groupedCategories, loading]);
 
   // Loading state
   if (loading) {
@@ -299,7 +294,7 @@ const AluminumWindowMachinesPage = () => {
               {groupedCategories.map((category) => (
                 <button
                   key={category.id}
-                  onClick={() => scrollToCategory(category.id)}
+                  onClick={() => scrollToCategory(category)}
                   className={`w-full text-left px-3 py-2 rounded-md transition-colors ${
                     activeCategory === category.id
                       ? "bg-gradient-to-r from-[#46266A] to-[#FB252E] text-white"
@@ -325,16 +320,17 @@ const AluminumWindowMachinesPage = () => {
               className="flex flex-wrap gap-2"
             >
               {groupedCategories.map((category) => (
-                <motion.a
+                <motion.button
                   key={category.id}
                   variants={fadeIn}
-                  href={`#category-${category.id}`}
+                  type="button"
                   className="bg-white px-4 py-2 rounded-md shadow-sm hover:bg-[#46266A] hover:text-white border border-gray-200 transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => scrollToCategory(category)}
                 >
                   {category.name} ({category.products.length})
-                </motion.a>
+                </motion.button>
               ))}
             </motion.div>
           </div>
@@ -497,3 +493,4 @@ const AluminumWindowMachinesPage = () => {
 };
 
 export default AluminumWindowMachinesPage;
+

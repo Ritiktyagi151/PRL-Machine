@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   FiSearch,
   FiX,
@@ -40,6 +40,8 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import LanguageSelector from "../common/LanguageSelector/LanguageSelector";
+import { getUpvcCategorySlugByName } from "../utils/upvcCategories";
+import { getAluminumCategorySlugByName } from "../utils/aluminumCategories";
 
 // Icon mapping for API-driven icons
 const iconMap = {
@@ -67,6 +69,7 @@ const iconMap = {
 };
 
 const RedLionNavbar = ({ onOpenQuote }) => {
+  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -100,98 +103,98 @@ const RedLionNavbar = ({ onOpenQuote }) => {
     {
       name: "uPVC Window Machine",
       icon: "FaTools",
-      link: "/products/upvcwindowmachines",
+      link: "products/upvc-window-machines",
       subItems: [
         {
           name: "uPVC Welding Machine",
           desc: "Includes Single Head...",
           icon: "FaTools",
-          link: "/products/upvcwindowmachines",
+          link: "products/upvc-window-machines",
         },
         {
           name: "uPVC Cutting Machine",
           desc: "Precision cutting...",
           icon: "FaTools",
-          link: "/products/upvcwindowmachines",
+          link: "/products/upvc-window-machines",
         },
         {
           name: "uPVC Cleaning Machine",
           desc: "Ensures clean edges...",
           icon: "FaTools",
-          link: "/products/upvcwindowmachines",
+          link: "/products/upvc-window-machines",
         },
         {
           name: "uPVC Copy Router & Lock Hole Machine",
           desc: "Drilling and routing...",
           icon: "FaTools",
-          link: "/products/upvcwindowmachines",
+          link: "/products/upvc-window-machines",
         },
         {
           name: "uPVC Glazing Bead Cutting Machine",
           desc: "Cuts glazing bead profiles...",
           icon: "FaTools",
-          link: "/products/upvcwindowmachines",
+          link: "/products/upvc-window-machines",
         },
         {
           name: "uPVC Drainage Water Slot Machine",
           desc: "Creates drainage slots...",
           icon: "FaTools",
-          link: "/products/upvcwindowmachines",
+          link: "/products/upvc-window-machines",
         },
         {
           name: "uPVC Mullion Cutting Machine",
           desc: "Precise cutting for mullions...",
           icon: "FaTools",
-          link: "/products/upvcwindowmachines",
+          link: "/products/upvc-window-machines",
         },
         {
           name: "uPVC Interlock punching (IPL-300)",
           desc: "Efficient interlock punching...",
           icon: "FaTools",
-          link: "/products/upvcwindowmachines",
+          link: "/products/upvc-window-machines",
         },
         {
           name: "Hand Tools",
           desc: "Manual tools for uPVC tasks...",
           icon: "FaTools",
-          link: "/products/upvcwindowmachines",
+          link: "/products/upvc-window-machines",
         },
         {
           name: "Other Special Machine",
           desc: "Custom machines for uPVC...",
           icon: "FaTools",
-          link: "/products/upvcwindowmachines",
+          link: "/products/upvc-window-machines",
         },
       ],
     },
     {
       name: "Aluminum Window Machine",
       icon: "FaIndustry",
-      link: "/products/aluminumwindowmachines",
+      link: "/products/aluminum-window-machines",
       subItems: [
         {
           name: "Aluminum Cutting Machine",
           desc: "Precision cutting...",
           icon: "FaIndustry",
-          link: "/products/aluminumwindowmachines",
+          link: "/products/aluminum-window-machines",
         },
         {
           name: "Aluminum Lock Hole Machine",
           desc: "Routing and drilling...",
           icon: "FaIndustry",
-          link: "/products/aluminumwindowmachines",
+          link: "/products/aluminum-window-machines",
         },
         {
           name: "Aluminum Mullion Machine",
           desc: "Designed to cut mullions...",
           icon: "FaIndustry",
-          link: "/products/aluminumwindowmachines",
+          link: "/products/aluminum-window-machines",
         },
         {
           name: "Aluminum Punching & Crimping Machine",
           desc: "Punch and crimp frames...",
           icon: "FaIndustry",
-          link: "/products/aluminumwindowmachines",
+          link: "/products/aluminum-window-machines",
         },
       ],
     },
@@ -227,45 +230,92 @@ const RedLionNavbar = ({ onOpenQuote }) => {
       name: "About Us",
       desc: "Our story and journey",
       icon: "FaIndustry",
-      link: "/ourcompany/about",
+      link: "/our-company/about",
     },
     {
       name: "Mission & Vision",
       desc: "Our goals and aspirations",
       icon: "FaEye",
-      link: "/ourcompany/missionvision",
+      link: "/our-company/mission-vision",
     },
     {
       name: "Our Team",
       desc: "Meet our experts",
       icon: "FaUsers",
-      link: "/ourcompany/team",
+      link: "/our-company/team",
     },
     {
       name: "Blogs",
       desc: "Latest industry insights",
       icon: "FaBlog",
-      link: "/ourcompany/ourblogs",
+      link: "/our-company/ourblogs",
     },
     {
       name: "News",
       desc: "Company updates and events",
       icon: "FaNewspaper",
-      link: "/ourcompany/news",
+      link: "/our-company/news",
     },
     {
       name: "FAQ",
       desc: "Frequently asked questions",
       icon: "FaQuestionCircle",
-      link: "/ourcompany/faq",
+      link: "/our-company/faq",
     },
   ];
+
+  const toAbsolutePath = (path = "") => {
+    if (!path || path === "#") return location.pathname;
+    const [pathnamePart] = path.split("#");
+    const normalizedPath = pathnamePart.startsWith("/")
+      ? pathnamePart
+      : `/${pathnamePart}`;
+    const cleanPath = normalizedPath.replace(/\/+$/, "") || "/";
+    return cleanPath;
+  };
+
+  const resolveProductLink = (item) => {
+    if (!item?.link) return item?.link;
+
+    const normalizedLink = toAbsolutePath(item.link || "");
+    const lowerName = (item.name || "").toLowerCase();
+    const lowerLink = normalizedLink.toLowerCase();
+
+    const isUpvc =
+      lowerName.includes("upvc") ||
+      lowerLink.includes("/products/upvc-window-machines");
+    const isAluminum =
+      lowerName.includes("aluminum") ||
+      lowerName.includes("aluminium") ||
+      lowerLink.includes("/products/aluminum-window-machines");
+
+    if (isUpvc) {
+      const route = "/products/upvc-window-machines";
+      const categorySlug = getUpvcCategorySlugByName(item.name);
+      return categorySlug ? `${route}/${categorySlug}` : route;
+    }
+
+    if (isAluminum) {
+      const route = "/products/aluminum-window-machines";
+      const categorySlug = getAluminumCategorySlugByName(item.name);
+      return categorySlug ? `${route}/${categorySlug}` : route;
+    }
+
+    return normalizedLink;
+  };
+
+  const handleProductLinkClick = () => {
+    setMobileOpen(false);
+    setSidebarOpen(false);
+    setOpenDropdowns({});
+  };
 
   const mapIconsToData = (items) => {
     return items.map((item) => {
       const IconComponent = iconMap[item.icon] || FaTools;
       const newItem = {
         ...item,
+        link: resolveProductLink(item),
         icon: <IconComponent className="text-red-600" />,
       };
       if (item.subItems) {
@@ -396,10 +446,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
               key={index}
               to={item.link}
               className="flex items-start p-1.5 hover:bg-red-50 rounded-lg transition-all duration-300 group/item"
-              onClick={() => {
-                setMobileOpen(false);
-                setSidebarOpen(false);
-              }}
+              onClick={(event) => handleProductLinkClick(event, item.link)}
             >
               <span className="mt-1 mr-3 text-red-600 transform transition-transform duration-300 group-hover/item:scale-110">
                 {item.icon}
@@ -421,7 +468,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
           <Link
             to={item.link}
             className="flex items-center px-4 py-3 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 transition-all duration-300"
-            onClick={() => setSidebarOpen(false)}
+            onClick={(event) => handleProductLinkClick(event, item.link)}
           >
             {item.icon && (
               <span className="mr-3 transform transition-transform duration-300 group-hover/item:scale-110">
@@ -471,10 +518,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
               className={`w-full flex justify-between items-center py-2 px-3 text-gray-700 hover:text-red-600 rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-1 ${
                 level > 0 ? "pl-6" : ""
               }`}
-              onClick={() => {
-                setMobileOpen(false);
-                setOpenDropdowns({});
-              }}
+              onClick={(event) => handleProductLinkClick(event, item.link)}
             >
               <div className="flex items-center">
                 {item.icon && (
@@ -530,10 +574,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
               className={`block py-2 px-3 text-sm text-gray-600 hover:text-red-600 rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2 ${
                 level > 0 ? "pl-10" : "pl-8"
               }`}
-              onClick={() => {
-                setMobileOpen(false);
-                setOpenDropdowns({});
-              }}
+              onClick={(event) => handleProductLinkClick(event, item.link)}
             >
               <div className="font-medium">{item.name}</div>
               <div className="text-xs text-gray-500 mt-1">{item.desc}</div>
@@ -547,7 +588,10 @@ const RedLionNavbar = ({ onOpenQuote }) => {
   const renderAnnouncementBar = () => {
     // Mobile aur Desktop dono ke liye text aur slider hata diye gaye hain
     return (
-      <div className="bg-[#FB252D] fixed w-full z-50 text-white text-center text-xs md:text-sm py-2 px-4 lg:px-8 xl:px-12 flex items-center justify-between min-h-[36px]">
+      <div
+        id="announcement-bar"
+        className="bg-[#FB252D] fixed w-full z-50 text-white text-center text-xs md:text-sm py-2 px-4 lg:px-8 xl:px-12 flex items-center justify-between min-h-[36px]"
+      >
         <div className="items-center hidden md:flex space-x-3 mr-0">
           {socialLinks.map((social, index) => {
             const IconComponent = iconMap[social.icon] || FaFacebook;
@@ -586,7 +630,10 @@ const RedLionNavbar = ({ onOpenQuote }) => {
   return (
     <>
       {renderAnnouncementBar()}
-      <nav className="bg-white/95 bg-[url('https://static.vecteezy.com/system/resources/thumbnails/007/100/608/small/abstract-geometric-white-and-gray-on-light-silver-gradient-background-modern-banner-design-illustration-free-vector.jpg')] bg-cover bg-center backdrop-blur-md border-b border-gray-200 sticky top-9 z-50 shadow-lg transition-all duration-300 hover:shadow-xl">
+      <nav
+        id="main-navbar"
+        className="bg-white/95 bg-[url('https://static.vecteezy.com/system/resources/thumbnails/007/100/608/small/abstract-geometric-white-and-gray-on-light-silver-gradient-background-modern-banner-design-illustration-free-vector.jpg')] bg-cover bg-center backdrop-blur-md border-b border-gray-200 sticky top-9 z-50 shadow-lg transition-all duration-300 hover:shadow-xl"
+      >
         <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-4 xl:px-12 2xl:px-16">
           <div className="flex justify-between items-center">
             <div className="flex items-center group">
@@ -650,7 +697,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                 </div>
               </div>
               <div className="relative group">
-                <Link to="/ourcompany">
+                <Link to="/our-company">
                   <div className="flex items-center text-gray-700 hover:text-red-600 font-medium transition-all duration-300 cursor-pointer text-sm xl:text-base whitespace-nowrap">
                     Our Company
                     <FiChevronDown className="ml-1 transition-transform duration-300 group-hover:rotate-180" />
@@ -680,21 +727,21 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                 </div>
               </div>
               <Link
-                to="/turnkeypage"
+                to="/turn-key"
                 className="relative text-gray-700 hover:text-red-600 transition-all duration-300 font-medium group text-sm xl:text-base whitespace-nowrap"
               >
                 Turn Key
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-600 transition-all duration-300 group-hover:w-full"></span>
               </Link>
               <Link
-                to="/casestudies"
+                to="/case-studies"
                 className="relative text-gray-700 hover:text-red-600 transition-all duration-300 font-medium group text-sm xl:text-base whitespace-nowrap"
               >
                 Case Studies
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-600 transition-all duration-300 group-hover:w-full"></span>
               </Link>
               <Link
-                to="/contact"
+                to="/contact-us"
                 className="relative text-gray-700 hover:text-red-600 transition-all duration-300 font-medium group text-sm xl:text-base whitespace-nowrap"
               >
                 Contact Us
@@ -903,7 +950,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
               </div>
             </div>
             <Link
-              to="/turnkeypage"
+              to="/turn-key"
               className="block py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
               onClick={() => {
                 setMobileOpen(false);
@@ -913,7 +960,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
               Turn Key
             </Link>
             <Link
-              to="/casestudies"
+              to="/case-studies"
               className="block py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
               onClick={() => {
                 setMobileOpen(false);
@@ -923,7 +970,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
               Case Studies
             </Link>
             <Link
-              to="/contact"
+              to="/contact-us"
               className="block py-3 px-3 text-gray-700 hover:text-red-600 font-medium rounded-lg hover:bg-red-50 transition-all duration-300 transform hover:translate-x-2"
               onClick={() => {
                 setMobileOpen(false);
@@ -1002,7 +1049,13 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                 key={index}
                 className="p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200 hover:border-red-300 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-red-200/50 group"
               >
-                <Link to={category.link} className="flex items-center">
+                <Link
+                  to={category.link}
+                  className="flex items-center"
+                  onClick={(event) =>
+                    handleProductLinkClick(event, category.link)
+                  }
+                >
                   <div className="mr-4 p-3 bg-white rounded-xl shadow-md transition-all duration-300 group-hover:shadow-lg group-hover:shadow-red-200/50">
                     <span className="transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12 inline-block">
                       {category.icon}
@@ -1023,7 +1076,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                       key={itemIndex}
                       to={item.link}
                       className="block p-3 text-sm hover:bg-white/80 rounded-lg transition-all duration-300 transform hover:translate-x-2 hover:shadow-md group/item"
-                      onClick={() => setSidebarOpen(false)}
+                      onClick={(event) => handleProductLinkClick(event, item.link)}
                     >
                       <div className="flex items-start">
                         <span className="mt-1 mr-3 text-red-600">

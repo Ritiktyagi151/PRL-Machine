@@ -1,5 +1,5 @@
 // UPVCWindowMachinesPage.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   FiArrowRight,
   FiDownload,
@@ -10,13 +10,18 @@ import {
 } from "react-icons/fi";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { scrollToElementId } from "../../utils/hashScroll";
+import { UPVC_CATEGORIES } from "../../utils/upvcCategories";
 
 const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
 // 🔹 Backend URL without /api to access the uploads folder
 const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
 const UPVCWindowMachinesPage = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { categorySlug } = useParams();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState(1);
   const [upvcData, setUpvcData] = useState([]);
@@ -72,22 +77,16 @@ const UPVCWindowMachinesPage = () => {
     return "Other Special Machines";
   };
 
-  // Product categories data
-  const categories = [
-    { id: 1, name: "uPVC Welding Machines" },
-    { id: 2, name: "uPVC Cutting Machines" },
-    { id: 3, name: "uPVC Cleaning Machines" },
-    { id: 4, name: "uPVC Copy Router & Lock Hole Machines" },
-    { id: 5, name: "uPVC Glazing Bead Cutting Machines" },
-    { id: 6, name: "uPVC Drainage Water Slot Machines" },
-    { id: 7, name: "uPVC Mullion Cutting Machines" },
-    { id: 8, name: "uPVC Interlock Punching" },
-    { id: 9, name: "Hand Tools" },
-    { id: 10, name: "Other Special Machines" },
-  ].map((cat) => ({
-    ...cat,
-    products: upvcData.filter((p) => getCategoryFromName(p.name) === cat.name),
-  }));
+  const categories = useMemo(
+    () =>
+      UPVC_CATEGORIES.map((category) => ({
+        ...category,
+        products: upvcData.filter(
+          (product) => getCategoryFromName(product.name) === category.name,
+        ),
+      })),
+    [upvcData],
+  );
 
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
@@ -128,14 +127,46 @@ const UPVCWindowMachinesPage = () => {
     );
   };
 
-  const scrollToCategory = (categoryId) => {
-    setActiveCategory(categoryId);
-    const element = document.getElementById(`category-${categoryId}`);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+  const scrollToCategory = (category) => {
+    if (!category) return;
+
+    setActiveCategory(category.id);
     setIsMobileSidebarOpen(false);
+
+    const targetPath = `/products/upvc-window-machines/${category.slug}`;
+    if (location.pathname !== targetPath) {
+      navigate(targetPath);
+      return;
+    }
+
+    scrollToElementId(`category-${category.id}`);
   };
+
+  useEffect(() => {
+    if (loading || categories.length === 0) return;
+    if (!categorySlug) return;
+
+    const category = categories.find((item) => item.slug === categorySlug);
+    if (!category) return;
+
+    setActiveCategory(category.id);
+    let attempts = 0;
+    let timeoutId;
+
+    const tryScroll = () => {
+      attempts += 1;
+      const behavior = attempts === 1 ? "auto" : "smooth";
+      const didScroll = scrollToElementId(`category-${category.id}`, behavior);
+      if (didScroll || attempts >= 40) return;
+      timeoutId = window.setTimeout(tryScroll, 100);
+    };
+
+    timeoutId = window.setTimeout(tryScroll, 0);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [categorySlug, categories, loading]);
 
   if (loading) {
     return (
@@ -262,7 +293,7 @@ const UPVCWindowMachinesPage = () => {
               {categories.map((category) => (
                 <button
                   key={category.id}
-                  onClick={() => scrollToCategory(category.id)}
+                  onClick={() => scrollToCategory(category)}
                   className={`w-full text-left px-3 py-2 rounded-md transition-colors ${
                     activeCategory === category.id
                       ? "bg-gradient-to-r from-[#46266A] to-[#FB252E] text-white"
@@ -288,16 +319,17 @@ const UPVCWindowMachinesPage = () => {
               className="flex flex-wrap gap-2"
             >
               {categories.map((category) => (
-                <motion.a
+                <motion.button
                   key={category.id}
                   variants={fadeIn}
-                  href={`#category-${category.id}`}
+                  type="button"
                   className="bg-white px-4 py-2 rounded-md shadow-sm hover:bg-[#46266A] hover:text-white border border-gray-200 transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => scrollToCategory(category)}
                 >
                   {category.name} ({category.products.length})
-                </motion.a>
+                </motion.button>
               ))}
             </motion.div>
           </div>
@@ -433,3 +465,4 @@ const UPVCWindowMachinesPage = () => {
 };
 
 export default UPVCWindowMachinesPage;
+
