@@ -230,7 +230,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
       name: "About Us",
       desc: "Our story and journey",
       icon: "FaIndustry",
-      link: "/our-company/about",
+      link: "/our-company/about-us",
     },
     {
       name: "Mission & Vision",
@@ -242,7 +242,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
       name: "Our Team",
       desc: "Meet our experts",
       icon: "FaUsers",
-      link: "/our-company/team",
+      link: "/our-company/our-team",
     },
     {
       name: "Blogs",

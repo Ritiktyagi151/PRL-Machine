@@ -119,10 +119,10 @@ const router = createBrowserRouter([
         element: <OurCompanyPage />,
         children: [
           { index: true, element: <Navigate to="about" replace /> },
-          { path: "about", element: <AboutPage /> },
+          { path: "about-us", element: <AboutPage /> },
           { path: "faq", element: <FAQ /> },
           { path: "blogs", element: <Blogspage /> },
-          { path: "team", element: <OurTeam /> },
+          { path: "our-team", element: <OurTeam /> },
           { path: "news", element: <News /> },
           { path: "mission-vision", element: <MissionVision /> },
         ],

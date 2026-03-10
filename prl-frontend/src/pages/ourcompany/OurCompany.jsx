@@ -7,10 +7,10 @@ const OurCompanyPage = () => {
   const location = useLocation();
 
   const menuItems = [
-    { path: "about", name: "About Us" },
+    { path: "about-us", name: "About Us" },
     { path: "faq", name: "FAQ" },
     { path: "blogs", name: "Our Blogs" },
-    { path: "team", name: "Our Team" },
+    { path: "our-team", name: "Our Team" },
     { path: "news", name: "News" },
     { path: "mission-vision", name: "Mission & Vision" },
   ];
