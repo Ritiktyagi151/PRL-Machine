@@ -121,7 +121,7 @@ const router = createBrowserRouter([
           { index: true, element: <Navigate to="about" replace /> },
           { path: "about", element: <AboutPage /> },
           { path: "faq", element: <FAQ /> },
-          { path: "our-blogs", element: <Blogspage /> },
+          { path: "blogs", element: <Blogspage /> },
           { path: "team", element: <OurTeam /> },
           { path: "news", element: <News /> },
           { path: "mission-vision", element: <MissionVision /> },

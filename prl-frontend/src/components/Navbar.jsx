@@ -248,7 +248,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
       name: "Blogs",
       desc: "Latest industry insights",
       icon: "FaBlog",
-      link: "/our-company/ourblogs",
+      link: "/our-company/blogs",
     },
     {
       name: "News",
@@ -1076,7 +1076,9 @@ const RedLionNavbar = ({ onOpenQuote }) => {
                       key={itemIndex}
                       to={item.link}
                       className="block p-3 text-sm hover:bg-white/80 rounded-lg transition-all duration-300 transform hover:translate-x-2 hover:shadow-md group/item"
-                      onClick={(event) => handleProductLinkClick(event, item.link)}
+                      onClick={(event) =>
+                        handleProductLinkClick(event, item.link)
+                      }
                     >
                       <div className="flex items-start">
                         <span className="mt-1 mr-3 text-red-600">

@@ -9,10 +9,10 @@ const OurCompanyPage = () => {
   const menuItems = [
     { path: "about", name: "About Us" },
     { path: "faq", name: "FAQ" },
-    { path: "ourblogs", name: "Our Blogs" },
+    { path: "blogs", name: "Our Blogs" },
     { path: "team", name: "Our Team" },
     { path: "news", name: "News" },
-    { path: "missionvision", name: "Mission & Vision" },
+    { path: "mission-vision", name: "Mission & Vision" },
   ];
 
   return (
@@ -117,19 +117,19 @@ const OurCompanyPage = () => {
                     {menuItems.map((item) => (
                       <li key={item.path}>
                         <Link
-                          to={`/ourcompany/${item.path}`}
+                          to={`/our-company/${item.path}`}
                           className={`block px-6 py-3 transition duration-150 ${
-                            location.pathname === `/ourcompany/${item.path}`
+                            location.pathname === `/our-company/${item.path}`
                               ? "font-medium border-l-4 text-black"
                               : "text-gray-700 hover:text-black"
                           }`}
                           style={{
                             backgroundColor:
-                              location.pathname === `/ourcompany/${item.path}`
+                              location.pathname === `/our-company/${item.path}`
                                 ? "#F3F4F6" // Gray background
                                 : "transparent",
                             borderColor:
-                              location.pathname === `/ourcompany/${item.path}`
+                              location.pathname === `/our-company/${item.path}`
                                 ? "#281E5A"
                                 : "transparent",
                           }}
