@@ -70,23 +70,15 @@ const Seo = ({
   appleTouchIconUrl,
   manifestUrl,
   analytics = {},
-  settings = {},
 }) => {
   const siteUrl = getSiteUrl().replace(/\/+$/, "");
-  const resolvedTitle = title || settings.websiteName || "Parida Red Lion";
-  const resolvedDescription = stripHtml(
-    description || settings.defaultMetaDescription || "",
-  ).slice(0, 160);
-  const resolvedKeywords = normalizeKeywords(
-    keywords?.length ? keywords : settings.defaultMetaKeywords,
-  ).join(", ");
+  const resolvedTitle = title || "Parida Red Lion";
+  const resolvedDescription = stripHtml(description || "").slice(0, 160);
+  const resolvedKeywords = normalizeKeywords(keywords).join(", ");
   const resolvedCanonicalUrl =
     canonicalUrl || toAbsoluteUrl(canonicalPath || "/", siteUrl) || `${siteUrl}/`;
-  const resolvedOgImage = toAbsoluteUrl(ogImage || settings.defaultOgImage || "", siteUrl);
-  const resolvedTwitterImage = toAbsoluteUrl(
-    twitterImage || ogImage || settings.defaultOgImage || "",
-    siteUrl,
-  );
+  const resolvedOgImage = toAbsoluteUrl(ogImage || "", siteUrl);
+  const resolvedTwitterImage = toAbsoluteUrl(twitterImage || ogImage || "", siteUrl);
   const resolvedOgUrl = ogUrl || resolvedCanonicalUrl;
   const resolvedJsonLd = useMemo(
     () => parseJsonLd(schemaJson || jsonLd),
@@ -138,7 +130,7 @@ const Seo = ({
   return (
     <Helmet prioritizeSeoTags>
       <title>{resolvedTitle}</title>
-      <html lang={language || settings.defaultMetaLanguage || "en"} />
+      <html lang={language || "en"} />
       <link rel="canonical" href={resolvedCanonicalUrl} />
       {faviconUrl ? <link rel="icon" href={toAbsoluteUrl(faviconUrl, siteUrl)} /> : null}
       {appleTouchIconUrl ? (
@@ -172,18 +164,10 @@ const Seo = ({
 
       {resolvedDescription ? <meta name="description" content={resolvedDescription} /> : null}
       {resolvedKeywords ? <meta name="keywords" content={resolvedKeywords} /> : null}
-      {author || settings.defaultMetaAuthor ? (
-        <meta name="author" content={author || settings.defaultMetaAuthor} />
-      ) : null}
-      {publisher || settings.defaultMetaPublisher ? (
-        <meta name="publisher" content={publisher || settings.defaultMetaPublisher} />
-      ) : null}
-      {robots || settings.defaultRobots ? (
-        <meta name="robots" content={robots || settings.defaultRobots} />
-      ) : null}
-      {themeColor || settings.defaultThemeColor ? (
-        <meta name="theme-color" content={themeColor || settings.defaultThemeColor} />
-      ) : null}
+      {author ? <meta name="author" content={author} /> : null}
+      {publisher ? <meta name="publisher" content={publisher} /> : null}
+      {robots ? <meta name="robots" content={robots} /> : null}
+      {themeColor ? <meta name="theme-color" content={themeColor} /> : null}
       {analytics?.googleSearchConsoleCode ? (
         <meta name="google-site-verification" content={analytics.googleSearchConsoleCode} />
       ) : null}
@@ -207,13 +191,8 @@ const Seo = ({
       {resolvedOgImage ? <meta property="og:image" content={resolvedOgImage} /> : null}
       <meta property="og:type" content={ogType || "website"} />
       <meta property="og:url" content={resolvedOgUrl} />
-      <meta
-        property="og:site_name"
-        content={ogSiteName || settings.defaultOgSiteName || settings.websiteName || "Parida Red Lion"}
-      />
-      {ogLocale || settings.defaultOgLocale ? (
-        <meta property="og:locale" content={ogLocale || settings.defaultOgLocale} />
-      ) : null}
+      <meta property="og:site_name" content={ogSiteName || "Parida Red Lion"} />
+      {ogLocale ? <meta property="og:locale" content={ogLocale} /> : null}
 
       <meta name="twitter:card" content={twitterCard || "summary_large_image"} />
       <meta name="twitter:title" content={twitterTitle || resolvedTitle} />
@@ -221,15 +200,8 @@ const Seo = ({
         <meta name="twitter:description" content={twitterDescription || resolvedDescription} />
       ) : null}
       {resolvedTwitterImage ? <meta name="twitter:image" content={resolvedTwitterImage} /> : null}
-      {twitterSite || settings.defaultTwitterSite ? (
-        <meta name="twitter:site" content={twitterSite || settings.defaultTwitterSite} />
-      ) : null}
-      {twitterCreator || settings.defaultTwitterCreator ? (
-        <meta
-          name="twitter:creator"
-          content={twitterCreator || settings.defaultTwitterCreator}
-        />
-      ) : null}
+      {twitterSite ? <meta name="twitter:site" content={twitterSite} /> : null}
+      {twitterCreator ? <meta name="twitter:creator" content={twitterCreator} /> : null}
 
       {additionalMetaTags.map((item, index) => {
         if (!item?.name && !item?.property && !item?.httpEquiv && !item?.charset) {

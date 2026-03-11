@@ -13,6 +13,7 @@ import { useInView } from "react-intersection-observer";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { scrollToElementId } from "../../utils/hashScroll";
 import { UPVC_CATEGORIES } from "../../utils/upvcCategories";
+import { getCanonicalProductPath } from "../../utils/productRouting";
 
 const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
 // 🔹 Backend URL without /api to access the uploads folder
@@ -359,7 +360,7 @@ const UPVCWindowMachinesPage = () => {
                       className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
                       whileHover={{ y: -5 }}
                     >
-                      <Link to={`/productdetailupvc/${product.id}`}>
+                      <Link to={getCanonicalProductPath(product)}>
                         <div className="relative h-40 overflow-hidden">
                           <motion.img
                             src={getImageUrl(product.images?.[0])}
@@ -415,7 +416,7 @@ const UPVCWindowMachinesPage = () => {
                               <FiShoppingCart className="mr-1" /> Enquire
                             </motion.button>
                           </Link>
-                          <Link to={`/productdetailupvc/${product.id}`}>
+                          <Link to={getCanonicalProductPath(product)}>
                             <motion.button
                               className="flex items-center border border-[#FB252E] text-[#FB252E] px-3 py-1 rounded-md hover:bg-red-50 transition-colors text-sm"
                               whileHover={{ scale: 1.05 }}

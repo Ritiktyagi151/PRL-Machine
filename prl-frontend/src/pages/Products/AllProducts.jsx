@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { getCanonicalProductPath } from "../../utils/productRouting";
 
 // API URLs from your environment variables
 const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
@@ -223,7 +224,7 @@ const MachineCategoryPage = () => {
             </motion.ul>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/products/upvcwindowmachines">
+              <Link to="/products/upvc-window-machines">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -265,7 +266,7 @@ const MachineCategoryPage = () => {
                 High-performance solutions for every production need
               </p>
             </div>
-            <Link to="/products/upvcwindowmachines">
+            <Link to="/products/upvc-window-machines">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -316,9 +317,7 @@ const MachineCategoryPage = () => {
                       <h4 className="font-bold text-lg mb-3 text-gray-800">
                         {product.name}
                       </h4>
-                      <Link
-                        to={`/productdetailupvc/${product.id || product._id}`}
-                      >
+                      <Link to={getCanonicalProductPath(product)}>
                         <motion.button
                           whileHover={{ x: 5 }}
                           className="flex items-center text-[#FB252E] font-semibold"
@@ -418,7 +417,7 @@ const MachineCategoryPage = () => {
               </motion.ul>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/products/aluminumwindowmachines">
+                <Link to="/products/aluminum-window-machines">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -461,7 +460,7 @@ const MachineCategoryPage = () => {
                 Precision solutions for aluminum fabrication
               </p>
             </div>
-            <Link to="/products/aluminumwindowmachines">
+            <Link to="/products/aluminum-window-machines">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -512,11 +511,7 @@ const MachineCategoryPage = () => {
                       <h4 className="font-bold text-lg mb-3 text-gray-800">
                         {product.name}
                       </h4>
-                      <Link
-                        to={`/productdetailaluminium/${
-                          product.id || product._id
-                        }`}
-                      >
+                      <Link to={getCanonicalProductPath(product)}>
                         <motion.button
                           whileHover={{ x: 5 }}
                           className="flex items-center text-[#46266A] font-semibold"

@@ -10,6 +10,7 @@ import {
   ChevronRight,
   MessageSquare,
   Home,
+  Search,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
@@ -24,6 +25,7 @@ const Sidebar = ({ sidebarOpen }) => {
     { label: "Dashboard", icon: LayoutDashboard, path: "/admin/dashboard" },
     { label: "Navbar", icon: Navigation, path: "/admin/navbar" },
     { label: "Blogs", icon: FileText, path: "/admin/blog" },
+    { label: "SEO", icon: Search, path: "/admin/seo" },
     {
       label: "Products",
       icon: ShoppingBag,

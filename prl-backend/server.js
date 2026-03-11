@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const fs = require("fs");
 const multer = require("multer");
+const seoController = require("./controllers/seoController");
 
 // DB Connection
 const connectDB = require("./config/db");
@@ -118,6 +119,7 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
 /**
  * 6. ROUTES SETUP
  */
+app.use(seoController.handleRedirectLookup);
 app.use("/api/blogs", require("./routes/blogRoutes"));
 app.use("/api/navbar", require("./routes/navbarRoutes"));
 app.use("/api/footer", require("./routes/footerRoutes"));
@@ -126,6 +128,9 @@ app.use("/api/upvcmachines", require("./routes/upvcmachineRoutes"));
 app.use("/api/testimonials", require("./routes/testimonialRoutes"));
 app.use("/api/contact", require("./routes/contactRoutes"));
 app.use("/api/site-config", require("./routes/siteConfigRoutes"));
+app.use("/api/seo", require("./routes/seoRoutes"));
+app.get("/sitemap.xml", seoController.serveSitemapXml);
+app.get("/robots.txt", seoController.serveRobotsTxt);
 
 /**
  * 7. BASE ROUTE

@@ -12,6 +12,7 @@ import { useInView } from "react-intersection-observer";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { scrollToElementId } from "../../utils/hashScroll";
 import { ALUMINUM_CATEGORIES } from "../../utils/aluminumCategories";
+import { getCanonicalProductPath } from "../../utils/productRouting";
 
 const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/aluminum-machines`;
 // 🔹 Backend URL without /api to access the uploads folder
@@ -361,11 +362,7 @@ const AluminumWindowMachinesPage = () => {
                       className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
                       whileHover={{ y: -5 }}
                     >
-                      <Link
-                        to={`/productdetailaluminium/${
-                          product.id || product._id
-                        }`}
-                      >
+                      <Link to={getCanonicalProductPath(product)}>
                         <div className="relative h-40 overflow-hidden">
                           <motion.img
                             src={getImageUrl(product.images?.[0])}
@@ -439,11 +436,7 @@ const AluminumWindowMachinesPage = () => {
                               <FiShoppingCart className="mr-1" /> Enquire
                             </motion.button>
                           </Link>
-                          <Link
-                            to={`/productdetailaluminium/${
-                              product.id || product._id
-                            }`}
-                          >
+                          <Link to={getCanonicalProductPath(product)}>
                             <motion.button
                               className="flex items-center border border-[#FB252E] text-[#FB252E] px-3 py-1 rounded-md hover:bg-red-50 transition-colors text-sm"
                               whileHover={{ scale: 1.05 }}

@@ -1,6 +1,6 @@
 // ProductDetailuPVC.jsx
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import {
   FiArrowLeft,
   FiDownload,
@@ -14,15 +14,17 @@ import {
 } from "react-icons/fi";
 import OurPartners from "../Home/TrustedSlider";
 import ValuedClients from "../Home/Our-Clients";
-import Seo from "../../common/seo/Seo";
+import { getCanonicalProductPath } from "../../utils/productRouting";
 
 const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
 // 🔹 Backend URL without /api to access the uploads folder
 const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
-const ProductDetailuPVC = () => {
-  const { id: idParam } = useParams(); // URL parameter (Custom ID string)
+const ProductDetailuPVC = ({ productIdentifier = null }) => {
+  const { id: idParam } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const identifier = productIdentifier || idParam;
 
   const [product, setProduct] = useState(null);
   const [upvcData, setUpvcData] = useState([]);
@@ -46,7 +48,7 @@ const ProductDetailuPVC = () => {
       try {
         setLoading(true);
         // Direct custom ID string bhejien backend ko
-        const response = await fetch(`${UPVC_API_URL}/${idParam}`);
+        const response = await fetch(`${UPVC_API_URL}/${identifier}`);
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -68,10 +70,19 @@ const ProductDetailuPVC = () => {
       }
     };
 
-    if (idParam) {
+    if (identifier) {
       fetchUpvcData();
     }
-  }, [idParam, navigate]);
+  }, [identifier, navigate]);
+
+  useEffect(() => {
+    if (!product) return;
+
+    const canonicalPath = getCanonicalProductPath(product);
+    if (location.pathname !== canonicalPath) {
+      navigate(canonicalPath, { replace: true });
+    }
+  }, [location.pathname, navigate, product]);
 
   const nextSlide = () => {
     if (!product || !product.images || product.images.length === 0) return;
@@ -181,7 +192,7 @@ const ProductDetailuPVC = () => {
     return null;
   }
 
-  const canonicalPath = `/productdetailupvc/${product.id || product._id || idParam}`;
+  const canonicalPath = getCanonicalProductPath(product);
   const productImage = getFullUrl(product.images?.[0]);
   const productDescription =
     product.description || "Explore technical details of this uPVC window machinery.";
@@ -209,15 +220,6 @@ const ProductDetailuPVC = () => {
 
   return (
     <div className="max-w-7xl mt-12 mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <Seo
-        title={`${product.name} | uPVC Machine | Parida Red Lion`}
-        description={productDescription}
-        canonicalPath={canonicalPath}
-        image={productImage}
-        type="product"
-        keywords={["uPVC machine", product.name, "window fabrication machinery"]}
-        jsonLd={productJsonLd}
-      />
       {/* Breadcrumb */}
       <nav className="flex mb-8" aria-label="Breadcrumb">
         <ol className="flex items-center space-x-2 text-sm text-gray-500">
@@ -241,7 +243,7 @@ const ProductDetailuPVC = () => {
           <li className="flex items-center">
             <span className="mx-2">/</span>
             <button
-              onClick={() => navigate("/products/upvcwindowmachines")}
+              onClick={() => navigate("/products/upvc-window-machines")}
               className="hover:text-purple-700 transition-colors"
             >
               uPVC
@@ -755,7 +757,7 @@ const ProductDetailuPVC = () => {
                 key={idx}
                 className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all cursor-pointer border border-gray-100"
                 onClick={() =>
-                  navigate(`/productdetailupvc/${related.id || related._id}`)
+                  navigate(getCanonicalProductPath(related))
                 }
               >
                 <div className="h-48 bg-gray-100 overflow-hidden relative">

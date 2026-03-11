@@ -14,6 +14,8 @@ import { FiArrowUpRight, FiChevronRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { getUpvcCategorySlugByName } from "../utils/upvcCategories";
+import { getAluminumCategorySlugByName } from "../utils/aluminumCategories";
 
 const API_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
@@ -130,6 +132,28 @@ const getDefaultFooterData = () => {
 const Footer = () => {
   const [footerData, setFooterData] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const resolveFooterProductLink = (item, isParent = false) => {
+    const lowerName = (item?.name || "").toLowerCase();
+
+    if (lowerName.includes("upvc")) {
+      if (isParent) return "/products/upvc-window-machines";
+      const productSlug = getUpvcCategorySlugByName(item.name);
+      return productSlug
+        ? `/products/upvc-window-machines/${productSlug}`
+        : "/products/upvc-window-machines";
+    }
+
+    if (lowerName.includes("aluminum") || lowerName.includes("aluminium")) {
+      if (isParent) return "/products/aluminum-window-machines";
+      const productSlug = getAluminumCategorySlugByName(item.name);
+      return productSlug
+        ? `/products/aluminum-window-machines/${productSlug}`
+        : "/products/aluminum-window-machines";
+    }
+
+    return item?.link || "/products";
+  };
 
   useEffect(() => {
     const fetchFooterData = async () => {
@@ -257,7 +281,7 @@ const Footer = () => {
               {footerData.products.map((product, index) => (
                 <div key={index} className="group">
                   <Link
-                    to={product.link}
+                    to={resolveFooterProductLink(product, true)}
                     className="flex items-center gap-2 font-bold text-[#312674] hover:text-[#FC252E] transition-colors mb-3"
                   >
                     <span className="text-[#FC252E] bg-red-50 p-1.5 rounded-md">
@@ -270,7 +294,7 @@ const Footer = () => {
                       product.subItems.map((sub, idx) => (
                         <li key={idx}>
                           <Link
-                            to={sub.link}
+                            to={resolveFooterProductLink(sub)}
                             className="flex items-start text-sm text-gray-500 hover:text-[#FC252E] group/item transition-all duration-200"
                           >
                             <span className="mt-1.5 w-1 h-1 bg-gray-300 rounded-full mr-2 group-hover/item:bg-[#FC252E]"></span>

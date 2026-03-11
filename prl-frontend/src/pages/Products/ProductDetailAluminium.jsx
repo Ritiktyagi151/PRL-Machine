@@ -1,6 +1,6 @@
 // AluminiumDetail.jsx
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import {
   FiArrowLeft,
   FiDownload,
@@ -14,15 +14,17 @@ import {
 } from "react-icons/fi";
 import OurPartners from "../Home/TrustedSlider";
 import ValuedClients from "../Home/Our-Clients";
-import Seo from "../../common/seo/Seo";
+import { getCanonicalProductPath } from "../../utils/productRouting";
 
 const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/aluminum-machines`;
 // 🔹 Backend URL without /api to access the uploads folder
 const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
-const AluminiumDetail = () => {
+const AluminiumDetail = ({ productIdentifier = null }) => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const identifier = productIdentifier || id;
   const [product, setProduct] = useState(null);
   const [aluminumData, setAluminumData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -52,7 +54,9 @@ const AluminiumDetail = () => {
         setAluminumData(data);
 
         // Find by custom id or MongoDB _id
-        const matched = data.find((p) => p.id === id || p._id === id);
+        const matched = data.find(
+          (p) => p.id === identifier || p._id === identifier,
+        );
         if (!matched) {
           navigate("/not-found", { replace: true });
           return;
@@ -65,7 +69,16 @@ const AluminiumDetail = () => {
       }
     };
     fetchAluminumData();
-  }, [id, navigate]);
+  }, [identifier, navigate]);
+
+  useEffect(() => {
+    if (!product) return;
+
+    const canonicalPath = getCanonicalProductPath(product);
+    if (location.pathname !== canonicalPath) {
+      navigate(canonicalPath, { replace: true });
+    }
+  }, [location.pathname, navigate, product]);
 
   const nextSlide = () => {
     const totalImages = product.images?.length || 0;
@@ -157,7 +170,7 @@ const AluminiumDetail = () => {
 
   if (!product) return null;
 
-  const canonicalPath = `/productdetailaluminium/${product.id || product._id || id}`;
+  const canonicalPath = getCanonicalProductPath(product);
   const productImage = getFullUrl(product.images?.[0]);
   const productDescription =
     product.description ||
@@ -186,15 +199,6 @@ const AluminiumDetail = () => {
 
   return (
     <div className="max-w-7xl mt-12 mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <Seo
-        title={`${product.name} | Aluminum Machine | Parida Red Lion`}
-        description={productDescription}
-        canonicalPath={canonicalPath}
-        image={productImage}
-        type="product"
-        keywords={["aluminum machine", product.name, "window fabrication machinery"]}
-        jsonLd={productJsonLd}
-      />
       {/* Breadcrumb */}
       <nav className="flex mb-8" aria-label="Breadcrumb">
         <ol className="flex items-center space-x-2 text-sm text-gray-500">
@@ -218,7 +222,7 @@ const AluminiumDetail = () => {
           <li className="flex items-center">
             <span className="mx-2">/</span>
             <button
-              onClick={() => navigate("/products/aluminumwindowmachines")}
+              onClick={() => navigate("/products/aluminum-window-machines")}
               className="hover:text-purple-700 transition-colors"
             >
               Aluminum
@@ -632,16 +636,14 @@ const AluminiumDetail = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {aluminumData
-            .filter((p) => p.id !== id && p._id !== id)
+            .filter((p) => p.id !== identifier && p._id !== identifier)
             .slice(0, 3)
             .map((related, idx) => (
               <div
                 key={idx}
                 className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all cursor-pointer border border-gray-100"
                 onClick={() =>
-                  navigate(
-                    `/productdetailaluminium/${related.id || related._id}`,
-                  )
+                    navigate(getCanonicalProductPath(related))
                 }
               >
                 <div className="h-48 bg-gray-100 overflow-hidden relative">

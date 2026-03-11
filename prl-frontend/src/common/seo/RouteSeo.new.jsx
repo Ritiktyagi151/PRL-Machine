@@ -34,7 +34,6 @@ const buildSeoPayload = (pathname, settings = {}, matchedPage = null) => {
     .trim();
 
   return {
-    settings,
     title,
     description: matchedPage?.metaDescription || settings.defaultMetaDescription || "",
     keywords: toKeywordList(matchedPage?.metaKeywords || settings.defaultMetaKeywords),

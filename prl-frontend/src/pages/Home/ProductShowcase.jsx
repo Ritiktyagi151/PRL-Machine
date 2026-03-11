@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { getCanonicalProductPath } from "../../utils/productRouting";
 
 const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
 const ALUMINUM_API_URL = `${
@@ -369,7 +370,7 @@ const ProductShowcase = () => {
             ? upvcRes.value.data.map((p) => ({
                 title: p.name,
                 images: p.images,
-                link: `/productdetailupvc/${p.id || p._id}`, // Logic Update: Custom ID first
+                link: getCanonicalProductPath(p),
                 category: getCategoryFromName(p.name, "uPVC"),
                 type: "upvc",
               }))
@@ -380,7 +381,7 @@ const ProductShowcase = () => {
             ? aluminumRes.value.data.map((p) => ({
                 title: p.name,
                 images: p.images,
-                link: `/productdetailaluminium/${p.id || p._id}`, // Logic Update: Custom ID first
+                link: getCanonicalProductPath(p),
                 category: getCategoryFromName(p.name, "Aluminum"),
                 type: "aluminum",
               }))

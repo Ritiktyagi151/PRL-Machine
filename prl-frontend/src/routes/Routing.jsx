@@ -19,6 +19,8 @@ import AluminumWindowMachine from "../pages/Products/AluminumWindowMachine";
 import CaseStudiesPage from "../casestudies/Casestudies";
 import UpvcDetail from "../pages/Products/ProductDetailuPVC";
 import AluminiumDetail from "../pages/Products/ProductDetailAluminium";
+import ProductSlugPage from "../pages/Products/ProductSlugPage";
+import LegacyProductRedirect from "../pages/Products/LegacyProductRedirect";
 
 // Services Pages
 import Services from "../pages/services/Services";
@@ -44,6 +46,7 @@ import AdminNarbar from "../admin/sidebarpages/AdminNarbar";
 import AdminProducts from "../admin/sidebarpages/AdminProducts";
 import AdminUpvcProducts from "../admin/sidebarpages/AdminProductspages/AdminUpvcProducts";
 import AdminAluminumProducts from "../admin/sidebarpages/AdminProductspages/AdminAluminumProducts";
+import AdminSeoManager from "../admin/sidebarpages/AdminSeoManager";
 import AdminProfile from "../admin/adminnavorfootersidebar/AdminProfile";
 import AdminSettings from "../admin/adminnavorfootersidebar/AdminSettings";
 
@@ -92,6 +95,11 @@ const router = createBrowserRouter([
         path: "products/aluminum-window-machines/:categorySlug",
         element: <AluminumWindowMachine />,
       },
+      {
+        path: "products/:categorySlug/:productSlug",
+        element: <LegacyProductRedirect />,
+      },
+      { path: "products/:productSlug", element: <ProductSlugPage /> },
       { path: "contact-us", element: <Contact /> },
       { path: "privacy-policy", element: <PrivacyPolicy /> },
       { path: "terms-and-conditions", element: <TermsAndConditions /> },
@@ -167,6 +175,7 @@ const router = createBrowserRouter([
       { path: "contact", element: <AdminContact /> },
       { path: "footer", element: <AdminFooter /> },
       { path: "products", element: <AdminProducts /> },
+      { path: "seo", element: <AdminSeoManager /> },
       { path: "navbar", element: <AdminNarbar /> },
       { path: "testimonial", element: <Admintestimonial /> },
       { path: "profile", element: <AdminProfile /> },
