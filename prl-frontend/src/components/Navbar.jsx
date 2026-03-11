@@ -103,67 +103,67 @@ const RedLionNavbar = ({ onOpenQuote }) => {
     {
       name: "uPVC Window Machine",
       icon: "FaTools",
-      link: "products/upvc-window-machines",
+      link: "products/uPVC-window-making-machine-price",
       subItems: [
         {
           name: "uPVC Welding Machine",
           desc: "Includes Single Head...",
           icon: "FaTools",
-          link: "products/upvc-window-machines",
+          link: "products/uPVC-window-making-machine-price",
         },
         {
           name: "uPVC Cutting Machine",
           desc: "Precision cutting...",
           icon: "FaTools",
-          link: "/products/upvc-window-machines",
+          link: "/products/uPVC-window-making-machine-price",
         },
         {
           name: "uPVC Cleaning Machine",
           desc: "Ensures clean edges...",
           icon: "FaTools",
-          link: "/products/upvc-window-machines",
+          link: "/products/uPVC-window-making-machine-price",
         },
         {
           name: "uPVC Copy Router & Lock Hole Machine",
           desc: "Drilling and routing...",
           icon: "FaTools",
-          link: "/products/upvc-window-machines",
+          link: "/products/uPVC-window-making-machine-price",
         },
         {
           name: "uPVC Glazing Bead Cutting Machine",
           desc: "Cuts glazing bead profiles...",
           icon: "FaTools",
-          link: "/products/upvc-window-machines",
+          link: "/products/uPVC-window-making-machine-price",
         },
         {
           name: "uPVC Drainage Water Slot Machine",
           desc: "Creates drainage slots...",
           icon: "FaTools",
-          link: "/products/upvc-window-machines",
+          link: "/products/uPVC-window-making-machine-price",
         },
         {
           name: "uPVC Mullion Cutting Machine",
           desc: "Precise cutting for mullions...",
           icon: "FaTools",
-          link: "/products/upvc-window-machines",
+          link: "/products/uPVC-window-making-machine-price",
         },
         {
           name: "uPVC Interlock punching (IPL-300)",
           desc: "Efficient interlock punching...",
           icon: "FaTools",
-          link: "/products/upvc-window-machines",
+          link: "/products/uPVC-window-making-machine-price",
         },
         {
           name: "Hand Tools",
           desc: "Manual tools for uPVC tasks...",
           icon: "FaTools",
-          link: "/products/upvc-window-machines",
+          link: "/products/uPVC-window-making-machine-price",
         },
         {
           name: "Other Special Machine",
           desc: "Custom machines for uPVC...",
           icon: "FaTools",
-          link: "/products/upvc-window-machines",
+          link: "/products/uPVC-window-making-machine-price",
         },
       ],
     },
@@ -283,14 +283,14 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
     const isUpvc =
       lowerName.includes("upvc") ||
-      lowerLink.includes("/products/upvc-window-machines");
+      lowerLink.includes("/products/uPVC-window-making-machine-price");
     const isAluminum =
       lowerName.includes("aluminum") ||
       lowerName.includes("aluminium") ||
       lowerLink.includes("/products/aluminum-window-machines");
 
     if (isUpvc) {
-      const route = "/products/upvc-window-machines";
+      const route = "/products/uPVC-window-making-machine-price";
       if (isParent) return route;
       const categorySlug = getUpvcCategorySlugByName(item.name);
       return categorySlug ? `${route}/${categorySlug}` : route;
