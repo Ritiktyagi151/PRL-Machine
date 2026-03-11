@@ -274,7 +274,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
     return cleanPath;
   };
 
-  const resolveProductLink = (item) => {
+  const resolveProductLink = (item, isParent = false) => {
     if (!item?.link) return item?.link;
 
     const normalizedLink = toAbsolutePath(item.link || "");
@@ -291,12 +291,14 @@ const RedLionNavbar = ({ onOpenQuote }) => {
 
     if (isUpvc) {
       const route = "/products/upvc-window-machines";
+      if (isParent) return route;
       const categorySlug = getUpvcCategorySlugByName(item.name);
       return categorySlug ? `${route}/${categorySlug}` : route;
     }
 
     if (isAluminum) {
       const route = "/products/aluminum-window-machines";
+      if (isParent) return route;
       const categorySlug = getAluminumCategorySlugByName(item.name);
       return categorySlug ? `${route}/${categorySlug}` : route;
     }
@@ -315,7 +317,7 @@ const RedLionNavbar = ({ onOpenQuote }) => {
       const IconComponent = iconMap[item.icon] || FaTools;
       const newItem = {
         ...item,
-        link: resolveProductLink(item),
+        link: resolveProductLink(item, Boolean(item.subItems?.length)),
         icon: <IconComponent className="text-red-600" />,
       };
       if (item.subItems) {

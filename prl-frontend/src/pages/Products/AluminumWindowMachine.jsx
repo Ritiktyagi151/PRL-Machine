@@ -131,7 +131,7 @@ const AluminumWindowMachinesPage = () => {
     setActiveCategory(category.id);
     setIsMobileSidebarOpen(false);
 
-    const targetPath = `/products/aluminum-window-machines/${category.slug}`;
+    const targetPath = `/products/${category.slug}`;
     if (location.pathname !== targetPath) {
       navigate(targetPath);
       return;

@@ -59,6 +59,7 @@ import Admintestimonial from "../admin/sidebarpages/Admintestimonial";
 import PrivacyPolicy from "../components/Privacy-policy";
 import TermsAndConditions from "../components/Term-conditiom";
 import EnquiryForm from "../components/EnquiryForm";
+import Product from "../Product";
 
 // ✅ Auth check function
 const isAuthenticated = () => {
@@ -84,7 +85,7 @@ const router = createBrowserRouter([
       { path: "products", element: <AllProducts /> },
       { path: "products/upvc-window-machines", element: <Windowmachine /> },
       {
-        path: "products/upvc-window-machines/:categorySlug",
+        path: "products/:categorySlug",
         element: <Windowmachine />,
       },
       {
@@ -92,12 +93,16 @@ const router = createBrowserRouter([
         element: <AluminumWindowMachine />,
       },
       {
-        path: "products/aluminum-window-machines/:categorySlug",
+        path: "products/:categorySlug",
         element: <AluminumWindowMachine />,
       },
       {
         path: "products/:categorySlug/:productSlug",
         element: <LegacyProductRedirect />,
+      },
+       {
+        path: "product/:productSlug",
+        element: <Product/>,
       },
       { path: "products/:productSlug", element: <ProductSlugPage /> },
       { path: "contact-us", element: <Contact /> },

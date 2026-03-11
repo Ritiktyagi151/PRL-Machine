@@ -16,6 +16,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { getUpvcCategorySlugByName } from "../utils/upvcCategories";
 import { getAluminumCategorySlugByName } from "../utils/aluminumCategories";
+import { getCanonicalProductPath } from "../utils/productRouting";
 
 const API_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
@@ -140,7 +141,7 @@ const Footer = () => {
       if (isParent) return "/products/upvc-window-machines";
       const productSlug = getUpvcCategorySlugByName(item.name);
       return productSlug
-        ? `/products/upvc-window-machines/${productSlug}`
+        ? getCanonicalProductPath(productSlug)
         : "/products/upvc-window-machines";
     }
 
@@ -148,7 +149,7 @@ const Footer = () => {
       if (isParent) return "/products/aluminum-window-machines";
       const productSlug = getAluminumCategorySlugByName(item.name);
       return productSlug
-        ? `/products/aluminum-window-machines/${productSlug}`
+        ? getCanonicalProductPath(productSlug)
         : "/products/aluminum-window-machines";
     }
 
