@@ -10,37 +10,37 @@ const UPVC_CATEGORY_BASE = [
   {
     id: 1,
     name: "uPVC Welding Machines",
-    slug: "upvc-welding-machine",
+    slug: "upvc-welding-machines",
   },
   {
     id: 2,
     name: "uPVC Cutting Machines",
-    slug: "upvc-cutting-machine",
+    slug: "upvc-cutting-machines",
   },
   {
     id: 3,
     name: "uPVC Cleaning Machines",
-    slug: "upvc-cleaning-machine",
+    slug: "upvc-cleaning-machines",
   },
   {
     id: 4,
     name: "uPVC Copy Router & Lock Hole Machines",
-    slug: "upvc-copy-router-lock-hole-machine",
+    slug: "upvc-copy-router-and-lock-hole-machines",
   },
   {
     id: 5,
     name: "uPVC Glazing Bead Cutting Machines",
-    slug: "upvc-glazing-bead-cutting-machine",
+    slug: "upvc-glazing-bead-cutting-machines",
   },
   {
     id: 6,
     name: "uPVC Drainage Water Slot Machines",
-    slug: "upvc-drainage-water-slot-machine",
+    slug: "upvc-drainage-water-slot-machines",
   },
   {
     id: 7,
     name: "uPVC Mullion Cutting Machines",
-    slug: "upvc-mullion-cutting-machine",
+    slug: "upvc-mullion-cutting-machines",
   },
   {
     id: 8,
@@ -55,31 +55,41 @@ const UPVC_CATEGORY_BASE = [
   {
     id: 10,
     name: "Other Special Machines",
-    slug: "other-special-machine",
+    slug: "other-special-machines",
   },
 ];
 
+// Slugs are now always derived from the name — no dead code, no inconsistency
 export const UPVC_CATEGORIES = UPVC_CATEGORY_BASE.map((category) => ({
   ...category,
-  slug: category.slug || slugifyCategoryName(category.name),
+  slug: slugifyCategoryName(category.name),
 }));
+
+// Safe lookup by id — not fragile index access
+const findSlugById = (id) =>
+  UPVC_CATEGORIES.find((c) => c.id === id)?.slug ?? null;
 
 export const getUpvcCategorySlugByName = (name = "") => {
   const lowerName = name.toLowerCase();
 
-  if (lowerName.includes("welding")) return UPVC_CATEGORIES[0].slug;
-  if (lowerName.includes("cutting")) return UPVC_CATEGORIES[1].slug;
-  if (lowerName.includes("cleaning")) return UPVC_CATEGORIES[2].slug;
+  // Specific multi-word checks MUST come before generic single-word ones
+  // to avoid "glazing bead cutting" or "mullion cutting" matching "cutting" too early
+
+  if (lowerName.includes("glazing bead")) return findSlugById(5);
+  if (lowerName.includes("mullion")) return findSlugById(7);
+  if (lowerName.includes("water slot") || lowerName.includes("drainage"))
+    return findSlugById(6);
   if (lowerName.includes("router") || lowerName.includes("lock hole"))
-    return UPVC_CATEGORIES[3].slug;
-  if (lowerName.includes("glazing bead")) return UPVC_CATEGORIES[4].slug;
-  if (lowerName.includes("drainage") || lowerName.includes("water slot"))
-    return UPVC_CATEGORIES[5].slug;
-  if (lowerName.includes("mullion")) return UPVC_CATEGORIES[6].slug;
+    return findSlugById(4);
+  if (lowerName.includes("other special")) return findSlugById(10);
+
+  // Generic single-word checks — safe now that specifics are handled above
+  if (lowerName.includes("welding")) return findSlugById(1);
+  if (lowerName.includes("cutting")) return findSlugById(2);
+  if (lowerName.includes("cleaning")) return findSlugById(3);
   if (lowerName.includes("punching") || lowerName.includes("interlock"))
-    return UPVC_CATEGORIES[7].slug;
-  if (lowerName.includes("hand tool")) return UPVC_CATEGORIES[8].slug;
-  if (lowerName.includes("other special")) return UPVC_CATEGORIES[9].slug;
+    return findSlugById(8);
+  if (lowerName.includes("hand tool")) return findSlugById(9);
 
   return null;
 };

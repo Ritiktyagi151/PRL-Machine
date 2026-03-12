@@ -2,7 +2,7 @@ export const ALUMINUM_CATEGORIES = [
   {
     id: 1,
     name: "Aluminum Cutting Machines",
-    slug: "aluminum-cutting-machine",
+    slug: "aluminum-profile-cutting-machine",
   },
   {
     id: 2,
