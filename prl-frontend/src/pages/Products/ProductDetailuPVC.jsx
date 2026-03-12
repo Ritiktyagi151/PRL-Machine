@@ -1,13 +1,17 @@
-// ProductDetailuPVC.jsx
+// ProductDetailPage.jsx
+// Combined detail page for both uPVC and Aluminum products.
+// Determines which type to load based on the route:
+//   - /productdetailupvc/:id      → uPVC
+//   - /productdetailaluminium/:id → Aluminum
+// Or pass productType="upvc"|"aluminum" + productIdentifier as props.
+
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import {
   FiArrowLeft,
   FiDownload,
-  FiShoppingCart,
   FiShare2,
   FiHeart,
-  FiPlay,
   FiChevronLeft,
   FiChevronRight,
   FiCheck,
@@ -16,18 +20,49 @@ import OurPartners from "../Home/TrustedSlider";
 import ValuedClients from "../Home/Our-Clients";
 import { getCanonicalProductPath } from "../../utils/productRouting";
 
-const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
-// 🔹 Backend URL without /api to access the uploads folder
-const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
+// ─── API config ───────────────────────────────────────────────────────────────
 
-const ProductDetailuPVC = ({ productIdentifier = null }) => {
+const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
+const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
+const ALUMINUM_API_URL = `${import.meta.env.VITE_API_BASE_URL}/aluminum-machines`;
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+const getFullUrl = (path) => {
+  if (!path) return "";
+  if (path.startsWith("http")) return path;
+  return `${IMAGE_BASE_URL}${path}`;
+};
+
+const showToast = (message, color = "bg-gray-800") => {
+  const toast = document.createElement("div");
+  toast.className = `fixed bottom-4 right-4 ${color} text-white px-4 py-2 rounded-md shadow-lg z-50 transition-opacity opacity-0`;
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.classList.add("opacity-100"), 10);
+  setTimeout(() => {
+    toast.classList.remove("opacity-100");
+    setTimeout(() => document.body.removeChild(toast), 300);
+  }, 2500);
+};
+
+// ─── Main component ───────────────────────────────────────────────────────────
+
+const ProductDetailPage = ({
+  productIdentifier = null,
+  productType = null,
+}) => {
   const { id: idParam } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Detect type from route path if not passed as prop
+const [isAluminum, setIsAluminum] = useState(false); // ← add this
+
   const identifier = productIdentifier || idParam;
 
   const [product, setProduct] = useState(null);
-  const [upvcData, setUpvcData] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("specifications");
   const [activeImage, setActiveImage] = useState(0);
@@ -36,93 +71,79 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  // 🔹 Helper function to handle local server paths vs absolute URLs
-  const getFullUrl = (path) => {
-    if (!path) return "";
-    if (path.startsWith("http")) return path;
-    return `${IMAGE_BASE_URL}${path}`;
-  };
+  // ─── Fetch product ────────────────────────────────────────────────────────
 
   useEffect(() => {
-    const fetchUpvcData = async () => {
-      try {
-        setLoading(true);
-        // Direct custom ID string bhejien backend ko
-        const response = await fetch(`${UPVC_API_URL}/${identifier}`);
+    if (!identifier) return;
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
+const fetchProduct = async () => {
+  try {
+    setLoading(true);
 
-        // Data milne par state set karein
+    // Try uPVC first
+    try {
+      const res = await fetch(`${UPVC_API_URL}/${identifier}`);
+      if (res.ok) {
+        const data = await res.json();
         setProduct(data);
-
-        // Related products ke liye full data fetch
+        setIsAluminum(false);
         const allRes = await fetch(UPVC_API_URL);
-        const allData = await allRes.json();
-        setUpvcData(allData);
-      } catch (err) {
-        console.error("Error fetching uPVC details:", err);
-        navigate("/not-found", { replace: true });
-      } finally {
-        setLoading(false);
+        setAllProducts(await allRes.json());
+        return;
       }
-    };
+    } catch (_) {}
 
-    if (identifier) {
-      fetchUpvcData();
+    // Fallback to Aluminum
+    const res = await fetch(ALUMINUM_API_URL);
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+    const data = await res.json();
+    setAllProducts(data);
+    const matched = data.find((p) => p.id === identifier || p._id === identifier);
+    if (!matched) {
+      navigate("/not-found", { replace: true });
+      return;
     }
-  }, [identifier, navigate]);
+    setProduct(matched);
+    setIsAluminum(true);
+
+  } catch (err) {
+    console.error("Error fetching product:", err);
+    navigate("/not-found", { replace: true });
+  } finally {
+    setLoading(false);
+  }
+};
+
+    fetchProduct();
+  }, [identifier, isAluminum, navigate]);
+
+  // ─── Canonical redirect ───────────────────────────────────────────────────
 
   useEffect(() => {
     if (!product) return;
-
     const canonicalPath = getCanonicalProductPath(product);
     if (location.pathname !== canonicalPath) {
       navigate(canonicalPath, { replace: true });
     }
   }, [location.pathname, navigate, product]);
 
+  // ─── Image slider ─────────────────────────────────────────────────────────
+
+  const totalImages = product?.images?.length || 0;
+
   const nextSlide = () => {
-    if (!product || !product.images || product.images.length === 0) return;
-    setCurrentSlide((prev) =>
-      prev === product.images.length - 1 ? 0 : prev + 1,
-    );
-    setActiveImage((prev) =>
-      prev === product.images.length - 1 ? 0 : prev + 1,
-    );
+    if (!totalImages) return;
+    setCurrentSlide((p) => (p === totalImages - 1 ? 0 : p + 1));
+    setActiveImage((p) => (p === totalImages - 1 ? 0 : p + 1));
   };
 
   const prevSlide = () => {
-    if (!product || !product.images || product.images.length === 0) return;
-    setCurrentSlide((prev) =>
-      prev === 0 ? product.images.length - 1 : prev - 1,
-    );
-    setActiveImage((prev) =>
-      prev === 0 ? product.images.length - 1 : prev - 1,
-    );
+    if (!totalImages) return;
+    setCurrentSlide((p) => (p === 0 ? totalImages - 1 : p - 1));
+    setActiveImage((p) => (p === 0 ? totalImages - 1 : p - 1));
   };
 
-  const handleQuantityChange = (e) => {
-    const value = parseInt(e.target.value);
-    if (Number.isNaN(value)) return;
-    if (value > 0 && value <= 100) {
-      setQuantity(value);
-    }
-  };
-
-  const handleIncrement = () => {
-    if (quantity < 100) {
-      setQuantity(quantity + 1);
-    }
-  };
-
-  const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
+  // ─── Share ────────────────────────────────────────────────────────────────
 
   const handleShare = () => {
     if (!product) return;
@@ -136,87 +157,71 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
         .catch(console.error);
     } else {
       navigator.clipboard.writeText(window.location.href);
-      const toast = document.createElement("div");
-      toast.className =
-        "fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-md shadow-lg z-50 transition-opacity opacity-0";
-      toast.textContent = "Link copied to clipboard!";
-      document.body.appendChild(toast);
-
-      setTimeout(() => {
-        toast.classList.add("opacity-100");
-      }, 10);
-
-      setTimeout(() => {
-        toast.classList.remove("opacity-100");
-        setTimeout(() => {
-          document.body.removeChild(toast);
-        }, 300);
-      }, 2000);
+      showToast("Link copied to clipboard!");
     }
   };
 
+  // ─── Download brochure ────────────────────────────────────────────────────
+
   const handleDownloadBrochure = () => {
-    if (!product || !product.brochureUrl) return;
+    if (!product?.brochureUrl) return;
     const link = document.createElement("a");
-    // 🔹 Logic updated to use server path
     link.href = getFullUrl(product.brochureUrl);
     link.target = "_blank";
     link.download = `${product.name.replace(/\s+/g, "_")}_brochure.pdf`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
-    const toast = document.createElement("div");
-    toast.className =
-      "fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50 flex items-center animate-fade-in";
-    toast.textContent = "Brochure download started";
-    document.body.appendChild(toast);
-
-    setTimeout(() => {
-      toast.classList.add("opacity-0", "transition-opacity", "duration-300");
-      setTimeout(() => {
-        document.body.removeChild(toast);
-      }, 300);
-    }, 3000);
+    showToast("Brochure download started", "bg-green-500");
   };
+
+  // ─── Loading / empty states ───────────────────────────────────────────────
 
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[70vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-600" />
       </div>
     );
   }
 
-  if (!product) {
-    return null;
-  }
+  if (!product) return null;
 
-  const canonicalPath = getCanonicalProductPath(product);
-  const productImage = getFullUrl(product.images?.[0]);
-  const productDescription =
-    product.description || "Explore technical details of this uPVC window machinery.";
-  const productJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
-    image: product.images?.map((img) => getFullUrl(img)).filter(Boolean),
-    description: productDescription.replace(/<[^>]*>/g, " ").trim(),
-    sku: product.code || product.id || product._id,
-    brand: {
-      "@type": "Brand",
-      name: "Parida Red Lion",
-    },
-    offers: {
-      "@type": "Offer",
-      availability: product.inStock
-        ? "https://schema.org/InStock"
-        : "https://schema.org/OutOfStock",
-      priceCurrency: "USD",
-      price: product.price || undefined,
-      url: canonicalPath,
-    },
-  };
+  // ─── Derived values ───────────────────────────────────────────────────────
+
+  const categoryLabel = isAluminum ? "Aluminum" : "uPVC";
+  const categoryPath = isAluminum
+    ? "/products/aluminum-window-machines"
+    : "/products/uPVC-window-making-machine-price";
+  const productSubtitle = isAluminum
+    ? "High Quality Aluminium Profile Solutions"
+    : "High Quality uPVC Profile Solutions";
+  const keyFeatures = isAluminum
+    ? [
+        "High-quality aluminium construction",
+        "Corrosion-resistant and lightweight",
+        "Energy-efficient and recyclable",
+        "Customizable designs available",
+      ]
+    : [
+        "High-quality uPVC construction",
+        "Durable and weather-resistant",
+        "Energy-efficient solutions",
+        "Customizable designs available",
+      ];
+
+  const relatedProducts = allProducts
+    .filter((p) => p.id !== identifier && p._id !== identifier)
+    .slice(0, 3);
+
+  const tabs = [
+    { key: "specifications", label: "Specifications" },
+    { key: "diagram", label: "Diagram" },
+    { key: "description", label: "Description" },
+    ...(product.videos?.length ? [{ key: "video", label: "Video" }] : []),
+    ...(product.faq?.length ? [{ key: "faq", label: "FAQ" }] : []),
+    { key: "catalog", label: "PDF Catalog" },
+  ];
 
   return (
     <div className="max-w-7xl mt-12 mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -243,10 +248,10 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
           <li className="flex items-center">
             <span className="mx-2">/</span>
             <button
-              onClick={() => navigate("/products/upvc-window-machines")}
+              onClick={() => navigate(categoryPath)}
               className="hover:text-purple-700 transition-colors"
             >
-              uPVC
+              {categoryLabel}
             </button>
           </li>
           <li className="flex items-center">
@@ -265,18 +270,12 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
               {product.name}
             </h1>
-            <p className="mt-2 text-lg text-gray-600">
-              High Quality uPVC Profile Solutions
-            </p>
+            <p className="mt-2 text-lg text-gray-600">{productSubtitle}</p>
           </div>
           <div className="flex space-x-3">
             <button
               onClick={() => setIsFavorite(!isFavorite)}
-              className={`p-3 rounded-full transition-all duration-300 transform hover:scale-110 ${
-                isFavorite
-                  ? "text-red-500 bg-red-50"
-                  : "text-gray-400 hover:text-red-500 hover:bg-red-50"
-              }`}
+              className={`p-3 rounded-full transition-all duration-300 transform hover:scale-110 ${isFavorite ? "text-red-500 bg-red-50" : "text-gray-400 hover:text-red-500 hover:bg-red-50"}`}
               aria-label={
                 isFavorite ? "Remove from favorites" : "Add to favorites"
               }
@@ -295,42 +294,36 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
           </div>
         </div>
         {product.code && (
-          <div className="mt-2 text-sm text-gray-500">
+          <p className="mt-2 text-sm text-gray-500">
             Product Code: <span className="font-medium">{product.code}</span>
-          </div>
+          </p>
         )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
-        {/* Image Gallery */}
+      <div className="grid grid-cols-1 gap-8">
+        {/* ── Image Gallery ── */}
         <div className="animate-fade-in-up">
           <div className="relative mb-6 rounded-xl overflow-hidden shadow-lg group">
             <div className="relative h-96 w-full">
-              {product.images &&
-                product.images.map((img, index) => (
-                  <div
-                    key={index}
-                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                      index === currentSlide
-                        ? "opacity-100"
-                        : "opacity-0 pointer-events-none"
-                    }`}
-                  >
-                    <img
-                      src={getFullUrl(img)}
-                      alt={`${product.name} - Slide ${index + 1}`}
-                      className="w-full h-full object-cover"
-                      onLoad={() => setImageLoaded(true)}
-                    />
-                    {!imageLoaded && (
-                      <div className="absolute inset-0 bg-gray-200 animate-pulse"></div>
-                    )}
-                  </div>
-                ))}
+              {product.images?.map((img, index) => (
+                <div
+                  key={index}
+                  className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+                >
+                  <img
+                    src={getFullUrl(img)}
+                    alt={`${product.name} - ${index + 1}`}
+                    className="w-full h-full object-cover"
+                    onLoad={() => setImageLoaded(true)}
+                  />
+                  {!imageLoaded && (
+                    <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+                  )}
+                </div>
+              ))}
             </div>
 
-            {/* Navigation Arrows */}
-            {product.images && product.images.length > 1 && (
+            {totalImages > 1 && (
               <>
                 <button
                   onClick={prevSlide}
@@ -347,39 +340,30 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
               </>
             )}
 
-            {/* Indicators */}
             <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
-              {(product.images || []).map((_, index) => (
+              {product.images?.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => {
                     setCurrentSlide(index);
                     setActiveImage(index);
                   }}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentSlide
-                      ? "bg-white w-6"
-                      : "bg-white bg-opacity-50 hover:bg-opacity-75"
-                  }`}
+                  className={`h-3 rounded-full transition-all duration-300 ${index === currentSlide ? "bg-white w-6" : "w-3 bg-white bg-opacity-50 hover:bg-opacity-75"}`}
                 />
               ))}
             </div>
           </div>
 
-          {/* Thumbnail Gallery */}
+          {/* Thumbnails */}
           <div className="grid grid-cols-4 gap-3">
-            {(product.images || []).map((img, idx) => (
+            {product.images?.map((img, idx) => (
               <button
                 key={idx}
                 onClick={() => {
                   setActiveImage(idx);
                   setCurrentSlide(idx);
                 }}
-                className={`rounded-xl overflow-hidden border-2 transition-all duration-300 transform hover:scale-105 ${
-                  activeImage === idx
-                    ? "border-purple-600 scale-105 shadow-md"
-                    : "border-transparent hover:border-gray-300"
-                }`}
+                className={`rounded-xl overflow-hidden border-2 transition-all duration-300 transform hover:scale-105 ${activeImage === idx ? "border-purple-600 scale-105 shadow-md" : "border-transparent hover:border-gray-300"}`}
               >
                 <img
                   src={getFullUrl(img)}
@@ -392,7 +376,7 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
           </div>
         </div>
 
-        {/* Product Details */}
+        {/* ── Details Panel ── */}
         <div className="animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
           {/* Key Features */}
           <div className="bg-white rounded-xl p-6 mb-6 shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
@@ -400,114 +384,32 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
               Key Features
             </h2>
             <ul className="space-y-3">
-              <li className="flex items-start">
-                <span className="text-green-500 mr-3 mt-1">
-                  <FiCheck className="w-5 h-5" />
-                </span>
-                <span className="text-gray-700">
-                  High-quality uPVC construction
-                </span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-green-500 mr-3 mt-1">
-                  <FiCheck className="w-5 h-5" />
-                </span>
-                <span className="text-gray-700">
-                  Durable and weather-resistant
-                </span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-green-500 mr-3 mt-1">
-                  <FiCheck className="w-5 h-5" />
-                </span>
-                <span className="text-gray-700">
-                  Energy efficient solutions
-                </span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-green-500 mr-3 mt-1">
-                  <FiCheck className="w-5 h-5" />
-                </span>
-                <span className="text-gray-700">
-                  Customizable designs available
-                </span>
-              </li>
+              {keyFeatures.map((feature, i) => (
+                <li key={i} className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">
+                    <FiCheck className="w-5 h-5" />
+                  </span>
+                  <span className="text-gray-700">{feature}</span>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Navigation Tabs */}
+          {/* Tabs */}
           <div className="flex overflow-x-auto mb-6 scrollbar-hide">
-            <button
-              onClick={() => setActiveTab("description")}
-              className={`py-3 px-5 font-medium whitespace-nowrap transition-all duration-300 ${
-                activeTab === "description"
-                  ? "text-purple-700 border-b-2 border-purple-700 bg-purple-50 rounded-t-lg"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              Description
-            </button>
-            <button
-              onClick={() => setActiveTab("specifications")}
-              className={`py-3 px-5 font-medium whitespace-nowrap transition-all duration-300 ${
-                activeTab === "specifications"
-                  ? "text-purple-700 border-b-2 border-purple-700 bg-purple-50 rounded-t-lg"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              Specifications
-            </button>
-            <button
-              onClick={() => setActiveTab("diagram")}
-              className={`py-3 px-5 font-medium whitespace-nowrap transition-all duration-300 ${
-                activeTab === "diagram"
-                  ? "text-purple-700 border-b-2 border-purple-700 bg-purple-50 rounded-t-lg"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              Diagram
-            </button>
-
-            {product.videos && product.videos.length > 0 && (
+            {tabs.map((tab) => (
               <button
-                onClick={() => setActiveTab("video")}
-                className={`py-3 px-5 font-medium whitespace-nowrap transition-all duration-300 ${
-                  activeTab === "video"
-                    ? "text-purple-700 border-b-2 border-purple-700 bg-purple-50 rounded-t-lg"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`py-3 px-5 font-medium whitespace-nowrap transition-all duration-300 ${activeTab === tab.key ? "text-purple-700 border-b-2 border-purple-700 bg-purple-50 rounded-t-lg" : "text-gray-500 hover:text-gray-700"}`}
               >
-                Video
+                {tab.label}
               </button>
-            )}
-
-            {product.faq && product.faq.length > 0 && (
-              <button
-                onClick={() => setActiveTab("faq")}
-                className={`py-3 px-5 font-medium whitespace-nowrap transition-all duration-300 ${
-                  activeTab === "faq"
-                    ? "text-purple-700 border-b-2 border-purple-700 bg-purple-50 rounded-t-lg"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                FAQ
-              </button>
-            )}
-
-            <button
-              onClick={() => setActiveTab("catalog")}
-              className={`py-3 px-5 font-medium whitespace-nowrap transition-all duration-300 ${
-                activeTab === "catalog"
-                  ? "text-purple-700 border-b-2 border-purple-700 bg-purple-50 rounded-t-lg"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              PDF Catalog
-            </button>
+            ))}
           </div>
 
           {/* Tab Content */}
-          <div className="bg-white rounded-xl p-6 mb-6 shadow-md border border-gray-100 transition-all duration-300">
+          <div className="bg-white rounded-xl p-6 mb-6 shadow-md border border-gray-100">
             {activeTab === "specifications" && (
               <div className="animate-fade-in">
                 <h2 className="text-xl font-semibold mb-4 text-gray-800">
@@ -532,16 +434,11 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
                     ),
                   )}
                 </div>
-                <p className="mt-4 text-gray-600">
-                  Our uPVC products are designed for maximum durability and
-                  performance, meeting international quality standards for
-                  construction and architectural applications.
-                </p>
               </div>
             )}
 
             {activeTab === "diagram" && (
-              <div className="animate-fade-in">
+              <div className="animate-fade-in text-center">
                 <h2 className="text-xl font-semibold mb-4 text-gray-800">
                   Product Diagram
                 </h2>
@@ -552,7 +449,7 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
                       "/images/technical-drawing-placeholder.jpg"
                     }
                     alt={`${product.name} Technical Drawing`}
-                    className="w-full h-auto max-h-96 object-contain mx-auto"
+                    className="mx-auto h-auto max-h-96 object-contain"
                   />
                 </div>
               </div>
@@ -586,7 +483,11 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
                 </h2>
                 <div className="aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden border">
                   {product.videos?.[0] && (
-                    <video controls className="w-full h-full">
+                    <video
+                      controls
+                      className="w-full h-full"
+                      poster={getFullUrl(product.images?.[0])}
+                    >
                       <source
                         src={getFullUrl(product.videos[0])}
                         type="video/mp4"
@@ -652,20 +553,17 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
                   : "Price on request"}
               </div>
               <div
-                className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  product.inStock
-                    ? "bg-green-100 text-green-800"
-                    : "bg-red-100 text-red-800"
-                }`}
+                className={`px-3 py-1 rounded-full text-sm font-medium ${product.inStock ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
               >
-                {product.inStock ? "In Stock" : "Out of Stock"}
+                {product.inStock ? "In Stock" : "Available"}
               </div>
             </div>
+
             <div className="flex items-center mb-6">
               <span className="text-lg font-semibold mr-4">Quantity:</span>
               <div className="flex items-center border rounded-lg overflow-hidden">
                 <button
-                  onClick={handleDecrement}
+                  onClick={() => quantity > 1 && setQuantity(quantity - 1)}
                   className="p-2 px-4 hover:bg-gray-100"
                 >
                   -
@@ -673,20 +571,24 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
                 <input
                   type="number"
                   value={quantity}
-                  onChange={handleQuantityChange}
+                  onChange={(e) => {
+                    const v = parseInt(e.target.value);
+                    if (!isNaN(v) && v > 0 && v <= 100) setQuantity(v);
+                  }}
                   className="w-16 text-center py-2 outline-none border-x"
                 />
                 <button
-                  onClick={handleIncrement}
+                  onClick={() => quantity < 100 && setQuantity(quantity + 1)}
                   className="p-2 px-4 hover:bg-gray-100"
                 >
                   +
                 </button>
               </div>
             </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <button
-                onClick={() => navigate("/contact")}
+                onClick={() => navigate("/contact-us")}
                 className="w-full bg-purple-700 hover:bg-purple-800 text-white py-3 rounded-lg font-bold flex items-center justify-center transition-all transform hover:scale-105"
               >
                 Make an Enquiry <FiArrowLeft className="ml-2 rotate-180" />
@@ -702,7 +604,7 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
         </div>
       </div>
 
-      {/* Technical Drawings Views */}
+      {/* ── Detailed Views ── */}
       <div
         className="mt-16 animate-fade-in-up"
         style={{ animationDelay: "0.3s" }}
@@ -711,36 +613,28 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
           Detailed Views
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
-          <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-            <h3 className="text-lg font-semibold mb-4">Front View</h3>
-            <div className="bg-gray-50 p-4 rounded-lg border">
-              <img
-                src={
-                  getFullUrl(product.technicalDrawingFront) ||
-                  "/images/front-placeholder.jpg"
-                }
-                alt="Front View"
-                className="mx-auto max-h-64 object-contain"
-              />
+          {[
+            { label: "Front View", field: "technicalDrawingFront" },
+            { label: "Side View", field: "technicalDrawingSide" },
+          ].map(({ label, field }) => (
+            <div
+              key={field}
+              className="bg-white p-6 rounded-xl shadow-md border border-gray-100"
+            >
+              <h3 className="text-lg font-semibold mb-4">{label}</h3>
+              <div className="bg-gray-50 p-4 rounded-lg border">
+                <img
+                  src={getFullUrl(product[field]) || "/images/placeholder.jpg"}
+                  alt={label}
+                  className="mx-auto max-h-64 object-contain"
+                />
+              </div>
             </div>
-          </div>
-          <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-            <h3 className="text-lg font-semibold mb-4">Side View</h3>
-            <div className="bg-gray-50 p-4 rounded-lg border">
-              <img
-                src={
-                  getFullUrl(product.technicalDrawingSide) ||
-                  "/images/side-placeholder.jpg"
-                }
-                alt="Side View"
-                className="mx-auto max-h-64 object-contain"
-              />
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* Related Products */}
+      {/* ── Related Products ── */}
       <div
         className="mt-16 animate-fade-in-up"
         style={{ animationDelay: "0.5s" }}
@@ -749,50 +643,41 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
           Related Products
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {upvcData
-            .filter((p) => p.id !== product.id && p._id !== product._id)
-            .slice(0, 3)
-            .map((related, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all cursor-pointer border border-gray-100"
-                onClick={() =>
-                  navigate(getCanonicalProductPath(related))
-                }
-              >
-                <div className="h-48 bg-gray-100 overflow-hidden relative">
-                  <img
-                    src={
-                      getFullUrl(related.images?.[0]) ||
-                      "https://images.pexels.com/photos/20341733/pexels-photo-20341733/free-photo-of-3d-printer-in-a-factory.jpeg"
-                    }
-                    alt={related.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-5">
-                  <h3 className="font-semibold text-lg mb-2 text-gray-800">
-                    {related.name}
-                  </h3>
-                  <div className="flex justify-between items-center">
-                    <span className="text-purple-700 font-bold">
-                      {related.price
-                        ? `$${related.price.toFixed(2)}`
-                        : "Price on request"}
-                    </span>
-                    <span
-                      className={`text-xs px-2 py-1 rounded-full ${
-                        related.inStock
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {related.inStock ? "In Stock" : "Out of Stock"}
-                    </span>
-                  </div>
+          {relatedProducts.map((related, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all cursor-pointer border border-gray-100"
+              onClick={() => navigate(getCanonicalProductPath(related))}
+            >
+              <div className="h-48 bg-gray-100 overflow-hidden">
+                <img
+                  src={
+                    getFullUrl(related.images?.[0]) ||
+                    "https://images.pexels.com/photos/20341733/pexels-photo-20341733/free-photo-of-3d-printer-in-a-factory.jpeg"
+                  }
+                  alt={related.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-5">
+                <h3 className="font-semibold text-lg mb-2 text-gray-800">
+                  {related.name}
+                </h3>
+                <div className="flex justify-between items-center">
+                  <span className="text-purple-700 font-bold">
+                    {related.price
+                      ? `$${related.price.toFixed(2)}`
+                      : "Price on request"}
+                  </span>
+                  <span
+                    className={`text-xs px-2 py-1 rounded-full ${related.inStock ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
+                  >
+                    {related.inStock ? "In Stock" : "Out of Stock"}
+                  </span>
                 </div>
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       </div>
 
@@ -829,4 +714,4 @@ const ProductDetailuPVC = ({ productIdentifier = null }) => {
   );
 };
 
-export default ProductDetailuPVC;
+export default ProductDetailPage;

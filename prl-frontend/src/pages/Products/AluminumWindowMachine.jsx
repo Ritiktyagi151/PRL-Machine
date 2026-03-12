@@ -1,4 +1,8 @@
-// AluminumWindowMachinesPage.jsx
+// MachinePage.jsx
+// Combined component for both uPVC and Aluminum window machine category pages.
+// Detects which type to show based on the :categorySlug param matching
+// UPVC_CATEGORIES or ALUMINUM_CATEGORIES slugs.
+
 import React, { useEffect, useMemo, useState } from "react";
 import {
   FiShoppingCart,
@@ -11,45 +15,139 @@ import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { scrollToElementId } from "../../utils/hashScroll";
+import { UPVC_CATEGORIES } from "../../utils/upvcCategories";
 import { ALUMINUM_CATEGORIES } from "../../utils/aluminumCategories";
 import { getCanonicalProductPath } from "../../utils/productRouting";
 
-const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/aluminum-machines`;
-// 🔹 Backend URL without /api to access the uploads folder
 const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
+const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
+const ALUMINUM_API_URL = `${import.meta.env.VITE_API_BASE_URL}/aluminum-machines`;
 
-const AluminumWindowMachinesPage = () => {
+// ─── Helpers ────────────────────────────────────────────────────────────────
+
+const getImageUrl = (imagePath) => {
+  if (!imagePath) return "/placeholder-image.jpg";
+  if (imagePath.startsWith("http")) return imagePath;
+  return `${IMAGE_BASE_URL}${imagePath}`;
+};
+
+const getUpvcCategoryFromName = (name = "") => {
+  const n = name.toLowerCase();
+  if (n.includes("welding")) return "uPVC Welding Machines";
+  if (n.includes("cutting")) return "uPVC Cutting Machines";
+  if (n.includes("cleaning")) return "uPVC Cleaning Machines";
+  if (n.includes("router") || n.includes("lock hole"))
+    return "uPVC Copy Router & Lock Hole Machines";
+  if (n.includes("glazing bead")) return "uPVC Glazing Bead Cutting Machines";
+  if (n.includes("drainage") || n.includes("water slot"))
+    return "uPVC Drainage Water Slot Machines";
+  if (n.includes("mullion")) return "uPVC Mullion Cutting Machines";
+  if (n.includes("punching") || n.includes("interlock"))
+    return "uPVC Interlock Punching";
+  if (n.includes("hand tool")) return "Hand Tools";
+  return "Other Special Machines";
+};
+
+const getAluminumCategoryFromName = (name = "") => {
+  const n = name.toLowerCase();
+  if (n.includes("cutting")) return "Aluminum Cutting Machines";
+  if (n.includes("lock hole") || n.includes("router"))
+    return "Aluminum Lock Hole Machines";
+  if (n.includes("mullion")) return "Aluminum Mullion Machines";
+  if (n.includes("punching") || n.includes("crimping"))
+    return "Punching & Crimping Machines";
+  return "Other Special Machines";
+};
+
+// ─── Animation variants ──────────────────────────────────────────────────────
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+};
+
+// ─── Animated section wrapper ────────────────────────────────────────────────
+
+const AnimatedSection = ({ children, id }) => {
+  const controls = useAnimation();
+  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
+
+  useEffect(() => {
+    if (inView) controls.start("visible");
+  }, [controls, inView]);
+
+  return (
+    <motion.section
+      ref={ref}
+      id={id}
+      initial="hidden"
+      animate={controls}
+      variants={fadeIn}
+      className="mb-12"
+    >
+      {children}
+    </motion.section>
+  );
+};
+
+// ─── Main component ──────────────────────────────────────────────────────────
+
+const MachinePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { categorySlug } = useParams();
+
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState(1);
-  const [aluminumData, setAluminumData] = useState([]);
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // 🔹 Helper function to handle local server paths vs legacy URLs
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return "/placeholder-image.jpg";
-    if (imagePath.startsWith("http")) return imagePath;
-    return `${IMAGE_BASE_URL}${imagePath}`;
-  };
+  // Detect which type this slug belongs to
+  const isAluminum = useMemo(
+    () => ALUMINUM_CATEGORIES.some((c) => c.slug === categorySlug),
+    [categorySlug]
+  );
 
-  // Fetch data from API
-  const fetchAluminumData = async () => {
+  const isUpvc = useMemo(
+    () => UPVC_CATEGORIES.some((c) => c.slug === categorySlug),
+    [categorySlug]
+  );
+
+  const categories = isAluminum ? ALUMINUM_CATEGORIES : UPVC_CATEGORIES;
+
+  const getCategoryFromName = isAluminum
+    ? getAluminumCategoryFromName
+    : getUpvcCategoryFromName;
+
+  const apiUrl = isAluminum ? ALUMINUM_API_URL : UPVC_API_URL;
+
+  const heroTitle = isAluminum
+    ? "Aluminum Window Machinery"
+    : "uPVC Window Machinery";
+
+  const heroSubtitle = isAluminum
+    ? "High-performance machines for precision aluminum window manufacturing"
+    : "Premium quality uPVC window manufacturing machines for precise, efficient production";
+
+  const accentColor = isAluminum ? "#1D4ED8" : "#46266A";
+
+  // Fetch products
+  const fetchProducts = async () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch(API_BASE_URL);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setAluminumData(data);
+      const res = await fetch(apiUrl);
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      const data = await res.json();
+      setProducts(data);
     } catch (err) {
-      console.error("Error fetching aluminum machines:", err);
+      console.error("Error fetching machines:", err);
       setError("Failed to load products. Please try again later.");
     } finally {
       setLoading(false);
@@ -57,77 +155,26 @@ const AluminumWindowMachinesPage = () => {
   };
 
   useEffect(() => {
-    fetchAluminumData();
-  }, []);
+    fetchProducts();
+    // Reset active category when type changes
+    setActiveCategory(1);
+  }, [isAluminum]);
 
-  // Function to categorize products based on name
-  const getCategoryFromName = (name) => {
-    if (!name) return "Other Special Machines";
-    const lowerName = name.toLowerCase();
-    if (lowerName.includes("cutting")) return "Aluminum Cutting Machines";
-    if (lowerName.includes("lock hole") || lowerName.includes("router"))
-      return "Aluminum Lock Hole Machines";
-    if (lowerName.includes("mullion")) return "Aluminum Mullion Machines";
-    if (lowerName.includes("punching") || lowerName.includes("crimping"))
-      return "Punching & Crimping Machines";
-    return "Other Special Machines";
-  };
-
+  // Group products into categories
   const groupedCategories = useMemo(
     () =>
-      ALUMINUM_CATEGORIES.map((category) => ({
-        ...category,
-        products: aluminumData.filter(
-          (product) => getCategoryFromName(product.name) === category.name,
+      categories.map((cat) => ({
+        ...cat,
+        products: products.filter(
+          (p) => getCategoryFromName(p.name) === cat.name
         ),
       })),
-    [aluminumData],
+    [products, categories, getCategoryFromName]
   );
 
-  // Animation variants
-  const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
-
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  // Animated section wrapper
-  const AnimatedSection = ({ children, id }) => {
-    const controls = useAnimation();
-    const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
-
-    useEffect(() => {
-      if (inView) {
-        controls.start("visible");
-      }
-    }, [controls, inView]);
-
-    return (
-      <motion.section
-        ref={ref}
-        id={id}
-        initial="hidden"
-        animate={controls}
-        variants={fadeIn}
-        className="mb-12"
-      >
-        {children}
-      </motion.section>
-    );
-  };
-
+  // Navigate to category slug and scroll
   const scrollToCategory = (category) => {
     if (!category) return;
-
     setActiveCategory(category.id);
     setIsMobileSidebarOpen(false);
 
@@ -136,18 +183,18 @@ const AluminumWindowMachinesPage = () => {
       navigate(targetPath);
       return;
     }
-
     scrollToElementId(`category-${category.id}`);
   };
 
+  // On slug change, scroll to matching section
   useEffect(() => {
-    if (loading || groupedCategories.length === 0) return;
-    if (!categorySlug) return;
+    if (loading || groupedCategories.length === 0 || !categorySlug) return;
 
-    const category = groupedCategories.find((item) => item.slug === categorySlug);
+    const category = groupedCategories.find((c) => c.slug === categorySlug);
     if (!category) return;
 
     setActiveCategory(category.id);
+
     let attempts = 0;
     let timeoutId;
 
@@ -160,25 +207,25 @@ const AluminumWindowMachinesPage = () => {
     };
 
     timeoutId = window.setTimeout(tryScroll, 0);
-
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
+    return () => window.clearTimeout(timeoutId);
   }, [categorySlug, groupedCategories, loading]);
 
-  // Loading state
+  // ── Loading state ──
   if (loading) {
     return (
       <div className="bg-gray-50 min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#46266A] mx-auto"></div>
+          <div
+            className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto"
+            style={{ borderColor: accentColor }}
+          />
           <p className="mt-4 text-gray-600">Loading products...</p>
         </div>
       </div>
     );
   }
 
-  // Error state
+  // ── Error state ──
   if (error) {
     return (
       <div className="bg-gray-50 min-h-screen flex items-center justify-center">
@@ -189,8 +236,9 @@ const AluminumWindowMachinesPage = () => {
           </h2>
           <p className="text-gray-600 mb-4">{error}</p>
           <button
-            onClick={fetchAluminumData}
-            className="flex items-center justify-center bg-[#46266A] text-white px-4 py-2 rounded-md hover:bg-[#5a2f8a] transition-colors mx-auto"
+            onClick={fetchProducts}
+            className="flex items-center justify-center text-white px-4 py-2 rounded-md transition-colors mx-auto"
+            style={{ backgroundColor: accentColor }}
           >
             <FiRefreshCw className="mr-2" /> Try Again
           </button>
@@ -215,7 +263,7 @@ const AluminumWindowMachinesPage = () => {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-4xl font-bold mb-4"
           >
-            Aluminum Window Machinery
+            {heroTitle}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -223,8 +271,7 @@ const AluminumWindowMachinesPage = () => {
             transition={{ delay: 0.4, duration: 0.8 }}
             className="text-xl max-w-3xl mx-auto"
           >
-            High-performance machines for precision aluminum window
-            manufacturing
+            {heroSubtitle}
           </motion.p>
         </div>
       </motion.div>
@@ -238,7 +285,7 @@ const AluminumWindowMachinesPage = () => {
       >
         <nav className="flex" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-1 md:space-x-3">
-            <li className="inline-flex items-center">
+            <li>
               <Link to="/" className="text-[#46266A] hover:text-[#FB252E]">
                 Home
               </Link>
@@ -246,7 +293,10 @@ const AluminumWindowMachinesPage = () => {
             <li>
               <div className="flex items-center">
                 <span className="mx-2 text-gray-400">/</span>
-                <Link to="#" className="text-[#46266A] hover:text-[#FB252E]">
+                <Link
+                  to="/products"
+                  className="text-[#46266A] hover:text-[#FB252E]"
+                >
                   Machines
                 </Link>
               </div>
@@ -254,7 +304,7 @@ const AluminumWindowMachinesPage = () => {
             <li aria-current="page">
               <div className="flex items-center">
                 <span className="mx-2 text-gray-400">/</span>
-                <span className="text-gray-500">Aluminum Window Machines</span>
+                <span className="text-gray-500">{heroTitle}</span>
               </div>
             </li>
           </ol>
@@ -265,16 +315,13 @@ const AluminumWindowMachinesPage = () => {
       <div className="lg:hidden container mx-auto px-4 mb-4">
         <button
           onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
-          className="flex items-center bg-[#46266A] text-white px-4 py-2 rounded-md"
+          className="flex items-center text-white px-4 py-2 rounded-md"
+          style={{ backgroundColor: accentColor }}
         >
           {isMobileSidebarOpen ? (
-            <>
-              <FiX className="mr-2" /> Close Categories
-            </>
+            <><FiX className="mr-2" /> Close Categories</>
           ) : (
-            <>
-              <FiMenu className="mr-2" /> Browse Categories
-            </>
+            <><FiMenu className="mr-2" /> Browse Categories</>
           )}
         </button>
       </div>
@@ -288,7 +335,10 @@ const AluminumWindowMachinesPage = () => {
           }`}
         >
           <div className="bg-gradient-to-b from-white to-gray-50 rounded-lg shadow-md p-4 border border-gray-200">
-            <h2 className="text-xl font-bold mb-4 text-[#46266A] border-b pb-2">
+            <h2
+              className="text-xl font-bold mb-4 border-b pb-2"
+              style={{ color: accentColor }}
+            >
               Categories
             </h2>
             <nav className="space-y-2">
@@ -296,11 +346,24 @@ const AluminumWindowMachinesPage = () => {
                 <button
                   key={category.id}
                   onClick={() => scrollToCategory(category)}
-                  className={`w-full text-left px-3 py-2 rounded-md transition-colors ${
+                  className="w-full text-left px-3 py-2 rounded-md transition-colors"
+                  style={
                     activeCategory === category.id
-                      ? "bg-gradient-to-r from-[#46266A] to-[#FB252E] text-white"
-                      : "text-gray-700 hover:bg-gray-100"
-                  }`}
+                      ? {
+                          background:
+                            "linear-gradient(to right, #46266A, #FB252E)",
+                          color: "white",
+                        }
+                      : { color: "#374151" }
+                  }
+                  onMouseEnter={(e) => {
+                    if (activeCategory !== category.id)
+                      e.currentTarget.style.backgroundColor = "#f3f4f6";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (activeCategory !== category.id)
+                      e.currentTarget.style.backgroundColor = "";
+                  }}
                 >
                   {category.name} ({category.products.length})
                 </button>
@@ -311,7 +374,7 @@ const AluminumWindowMachinesPage = () => {
 
         {/* Products */}
         <div className="lg:w-3/4">
-          {/* Mobile Category Filter */}
+          {/* Mobile category pills */}
           <div className="lg:hidden mb-8">
             <h2 className="text-2xl font-bold mb-4">Browse by Category</h2>
             <motion.div
@@ -325,7 +388,8 @@ const AluminumWindowMachinesPage = () => {
                   key={category.id}
                   variants={fadeIn}
                   type="button"
-                  className="bg-white px-4 py-2 rounded-md shadow-sm hover:bg-[#46266A] hover:text-white border border-gray-200 transition-colors"
+                  className="bg-white px-4 py-2 rounded-md shadow-sm border border-gray-200 transition-colors hover:text-white"
+                  style={{ "--hover-bg": accentColor }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => scrollToCategory(category)}
@@ -336,10 +400,14 @@ const AluminumWindowMachinesPage = () => {
             </motion.div>
           </div>
 
+          {/* Category sections */}
           {groupedCategories.map((category) => (
             <AnimatedSection key={category.id} id={`category-${category.id}`}>
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-[#46266A]">
+                <h2
+                  className="text-2xl font-bold"
+                  style={{ color: accentColor }}
+                >
                   {category.name}
                 </h2>
               </div>
@@ -353,11 +421,11 @@ const AluminumWindowMachinesPage = () => {
               ) : (
                 <motion.div
                   variants={staggerContainer}
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4"
+                  className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
                 >
                   {category.products.map((product) => (
                     <motion.div
-                      key={product._id} // Use _id for unique key
+                      key={product._id}
                       variants={fadeIn}
                       className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
                       whileHover={{ y: -5 }}
@@ -378,29 +446,29 @@ const AluminumWindowMachinesPage = () => {
                       </Link>
 
                       <div className="p-3">
-                        <h3 className="text-lg font-semibold mb-1 text-[#46266A]">
+                        <h3
+                          className="text-lg font-semibold mb-1"
+                          style={{ color: accentColor }}
+                        >
                           {product.name}
                         </h3>
 
-                        {/* Description with HTML Support */}
                         <div
-                          className="text-gray-600 text-sm mb-2 line-clamp-2"
+                          className="text-gray-600 text-sm mb-2 line-clamp-2 prose prose-sm max-w-none"
                           dangerouslySetInnerHTML={{
                             __html:
-                              product.description ||
-                              "No description available.",
+                              product.description || "No description available.",
                           }}
                         />
 
-                        {/* Safe Specs Rendering */}
                         <div className="mb-3">
                           <h4 className="font-medium text-gray-800 text-sm mb-1">
                             Key Specifications:
                           </h4>
                           <ul className="text-xs text-gray-600 space-y-1 line-clamp-3">
                             {product.specs && product.specs.length > 0 ? (
-                              product.specs.slice(0, 3).map((spec, index) => (
-                                <li key={index} className="flex items-start">
+                              product.specs.slice(0, 3).map((spec, i) => (
+                                <li key={i} className="flex items-start">
                                   <span className="text-[#FB252E] mr-1">•</span>
                                   <span>{spec}</span>
                                 </li>
@@ -408,14 +476,10 @@ const AluminumWindowMachinesPage = () => {
                             ) : product.specifications ? (
                               Object.entries(product.specifications)
                                 .slice(0, 3)
-                                .map(([key, value], index) => (
-                                  <li key={index} className="flex items-start">
-                                    <span className="text-[#FB252E] mr-1">
-                                      •
-                                    </span>
-                                    <span>
-                                      {key}: {value}
-                                    </span>
+                                .map(([key, value], i) => (
+                                  <li key={i} className="flex items-start">
+                                    <span className="text-[#FB252E] mr-1">•</span>
+                                    <span>{key}: {value}</span>
                                   </li>
                                 ))
                             ) : (
@@ -427,9 +491,10 @@ const AluminumWindowMachinesPage = () => {
                         </div>
 
                         <div className="flex flex-wrap gap-2">
-                          <Link to="/contact">
+                          <Link to="/contact-us">
                             <motion.button
-                              className="flex items-center bg-[#46266A] text-white px-3 py-1 rounded-md hover:bg-[#5a2f8a] transition-colors text-sm"
+                              className="flex items-center text-white px-3 py-1 rounded-md transition-colors text-sm"
+                              style={{ backgroundColor: accentColor }}
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                             >
@@ -454,7 +519,7 @@ const AluminumWindowMachinesPage = () => {
             </AnimatedSection>
           ))}
 
-          {/* Call to Action */}
+          {/* CTA */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -466,12 +531,14 @@ const AluminumWindowMachinesPage = () => {
               Need Help Choosing the Right Machine?
             </h2>
             <p className="mb-4 text-sm max-w-2xl mx-auto">
-              Our experts can help you select the perfect aluminum window
-              machines for your production needs.
+              Our experts can help you select the perfect{" "}
+              {isAluminum ? "aluminum" : "uPVC"} window machines for your
+              production needs.
             </p>
-            <Link to="/contact">
+            <Link to="/contact-us">
               <motion.button
-                className="bg-white text-[#46266A] px-4 py-2 rounded-md font-medium hover:bg-gray-100 transition-colors text-sm"
+                className="bg-white px-4 py-2 rounded-md font-medium hover:bg-gray-100 transition-colors text-sm"
+                style={{ color: accentColor }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -485,5 +552,4 @@ const AluminumWindowMachinesPage = () => {
   );
 };
 
-export default AluminumWindowMachinesPage;
-
+export default MachinePage;

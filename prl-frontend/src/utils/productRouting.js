@@ -7,7 +7,10 @@ export const slugifyProductName = (value = "") =>
     .replace(/^-+|-+$/g, "");
 
 export const getProductSlug = (product = {}) =>
-  product.id || product.slug || product._id || slugifyProductName(product.name || "");
+  product.id ||
+  product.slug ||
+  product._id ||
+  slugifyProductName(product.name || "");
 
 export const getCanonicalProductPath = (productOrSlug) => {
   const slug =
@@ -15,7 +18,7 @@ export const getCanonicalProductPath = (productOrSlug) => {
       ? productOrSlug
       : getProductSlug(productOrSlug);
 
-  return slug ? `/products/${slug}` : "/products";
+  return slug ? `/product-detail/${slug}` : "/product-detail";
 };
 
 export const findProductBySlug = (products = [], productSlug = "") =>

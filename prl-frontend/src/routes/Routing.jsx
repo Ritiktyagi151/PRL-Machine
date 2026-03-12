@@ -59,6 +59,8 @@ import Admintestimonial from "../admin/sidebarpages/Admintestimonial";
 import PrivacyPolicy from "../components/Privacy-policy";
 import TermsAndConditions from "../components/Term-conditiom";
 import EnquiryForm from "../components/EnquiryForm";
+import MachinePage from "../pages/Products/AluminumWindowMachine";
+import ProductDetailPage from "../pages/Products/ProductDetailuPVC";
 // import Product from "../Product";
 
 // ✅ Auth check function
@@ -89,16 +91,17 @@ const router = createBrowserRouter([
       },
       {
         path: "products/:categorySlug",
+        element: <MachinePage />,
+      },
+      {
+        path: "products/:categorySlug",
         element: <Windowmachine />,
       },
       {
         path: "products/aluminum-window-machines",
         element: <AluminumWindowMachine />,
       },
-      {
-        path: "products/:categorySlug",
-        element: <AluminumWindowMachine />,
-      },
+
       {
         path: "products/:categorySlug/:productSlug",
         element: <LegacyProductRedirect />,
@@ -112,8 +115,8 @@ const router = createBrowserRouter([
       { path: "privacy-policy", element: <PrivacyPolicy /> },
       { path: "terms-and-conditions", element: <TermsAndConditions /> },
       { path: "case-studies", element: <CaseStudiesPage /> },
-      { path: "productdetailupvc/:id", element: <UpvcDetail /> },
-      { path: "productdetailaluminium/:id", element: <AluminiumDetail /> },
+      { path: "product-detail/:id", element: <ProductDetailPage /> },
+      // { path: "productdetailaluminium/:id", element: <AluminiumDetail /> },
 
       // ✅ 🔹 UPDATED: blogs/:id ki jagah blogs/:slug use kiya hai
       { path: "blogs/:slug", element: <BlogDetails /> },
