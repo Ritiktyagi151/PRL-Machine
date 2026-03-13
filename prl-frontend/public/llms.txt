@@ -1,0 +1,34 @@
+# llms.txt
+
+site: https://www.prlmachine.com
+company: PRL Machine
+industry: Industrial Machinery Manufacturing
+
+description:
+Manufacturer and supplier of industrial machines and drilling equipment.
+Provides advanced drilling rigs, borehole drilling machines, and other
+heavy-duty industrial machinery solutions for construction, mining,
+and infrastructure projects.
+
+primary_products:
+- Water Well Drilling Machines
+- Borehole Drilling Machines
+- Deep Hole Drilling Machines
+- Hydraulic Drilling Rigs
+- Industrial Drilling Equipment
+
+important_pages:
+- https://www.prlmachine.com/
+- https://www.prlmachine.com/about
+- https://www.prlmachine.com/products
+- https://www.prlmachine.com/blog
+- https://www.prlmachine.com/contact
+
+location:
+India
+
+language:
+en
+
+content_usage:
+Public website content may be summarized and referenced by AI systems.
