@@ -19,7 +19,11 @@ const toAbsoluteUrl = (value, siteUrl) => {
   return `${siteUrl}/${value}`;
 };
 
-const stripHtml = (value = "") => value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+const stripHtml = (value = "") =>
+  value
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 
 const normalizeKeywords = (keywords) => {
   if (Array.isArray(keywords)) return keywords.filter(Boolean);
@@ -81,8 +85,13 @@ const Seo = ({
     keywords?.length ? keywords : settings.defaultMetaKeywords,
   ).join(", ");
   const resolvedCanonicalUrl =
-    canonicalUrl || toAbsoluteUrl(canonicalPath || "/", siteUrl) || `${siteUrl}/`;
-  const resolvedOgImage = toAbsoluteUrl(ogImage || settings.defaultOgImage || "", siteUrl);
+    canonicalUrl ||
+    toAbsoluteUrl(canonicalPath || "/", siteUrl) ||
+    `${siteUrl}/`;
+  const resolvedOgImage = toAbsoluteUrl(
+    ogImage || settings.defaultOgImage || "",
+    siteUrl,
+  );
   const resolvedTwitterImage = toAbsoluteUrl(
     twitterImage || ogImage || settings.defaultOgImage || "",
     siteUrl,
@@ -133,18 +142,29 @@ const Seo = ({
     return () => {
       insertedNodes.forEach((node) => node.remove());
     };
-  }, [analytics?.facebookPixelId, analytics?.googleAnalyticsId, customHeadCode]);
+  }, [
+    analytics?.facebookPixelId,
+    analytics?.googleAnalyticsId,
+    customHeadCode,
+  ]);
 
   return (
     <Helmet prioritizeSeoTags>
       <title>{resolvedTitle}</title>
       <html lang={language || settings.defaultMetaLanguage || "en"} />
       <link rel="canonical" href={resolvedCanonicalUrl} />
-      {faviconUrl ? <link rel="icon" href={toAbsoluteUrl(faviconUrl, siteUrl)} /> : null}
-      {appleTouchIconUrl ? (
-        <link rel="apple-touch-icon" href={toAbsoluteUrl(appleTouchIconUrl, siteUrl)} />
+      {faviconUrl ? (
+        <link rel="icon" href={toAbsoluteUrl(faviconUrl, siteUrl)} />
       ) : null}
-      {manifestUrl ? <link rel="manifest" href={toAbsoluteUrl(manifestUrl, siteUrl)} /> : null}
+      {appleTouchIconUrl ? (
+        <link
+          rel="apple-touch-icon"
+          href={toAbsoluteUrl(appleTouchIconUrl, siteUrl)}
+        />
+      ) : null}
+      {manifestUrl ? (
+        <link rel="manifest" href={toAbsoluteUrl(manifestUrl, siteUrl)} />
+      ) : null}
       {hreflangs.map((item, index) =>
         item?.locale && item?.url ? (
           <link
@@ -170,59 +190,105 @@ const Seo = ({
         ) : null,
       )}
 
-      {resolvedDescription ? <meta name="description" content={resolvedDescription} /> : null}
-      {resolvedKeywords ? <meta name="keywords" content={resolvedKeywords} /> : null}
+      {resolvedDescription ? (
+        <meta name="description" content={resolvedDescription} />
+      ) : null}
+      {resolvedKeywords ? (
+        <meta name="keywords" content={resolvedKeywords} />
+      ) : null}
       {author || settings.defaultMetaAuthor ? (
         <meta name="author" content={author || settings.defaultMetaAuthor} />
       ) : null}
       {publisher || settings.defaultMetaPublisher ? (
-        <meta name="publisher" content={publisher || settings.defaultMetaPublisher} />
+        <meta
+          name="publisher"
+          content={publisher || settings.defaultMetaPublisher}
+        />
       ) : null}
       {robots || settings.defaultRobots ? (
         <meta name="robots" content={robots || settings.defaultRobots} />
       ) : null}
       {themeColor || settings.defaultThemeColor ? (
-        <meta name="theme-color" content={themeColor || settings.defaultThemeColor} />
+        <meta
+          name="theme-color"
+          content={themeColor || settings.defaultThemeColor}
+        />
       ) : null}
       {analytics?.googleSearchConsoleCode ? (
-        <meta name="google-site-verification" content={analytics.googleSearchConsoleCode} />
+        <meta
+          name="google-site-verification"
+          content={analytics.googleSearchConsoleCode}
+        />
       ) : null}
       {analytics?.bingWebmasterCode ? (
         <meta name="msvalidate.01" content={analytics.bingWebmasterCode} />
       ) : null}
       {analytics?.yandexVerificationCode ? (
-        <meta name="yandex-verification" content={analytics.yandexVerificationCode} />
+        <meta
+          name="yandex-verification"
+          content={analytics.yandexVerificationCode}
+        />
       ) : null}
       {analytics?.pinterestVerificationCode ? (
-        <meta name="p:domain_verify" content={analytics.pinterestVerificationCode} />
+        <meta
+          name="p:domain_verify"
+          content={analytics.pinterestVerificationCode}
+        />
       ) : null}
       {analytics?.baiduVerificationCode ? (
-        <meta name="baidu-site-verification" content={analytics.baiduVerificationCode} />
+        <meta
+          name="baidu-site-verification"
+          content={analytics.baiduVerificationCode}
+        />
       ) : null}
 
       <meta property="og:title" content={ogTitle || resolvedTitle} />
       {resolvedDescription || ogDescription ? (
-        <meta property="og:description" content={ogDescription || resolvedDescription} />
+        <meta
+          property="og:description"
+          content={ogDescription || resolvedDescription}
+        />
       ) : null}
-      {resolvedOgImage ? <meta property="og:image" content={resolvedOgImage} /> : null}
+      {resolvedOgImage ? (
+        <meta property="og:image" content={resolvedOgImage} />
+      ) : null}
       <meta property="og:type" content={ogType || "website"} />
       <meta property="og:url" content={resolvedOgUrl} />
       <meta
         property="og:site_name"
-        content={ogSiteName || settings.defaultOgSiteName || settings.websiteName || "Parida Red Lion"}
+        content={
+          ogSiteName ||
+          settings.defaultOgSiteName ||
+          settings.websiteName ||
+          "Parida Red Lion"
+        }
       />
       {ogLocale || settings.defaultOgLocale ? (
-        <meta property="og:locale" content={ogLocale || settings.defaultOgLocale} />
+        <meta
+          property="og:locale"
+          content={ogLocale || settings.defaultOgLocale}
+        />
       ) : null}
 
-      <meta name="twitter:card" content={twitterCard || "summary_large_image"} />
+      <meta
+        name="twitter:card"
+        content={twitterCard || "summary_large_image"}
+      />
       <meta name="twitter:title" content={twitterTitle || resolvedTitle} />
       {resolvedDescription || twitterDescription ? (
-        <meta name="twitter:description" content={twitterDescription || resolvedDescription} />
+        <meta
+          name="twitter:description"
+          content={twitterDescription || resolvedDescription}
+        />
       ) : null}
-      {resolvedTwitterImage ? <meta name="twitter:image" content={resolvedTwitterImage} /> : null}
+      {resolvedTwitterImage ? (
+        <meta name="twitter:image" content={resolvedTwitterImage} />
+      ) : null}
       {twitterSite || settings.defaultTwitterSite ? (
-        <meta name="twitter:site" content={twitterSite || settings.defaultTwitterSite} />
+        <meta
+          name="twitter:site"
+          content={twitterSite || settings.defaultTwitterSite}
+        />
       ) : null}
       {twitterCreator || settings.defaultTwitterCreator ? (
         <meta
@@ -232,7 +298,12 @@ const Seo = ({
       ) : null}
 
       {additionalMetaTags.map((item, index) => {
-        if (!item?.name && !item?.property && !item?.httpEquiv && !item?.charset) {
+        if (
+          !item?.name &&
+          !item?.property &&
+          !item?.httpEquiv &&
+          !item?.charset
+        ) {
           return null;
         }
         return (
