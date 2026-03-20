@@ -33,7 +33,7 @@ const EnquiryForm = () => {
 
     try {
       const response = await fetch(
-        "https://formsubmit.co/ajax/r.k.parida015@gmail.com",
+        "https://formsubmit.co/ajax/prlinquiry@gmail.com",
         {
           method: "POST",
           headers: {
@@ -45,7 +45,7 @@ const EnquiryForm = () => {
             _subject: "New Enquiry from Parida Red Lion Website",
             _template: "table",
           }),
-        }
+        },
       );
 
       if (response.ok) {

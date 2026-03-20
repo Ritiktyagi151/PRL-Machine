@@ -43,7 +43,7 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
     try {
       // --- FormSubmit.co Integration ---
       await axios.post(
-        "https://formsubmit.co/ajax/r.k.parida015@gmail.com",
+        "https://formsubmit.co/ajax/prlinquiry@gmail.com",
         {
           name: formData.name,
           email: formData.email,
@@ -59,7 +59,7 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
-        }
+        },
       );
 
       setSubmitSuccess(true);
@@ -217,7 +217,7 @@ const ProductCard = ({ product, onEnquire }) => {
       timeoutRef.current = setTimeout(
         () =>
           setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length),
-        3000
+        3000,
       );
       return () => resetTimeout();
     }
@@ -233,7 +233,7 @@ const ProductCard = ({ product, onEnquire }) => {
     e.preventDefault();
     e.stopPropagation();
     setCurrentImageIndex(
-      (prevIndex) => (prevIndex - 1 + images.length) % images.length
+      (prevIndex) => (prevIndex - 1 + images.length) % images.length,
     );
   };
 
@@ -246,9 +246,9 @@ const ProductCard = ({ product, onEnquire }) => {
           timeoutRef.current = setTimeout(
             () =>
               setCurrentImageIndex(
-                (prevIndex) => (prevIndex + 1) % images.length
+                (prevIndex) => (prevIndex + 1) % images.length,
               ),
-            3000
+            3000,
           );
         }
       }}
@@ -450,8 +450,8 @@ const ProductShowcase = () => {
                   f === "all"
                     ? "rounded-l-lg"
                     : f === "aluminum"
-                    ? "rounded-r-lg"
-                    : ""
+                      ? "rounded-r-lg"
+                      : ""
                 } ${
                   activeFilter === f
                     ? "bg-red-600 text-white"
@@ -461,8 +461,8 @@ const ProductShowcase = () => {
                 {f === "all"
                   ? "All Products"
                   : f === "upvc"
-                  ? "uPVC Window Machines"
-                  : "Aluminum Window Machines"}
+                    ? "uPVC Window Machines"
+                    : "Aluminum Window Machines"}
               </button>
             ))}
           </div>
