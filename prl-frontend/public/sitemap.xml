@@ -1,403 +1,426 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-<url>
-<loc>https://www.prlmachine.com/</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- ==================== HOME ==================== -->
+  <url>
+    <loc>https://www.prlmachine.com/</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- ==================== PRODUCTS ==================== -->
+  <url>
+    <loc>https://www.prlmachine.com/products</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/uPVC-window-making-machine-price</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- uPVC Window Machines -->
+  <url>
+    <loc>https://www.prlmachine.com/products/uPVC-window-making-machine-price</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/upvc-window-machines</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/upvc-welding-machines</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/upvc-cutting-machines</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/upvc-cleaning-machines</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/upvc-copy-router-lock-hole-machine</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/upvc-copy-router-and-lock-hole-machines</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/upvc-glazing-bead-cutting-machines</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/upvc-drainage-water-slot-machines</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/upvc-mullion-cutting-machines</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/upvc-interlock-punching</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/aluminum-window-machines</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- Aluminum Window Machines -->
+  <url>
+    <loc>https://www.prlmachine.com/products/aluminum-window-machines</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/aluminum-window-machines/aluminum-cutting-machine</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/aluminum-corner-crimping-machine</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/aluminum-end-milling-machine</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/aluminum-copy-router-machine</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/aluminum-profile-cutting-machine</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/aluminum-window-machines/aluminum-cutting-machine</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- Other Products -->
+  <url>
+    <loc>https://www.prlmachine.com/products/hand-tools</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/products/other-special-machines</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/upvcwindowmachines</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- Product Detail Pages - uPVC Welding -->
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/uPVC-Single-Head-V-Welding-Machine-(SLD-300V)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/uPVC-Double-Head-Welding-Machine-(DLD-600)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/uPVC-Single-Head-Welding-Machine-(SLD-300)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/upvc-window-machines/upvc-welding-machine</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- Product Detail Pages - Cutting Machines -->
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/Single-Head-uPVC-and-Aluminium-Top-to-Bottom-Cutting-Machine-(TCM-400)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/V-Cutting-Machine-(SLV-300)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/Double-Head-Semi-Automatic-Cutting-450MM-(ROXX-600)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/Double-Head-Automatic-Cutting-450MM-(ROXX-600AAL)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/Double-Head-Semi-Automatic-Cutting-500MM-(ROXX-900AL)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/Double-Head-Automatic-Cutting-500MM-(ROXX-900ALA)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/Single-head-500MM-saw-Aluminium-cutting-machine-(CAS-500)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/upvc-welding-machines</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- Product Detail Pages - Mullion & Glazing -->
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/Manual-Mullion-Cutting-Machine-(MUC-300)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/Automatic-Mullion-Cutting-Machine-(MCA-600)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/CNC-Glazing-Bead-Cutting-Machine-(GLB-600)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/upvc-cutting-machines</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- Product Detail Pages - Cleaning & Grooving -->
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/uPVC-TOP-&amp;-BOTTOM-CLEANING-GROOVING-MACHINE-(GRV-300)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/CNC-5-Tool-Corner-Cleaning-Machine-(CNC-600)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/CNC-3-Tool-Corner-Cleaning-Machine-(CNC-300)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/upvc-copy-router-lock-hole-machine</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- Product Detail Pages - Copy Router & Lock Hole -->
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/Portable-Manual-Copy-Router-Machine-(CRO-300)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/Heavy-Duty-Lock-Hole-Copy-Router-Machine-(CRO-600)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/CNC-Copy-Router-Lock-Hole-Machine-(CRO-900)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/aluminum-corner-crimping-machine</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- Product Detail Pages - Other Machines -->
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/uPVC-Interlock-Punching-Machine-(IPL-300)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/uPVC-Hand-Tools-Set</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/Auto-Screwing-Machine-(SQM-600)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/Arch-Bending-Machine-(ARC-600)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/3-Axis-Drainage-Water-Slot-Machine-(DGA-600)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/product-detail/Corner-4-Punch-Machine-(PUC-300)</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/aluminum-end-milling-machine</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- ==================== SERVICES ==================== -->
+  <url>
+    <loc>https://www.prlmachine.com/services/machine-customization</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/services/installation</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/services/maintenance</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/services/training</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/aluminum-copy-router-machine</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- ==================== OUR COMPANY ==================== -->
+  <url>
+    <loc>https://www.prlmachine.com/our-company/about-us</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/our-company/mission-vision</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/our-company/our-team</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/our-company/blogs</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/our-company/news</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/our-company/faq</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/upvc-cleaning-machines</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- ==================== BLOGS ==================== -->
+  <url>
+    <loc>https://www.prlmachine.com/blogs</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/upvc-copy-router-and-lock-hole-machines</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- ==================== TURN KEY ==================== -->
+  <url>
+    <loc>https://www.prlmachine.com/turn-key</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/turnkeydetailpage</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/upvc-glazing-bead-cutting-machines</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- ==================== CASE STUDIES ==================== -->
+  <url>
+    <loc>https://www.prlmachine.com/case-studies</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/upvc-drainage-water-slot-machines</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- ==================== CONTACT ==================== -->
+  <url>
+    <loc>https://www.prlmachine.com/contact-us</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/upvc-mullion-cutting-machines</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- ==================== ENQUIRY ==================== -->
+  <url>
+    <loc>https://www.prlmachine.com/enquiry</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 
-<url>
-<loc>https://www.prlmachine.com/products/upvc-interlock-punching</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/products/hand-tools</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/products/other-special-machines</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/products/aluminum-profile-cutting-machine</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/uPVC-Single-Head-V-Welding-Machine-(SLD-300V)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/uPVC-Double-Head-Welding-Machine-(DLD-600)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/uPVC-Single-Head-Welding-Machine-(SLD-300)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/Single-Head-uPVC-and-Aluminium-Top-to-Bottom-Cutting-Machine-(TCM-400)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/Manual-Mullion-Cutting-Machine-(MUC-300)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/CNC-Glazing-Bead-Cutting-Machine-(GLB-600)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/V-Cutting-Machine-(SLV-300)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/Double-Head-Semi-Automatic-Cutting-450MM-(ROXX-600)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/uPVC-TOP-&-BOTTOM-CLEANING-GROOVING-MACHINE-(GRV-300)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/CNC-5-Tool-Corner-Cleaning-Machine-(CNC-600)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/CNC-3-Tool-Corner-Cleaning-Machine-(CNC-300)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/Portable-Manual-Copy-Router-Machine-(CRO-300)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/Heavy-Duty-Lock-Hole-Copy-Router-Machine-(CRO-600)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/CNC-Copy-Router-Lock-Hole-Machine-(CRO-900)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/Automatic-Mullion-Cutting-Machine-(MCA-600)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/uPVC-Interlock-Punching-Machine-(IPL-300)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/uPVC-Hand-Tools-Set</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/Auto-Screwing-Machine-(SQM-600)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/Arch-Bending-Machine-(ARC-600)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/3-Axis-Drainage-Water-Slot-Machine-(DGA-600)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/Double-Head-Automatic-Cutting-450MM-(ROXX-600AAL)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/Double-Head-Semi-Automatic-Cutting-500MM-(ROXX-900AL)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/Double-Head-Automatic-Cutting-500MM-(ROXX-900ALA)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/Single-head-500MM-saw-Aluminium-cutting-machine-(CAS-500)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/product-detail/Corner-4-Punch-Machine-(PUC-300)</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/services/maintenance</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/services/installation</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/services/training</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/services/machine-customization</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/our-company/about-us</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/our-company/mission-vision</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/our-company/our-team</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/our-company/blogs</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/our-company/news</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.prlmachine.com/our-company/faq</loc>
-<lastmod>2026-03-13</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.5</priority>
-</url>
+  <!-- ==================== LEGAL PAGES ==================== -->
+  <url>
+    <loc>https://www.prlmachine.com/privacy-policy</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.prlmachine.com/terms-and-conditions</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
 
 </urlset>

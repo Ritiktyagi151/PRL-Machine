@@ -705,12 +705,12 @@ const resolveProductLink = (item, isParent = false) => {
                 </div>
               </div>
               <div className="relative group">
-                <Link to="/our-company">
+                <div >
                   <div className="flex items-center text-gray-700 hover:text-red-600 font-medium transition-all duration-300 cursor-pointer text-sm xl:text-base whitespace-nowrap">
                     Our Company
                     <FiChevronDown className="ml-1 transition-transform duration-300 group-hover:rotate-180" />
                   </div>
-                </Link>
+                </div>
                 <div className="absolute left-0 mt-2 w-72 bg-white/95 backdrop-blur-lg border border-gray-200 rounded-xl shadow-2xl py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-4">
                   {companyItems.map((item, index) => (
                     <Link
