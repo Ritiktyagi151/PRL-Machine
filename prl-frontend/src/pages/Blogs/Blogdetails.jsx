@@ -143,7 +143,7 @@ const BlogDetails = () => {
               <img
                 src={getImageUrl(blog.image)}
                 alt={blog.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover
                 onError={handleImageError}
               />
             </div>
