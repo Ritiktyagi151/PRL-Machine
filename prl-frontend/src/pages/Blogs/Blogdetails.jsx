@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const BlogDetails = () => {
-  const { slug } = useParams(); // URL se title/slug uthayega
+  const { slug } = useParams();
   const [blog, setBlog] = useState(null);
   const [relatedBlogs, setRelatedBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,13 +31,11 @@ const BlogDetails = () => {
     setIsLoading(true);
     setError(null);
     try {
-      // API call ab slug se hogi
       const response = await fetch(`${API_BASE_URL}/${slug}`);
       if (!response.ok) throw new Error(`Blog not found.`);
       const data = await response.json();
       const blogData = data.blog || data;
       setBlog(blogData);
-
       if (blogData.category)
         fetchAllBlogsForRelated(
           blogData.category,
@@ -88,6 +86,7 @@ const BlogDetails = () => {
         Loading Blog Details...
       </div>
     );
+
   if (error || !blog)
     return (
       <div className="container mt-28 mx-auto px-4 py-8 text-center">
@@ -97,33 +96,6 @@ const BlogDetails = () => {
         </Link>
       </div>
     );
-
-  const blogTitle = blog.title || "Window Technology Blog";
-  const blogDescription =
-    blog.excerpt || blog.content || "Read blog insights from Parida Red Lion.";
-  const canonicalPath = `/blogs/${blog.slug || slug}`;
-  const blogImage = getImageUrl(blog.image);
-  const blogJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: blogTitle,
-    description: blogDescription,
-    image: blogImage,
-    datePublished: blog.date,
-    author: {
-      "@type": "Person",
-      name: blog.author || "Parida Red Lion Team",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Parida Red Lion",
-      logo: {
-        "@type": "ImageObject",
-        url: "/assets/logo/parida-red-new-logo.jpg",
-      },
-    },
-    mainEntityOfPage: canonicalPath,
-  };
 
   return (
     <div className="container mt-28 mx-auto px-4 py-8 max-w-7xl">
@@ -135,7 +107,7 @@ const BlogDetails = () => {
               to="/ourcompany/ourblogs"
               className="text-orange-500 hover:underline flex items-center"
             >
-              ← All Articles
+              Back to All Articles
             </Link>
           </div>
           <article className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -143,7 +115,7 @@ const BlogDetails = () => {
               <img
                 src={getImageUrl(blog.image)}
                 alt={blog.title}
-                className="w-full h-full object-cover
+                className="w-full h-full object-fill"
                 onError={handleImageError}
               />
             </div>
@@ -210,4 +182,5 @@ const BlogDetails = () => {
     </div>
   );
 };
+
 export default BlogDetails;
