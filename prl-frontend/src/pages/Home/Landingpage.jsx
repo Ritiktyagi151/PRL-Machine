@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // --- Desktop Data ---
 const SLIDE_DATA_DESKTOP = [
-  { id: 1, type: "video", src: "/assets/vedios/PRLLogoLandscape.mp4" },
+  { id: 1, type: "video", src: "/assets/vedios/prllogovideo.mp4" },
   { id: 2, type: "video", src: "/assets/vedios/parida-red-lion-video.mp4" },
   { id: 3, type: "image", src: "/assets/banners/prlhomepagebanner.jpg" },
   { id: 4, type: "image", src: "/assets/banners/slider/homepagebanner2.jpg" },
@@ -12,7 +12,7 @@ const SLIDE_DATA_DESKTOP = [
 
 // --- Mobile Data ---
 const SLIDE_DATA_MOBILE = [
-  { id: 1, type: "video", src: "/assets/vedios/PRLLogoLandscape.mp4" },
+  { id: 1, type: "video", src: "/assets/vedios/prllogovideo.mp4" },
   { id: 2, type: "video", src: "/assets/vedios/parida-red-lion-video.mp4" },
   {
     id: 3,
