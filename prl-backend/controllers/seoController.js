@@ -18,6 +18,34 @@ const slugRegex = (value = "/") => {
   return new RegExp(`^${escapeRegex(normalized)}$`, "i");
 };
 
+const getSeoLookupCandidates = (value = "/") => {
+  const normalized = normalizeSlug(value);
+  const candidates = [normalized];
+
+  const blogDetailMatch = normalized.match(/^\/blogs\/(.+)$/i);
+  if (blogDetailMatch?.[1]) {
+    candidates.push(`/${blogDetailMatch[1]}`);
+  }
+
+  if (
+    normalized !== "/" &&
+    !normalized.startsWith("/blogs/") &&
+    !normalized.startsWith("/our-company/")
+  ) {
+    candidates.push(`/blogs${normalized}`);
+  }
+
+  if (normalized === "/our-company/blogs") {
+    candidates.push("/blogs");
+  }
+
+  if (normalized === "/blogs") {
+    candidates.push("/our-company/blogs");
+  }
+
+  return [...new Set(candidates)];
+};
+
 const getSettingsDocument = async () => {
   let settings = await SeoSettings.findOne();
   if (!settings) {
@@ -239,14 +267,24 @@ const deleteRedirect = async (req, res) => {
 };
 
 const resolveMeta = async (req, res) => {
-  const slug = normalizeSlug(req.query.slug || req.query.path || "/");
-  const page = await SeoPage.findOne({ slug: slugRegex(slug) });
+  const requestedPath = normalizeSlug(req.query.slug || req.query.path || "/");
+  const redirect = await SeoRedirect.findOne({ fromUrl: slugRegex(requestedPath) });
+  const resolvedPath = redirect ? normalizeSlug(redirect.toUrl) : requestedPath;
+  const candidates = getSeoLookupCandidates(resolvedPath);
+  let page = null;
+
+  for (const candidate of candidates) {
+    // Resolve server-side so dynamic pages and redirects don't depend on brittle client matching.
+    page = await SeoPage.findOne({ slug: slugRegex(candidate) });
+    if (page) break;
+  }
+
   const settings = await getSettingsDocument();
 
   if (!page) {
     return res.json(
       buildResolvedSeo(
-        { slug, pageName: settings.websiteName || "Page" },
+        { slug: resolvedPath, pageName: settings.websiteName || "Page" },
         settings.toObject(),
       ),
     );
