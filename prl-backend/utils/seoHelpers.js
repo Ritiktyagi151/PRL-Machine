@@ -1,4 +1,4 @@
-const DEFAULT_SITE_URL = "https://paridaredlion.com";
+const DEFAULT_SITE_URL = "https://www.prlmachine.com";
 
 const normalizeSlug = (value = "/") => {
   if (!value) return "/";

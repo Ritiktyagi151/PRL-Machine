@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 
-const FALLBACK_SITE_URL = "https://paridaredlion.com";
+const FALLBACK_SITE_URL = "https://www.prlmachine.com";
 
 const getSiteUrl = () => {
   const envUrl = import.meta.env.VITE_SITE_URL;

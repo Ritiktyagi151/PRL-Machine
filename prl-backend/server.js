@@ -31,6 +31,7 @@ if (!fs.existsSync(uploadDir)) {
 /**
  * 2. MIDDLEWARES & SECURITY
  */
+app.use(cors());
 app.use(morgan("dev"));
 
 // Helmet config: Cross-Origin-Resource-Policy ko false karna zaroori hai

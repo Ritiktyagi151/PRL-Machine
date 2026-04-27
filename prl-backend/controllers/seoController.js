@@ -315,7 +315,7 @@ const serveRobotsTxt = async (req, res) => {
 
 const pingSitemap = async (req, res) => {
   const settings = await getSettingsDocument();
-  const siteUrl = (settings.siteUrl || "https://paridaredlion.com").replace(/\/+$/, "");
+  const siteUrl = (settings.siteUrl || "https://www.prlmachine.com").replace(/\/+$/, "");
   const sitemapUrl = `${siteUrl}/sitemap.xml`;
   const pingTargets = [
     `https://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`,
