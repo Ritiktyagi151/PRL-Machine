@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import RecaptchaField from "../../components/RecaptchaField";
 
 export default function TestimonialManager() {
   // 🔹 States
@@ -26,6 +27,7 @@ export default function TestimonialManager() {
   const [isSaved, setIsSaved] = useState(false);
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
 
   // 🔹 API URLs Setup (Production Optimized)
   const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -122,10 +124,15 @@ export default function TestimonialManager() {
   const handleTestimonialSubmit = async (e) => {
     e.preventDefault();
     try {
+      const payload = {
+        ...formData,
+        recaptchaToken,
+        "g-recaptcha-response": recaptchaToken,
+      };
       if (editId) {
-        await axios.put(`${TESTIMONIAL_API}/${editId}`, formData);
+        await axios.put(`${TESTIMONIAL_API}/${editId}`, payload);
       } else {
-        await axios.post(TESTIMONIAL_API, formData);
+        await axios.post(TESTIMONIAL_API, payload);
       }
       resetForm();
       fetchInitialData();
@@ -170,6 +177,7 @@ export default function TestimonialManager() {
     setEditId(null);
     setEditingSection(null);
     setError("");
+    setRecaptchaToken("");
   };
 
   const openEdit = (item) => {
@@ -433,8 +441,10 @@ export default function TestimonialManager() {
                       </div>
                     </div>
 
+                    <RecaptchaField onChange={setRecaptchaToken} />
                     <button
                       type="submit"
+                      disabled={!recaptchaToken}
                       className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-bold shadow-lg transition-all active:scale-[0.98]"
                     >
                       {editId ? "Update Review" : "Save Testimonial"}

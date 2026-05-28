@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import RecaptchaField from "../components/RecaptchaField";
 
 const ParidaRedLionChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +18,7 @@ const ParidaRedLionChatbot = () => {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -118,6 +120,7 @@ const ParidaRedLionChatbot = () => {
         phone: "",
         message: "",
       });
+      setRecaptchaToken("");
       setIsSubmitting(false);
     }, 1500);
   };
@@ -325,6 +328,7 @@ const ParidaRedLionChatbot = () => {
                       rows="2"
                     ></textarea>
                   </div>
+                  <RecaptchaField onChange={setRecaptchaToken} />
                   <div className="flex justify-end space-x-2">
                     <button
                       type="button"
@@ -336,7 +340,7 @@ const ParidaRedLionChatbot = () => {
                     <button
                       type="submit"
                       className="px-4 py-2 text-sm bg-green-600 text-white rounded-md flex items-center"
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || !recaptchaToken}
                     >
                       {isSubmitting ? (
                         <>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import RecaptchaField from "../../components/RecaptchaField";
 
 const CatalogDownload = () => {
   const [showForm, setShowForm] = useState(false);
@@ -11,6 +12,7 @@ const CatalogDownload = () => {
     interest: "",
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -35,6 +37,8 @@ const CatalogDownload = () => {
           phone: formData.phone,
           company: formData.company,
           interest: formData.interest,
+          recaptchaToken,
+          "g-recaptcha-response": recaptchaToken,
           _subject: "New Catalog Download Request",
           _template: "table",
         }),
@@ -79,6 +83,7 @@ const CatalogDownload = () => {
         company: "",
         interest: "",
       });
+      setRecaptchaToken("");
     }
   };
 
@@ -193,9 +198,10 @@ const CatalogDownload = () => {
                   <option value="cnc-machines">CNC Machines</option>
                   <option value="all">All Machinery</option>
                 </select>
+                <RecaptchaField onChange={setRecaptchaToken} />
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !recaptchaToken}
                   className={`w-full text-white font-medium py-3 px-4 rounded-md transition-all duration-300 transform shadow-lg ${
                     isSubmitting
                       ? "bg-gray-400 cursor-not-allowed"

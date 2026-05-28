@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import RecaptchaField from "../../components/RecaptchaField";
 
 const FaqItem = ({ question, answer, isOpen, onClick }) => {
   return (
@@ -32,6 +33,7 @@ const FaqItem = ({ question, answer, isOpen, onClick }) => {
 
 const TurnkeyPage = () => {
   const [openFaq, setOpenFaq] = useState(null);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -383,8 +385,11 @@ const TurnkeyPage = () => {
               rows="3"
               className="w-full bg-transparent border-b border-gray-600 focus:border-purple-400 focus:outline-none py-2 transition-colors duration-200"
             ></textarea>
+            <RecaptchaField onChange={setRecaptchaToken} />
+            <input type="hidden" name="recaptchaToken" value={recaptchaToken} />
             <button
               type="submit"
+              disabled={!recaptchaToken}
               className="w-full py-3 bg-purple-600 text-white font-bold rounded-md hover:bg-purple-700 transition-colors duration-200 transform hover:translate-y-[-2px]"
             >
               CONTACT US

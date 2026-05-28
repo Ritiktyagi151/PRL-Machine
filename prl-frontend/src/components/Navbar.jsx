@@ -85,10 +85,10 @@ const RedLionNavbar = ({ onOpenQuote }) => {
   const [apiCompanyItems, setApiCompanyItems] = useState([]);
   const API_URL = `${import.meta.env.VITE_API_BASE_URL}/navbar`;
 
-  useEffect(()=>{
-    console.log("This is category")
-    getUpvcCategorySlugByName()
-  },[])
+  useEffect(() => {
+    console.log("This is category");
+    getUpvcCategorySlugByName();
+  }, []);
 
   // 🔹 GOOGLE TAG MANAGER INJECTION
   useEffect(() => {
@@ -279,38 +279,42 @@ const RedLionNavbar = ({ onOpenQuote }) => {
     return cleanPath;
   };
 
-const resolveProductLink = (item, isParent = false) => {
-  if (!item?.link) return item?.link;
+  const resolveProductLink = (item, isParent = false) => {
+    if (!item?.link) return item?.link;
 
-  const normalizedLink = toAbsolutePath(item.link || "");
-  const lowerName = (item.name || "").toLowerCase();
-  const lowerLink = normalizedLink.toLowerCase();
+    const normalizedLink = toAbsolutePath(item.link || "");
+    const lowerName = (item.name || "").toLowerCase();
+    const lowerLink = normalizedLink.toLowerCase();
 
-  const isUpvc =
-    lowerName.includes("upvc") ||
-    lowerLink.includes("upvc-window-making-machine-price");
+    const isUpvc =
+      lowerName.includes("upvc") ||
+      lowerLink.includes("upvc-window-making-machine-price");
 
-  const isAluminum =
-    lowerName.includes("aluminum") ||
-    lowerName.includes("aluminium") ||
-    lowerLink.includes("aluminum-window-machines");
+    const isAluminum =
+      lowerName.includes("aluminum") ||
+      lowerName.includes("aluminium") ||
+      lowerLink.includes("aluminum-window-machines");
 
-  if (isUpvc) {
-    // ✅ Parent keeps its real static route
-    if (isParent) return "/products/uPVC-window-making-machine-price";
-    const categorySlug = getUpvcCategorySlugByName(item.name);
-    return categorySlug ? `/products/${categorySlug}` : "/products/uPVC-window-making-machine-price";
-  }
+    if (isUpvc) {
+      // ✅ Parent keeps its real static route
+      if (isParent) return "/products/uPVC-window-making-machine-price";
+      const categorySlug = getUpvcCategorySlugByName(item.name);
+      return categorySlug
+        ? `/products/${categorySlug}`
+        : "/products/uPVC-window-making-machine-price";
+    }
 
-  if (isAluminum) {
-    // ✅ Parent keeps its real static route
-    if (isParent) return "/products/aluminum-window-machines";
-    const categorySlug = getAluminumCategorySlugByName(item.name);
-    return categorySlug ? `/products/${categorySlug}` : "/products/aluminum-window-machines";
-  }
+    if (isAluminum) {
+      // ✅ Parent keeps its real static route
+      if (isParent) return "/products/aluminum-window-machines";
+      const categorySlug = getAluminumCategorySlugByName(item.name);
+      return categorySlug
+        ? `/products/${categorySlug}`
+        : "/products/aluminum-window-machines";
+    }
 
-  return normalizedLink;
-};
+    return normalizedLink;
+  };
 
   const handleProductLinkClick = () => {
     setMobileOpen(false);
@@ -617,6 +621,14 @@ const resolveProductLink = (item, isParent = false) => {
           })}
         </div>
         <div className="flex-1"></div>
+        <Link
+          to="https://online.fliphtml5.com/prlmachines/yvca/001/"
+          target="_blank"
+        >
+          <button className="text-sm font-medium rounded-md md:mr-9 border px-5 py-[0.5px] text-center bg-white border-yellow-500 text-red-500 transition-colors">
+            View Catalogue
+          </button>
+        </Link>
         <div className="md:flex hidden items-center space-x-2 lg:space-x-4 ml-0">
           <div className="flex items-center text-xs lg:text-sm">
             <FaPhone className="mr-1 lg:mr-2 text-yellow-300" />
@@ -705,7 +717,7 @@ const resolveProductLink = (item, isParent = false) => {
                 </div>
               </div>
               <div className="relative group">
-                <div >
+                <div>
                   <div className="flex items-center text-gray-700 hover:text-red-600 font-medium transition-all duration-300 cursor-pointer text-sm xl:text-base whitespace-nowrap">
                     Our Company
                     <FiChevronDown className="ml-1 transition-transform duration-300 group-hover:rotate-180" />

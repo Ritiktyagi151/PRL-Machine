@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, ArrowRight, BellRing } from "lucide-react";
+import RecaptchaField from "../../components/RecaptchaField";
 
 const NewsletterSection = () => {
+  const [recaptchaToken, setRecaptchaToken] = useState("");
+
   return (
     <section className="relative py-12 sm:py-16 md:py-20 overflow-hidden bg-[#2A1E5A]">
       {/* 1. Background Image with Overlay */}
@@ -94,9 +97,12 @@ const NewsletterSection = () => {
                     />
                   </div>
 
+                  <RecaptchaField onChange={setRecaptchaToken} />
+                  <input type="hidden" name="recaptchaToken" value={recaptchaToken} />
                   {/* Submit Button */}
                   <button
                     type="submit"
+                    disabled={!recaptchaToken}
                     className="w-full sm:w-auto flex-shrink-0 px-6 sm:px-8 py-3 sm:py-4 bg-[#EB1C24] hover:bg-[#c4161d] text-white font-bold rounded-xl shadow-lg shadow-[#EB1C24]/30 hover:shadow-[#EB1C24]/50 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-2 group/btn text-sm sm:text-base"
                   >
                     <span>Subscribe</span>

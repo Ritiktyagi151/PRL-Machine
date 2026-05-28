@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { getCanonicalProductPath } from "../../utils/productRouting";
+import RecaptchaField from "../../components/RecaptchaField";
 
 const UPVC_API_URL = `${import.meta.env.VITE_API_BASE_URL}/upvcmachines`;
 const ALUMINUM_API_URL = `${
@@ -18,6 +19,7 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
 
   // Reset form when product changes
   useEffect(() => {
@@ -50,6 +52,8 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
           phone: formData.phone,
           message: formData.message,
           product_interest: product?.title || "General Enquiry",
+          recaptchaToken,
+          "g-recaptcha-response": recaptchaToken,
           _subject: `New Machine Enquiry: ${product?.title}`,
           _template: "table",
           _captcha: "false",
@@ -68,6 +72,7 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
         setSubmitSuccess(false);
         onClose();
         setFormData({ name: "", phone: "", email: "", message: "" });
+        setRecaptchaToken("");
       }, 2000);
     } catch (error) {
       console.error("Submission error", error);
@@ -175,9 +180,10 @@ const EnquiryModal = ({ isOpen, onClose, product }) => {
                     className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-red-500 focus:ring-red-500 outline-none"
                   ></textarea>
                 </div>
+                <RecaptchaField onChange={setRecaptchaToken} />
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !recaptchaToken}
                   className={`w-full text-white font-semibold py-2 px-4 rounded-md transition-colors duration-300 ${
                     isSubmitting
                       ? "bg-red-400 cursor-not-allowed"

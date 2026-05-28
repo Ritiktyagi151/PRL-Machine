@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { CheckCircle, MessageCircle } from "lucide-react"; // WhatsApp icon ke liye MessageCircle add kiya
+import RecaptchaField from "./RecaptchaField";
 
 const EnquiryForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -42,6 +44,8 @@ const EnquiryForm = () => {
           },
           body: JSON.stringify({
             ...formData,
+            recaptchaToken,
+            "g-recaptcha-response": recaptchaToken,
             _subject: "New Enquiry from Parida Red Lion Website",
             _template: "table",
           }),
@@ -51,6 +55,7 @@ const EnquiryForm = () => {
       if (response.ok) {
         setIsSubmitted(true);
         setFormData({ name: "", email: "", phone: "", message: "" });
+        setRecaptchaToken("");
 
         // Success ke baad auto-close ko 10 sec kar diya taaki user WhatsApp button dekh sake
         setTimeout(() => {
@@ -149,9 +154,10 @@ const EnquiryForm = () => {
                 placeholder="Tell us about your enquiry..."
               />
             </div>
+            <RecaptchaField onChange={setRecaptchaToken} />
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !recaptchaToken}
               className={`w-full text-white py-3 rounded-xl font-bold transition-all shadow-lg ${
                 isSubmitting
                   ? "bg-gray-400"

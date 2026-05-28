@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle } from "lucide-react";
+import RecaptchaField from "../../components/RecaptchaField";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
@@ -13,6 +14,7 @@ export default function ContactUsPage() {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
   const [pageData, setPageData] = useState({
     contactInfo: { address: "", phone: "", email: "", hours: "" },
     mapEmbed: "",
@@ -106,6 +108,8 @@ export default function ContactUsPage() {
             phone: formData.phone,
             subject: formData.subject,
             message: formData.message,
+            recaptchaToken,
+            "g-recaptcha-response": recaptchaToken,
             _subject: `New Contact: ${formData.subject}`, // Sets email subject line
             _template: "table", // Formats the email neatly
             // _captcha: "false" // Uncomment to disable ReCaptcha if needed
@@ -124,6 +128,7 @@ export default function ContactUsPage() {
           subject: "",
           message: "",
         });
+        setRecaptchaToken("");
         setTimeout(() => setIsSubmitted(false), 5000); // Increased timeout slightly for better UX
       } else {
         alert(data.message || "Something went wrong! Please try again.");
@@ -365,9 +370,10 @@ export default function ContactUsPage() {
                     placeholder="Tell us more about your inquiry..."
                   />
                 </div>
+                <RecaptchaField onChange={setRecaptchaToken} />
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={loading || !recaptchaToken}
                   className="w-full bg-gradient-to-r from-red-500 to-violet-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-red-600 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition-all transform hover:scale-105 flex items-center justify-center space-x-2"
                 >
                   {loading ? "Sending..." : <Send className="h-5 w-5" />}

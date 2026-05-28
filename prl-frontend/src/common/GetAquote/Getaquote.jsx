@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { FiX } from "react-icons/fi";
 import { FaTools, FaIndustry, FaSpinner } from "react-icons/fa";
+import RecaptchaField from "../../components/RecaptchaField";
 
 const GetQuoteModal = ({ isOpen, onClose }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
   const [quoteForm, setQuoteForm] = useState({
     name: "",
     email: "",
@@ -66,6 +68,8 @@ const GetQuoteModal = ({ isOpen, onClose }) => {
           },
           body: JSON.stringify({
             ...quoteForm,
+            recaptchaToken,
+            "g-recaptcha-response": recaptchaToken,
             // Special FormSubmit configurations:
             _subject: `New Quote Request: ${quoteForm.product}`,
             _template: "table", // Sends email data in a clean table
@@ -84,6 +88,7 @@ const GetQuoteModal = ({ isOpen, onClose }) => {
           product: "",
           message: "",
         });
+        setRecaptchaToken("");
         onClose();
       } else {
         alert("Something went wrong. Please try again or contact us directly.");
@@ -254,10 +259,11 @@ const GetQuoteModal = ({ isOpen, onClose }) => {
               </div>
             </div>
 
+            <RecaptchaField onChange={setRecaptchaToken} />
             <div className="flex justify-center pb-2">
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !recaptchaToken}
                 className={`w-full md:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform ${
                   isSubmitting
                     ? "opacity-75 cursor-not-allowed"

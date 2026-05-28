@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import RecaptchaField from "../components/RecaptchaField";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
   const navigate = useNavigate();
 
   // 👉 Yaha apna ID-PASSWORD set karo
@@ -73,9 +75,10 @@ const AdminLogin = () => {
             />
           </div>
 
+          <RecaptchaField onChange={setRecaptchaToken} />
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || !recaptchaToken}
             className={`w-full py-3 px-4 rounded-lg text-white font-semibold transition-all duration-500 ${
               isLoading
                 ? "bg-gray-400 cursor-not-allowed"

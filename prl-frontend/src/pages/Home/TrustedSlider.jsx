@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import RecaptchaField from "../../components/RecaptchaField";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -18,6 +19,7 @@ const OurPartners = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSending, setIsSending] = useState(false); // New state for loading
+  const [recaptchaToken, setRecaptchaToken] = useState("");
 
   // Details Modal State
   const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -139,6 +141,8 @@ const OurPartners = () => {
               _subject: "New Partner Application Request",
               _template: "table",
               ...formData,
+              recaptchaToken,
+              "g-recaptcha-response": recaptchaToken,
             }),
           }
         );
@@ -156,6 +160,7 @@ const OurPartners = () => {
             industry: "",
             requirements: "",
           });
+          setRecaptchaToken("");
         } else {
           alert("Something went wrong. Please try again.");
         }
@@ -455,6 +460,7 @@ const OurPartners = () => {
                       placeholder="Tell us about your partnership needs"
                     />
                   </div>
+                  <RecaptchaField onChange={setRecaptchaToken} />
                   <div className="flex justify-between pt-4 sticky bottom-0 bg-white pb-2">
                     <button
                       type="button"
@@ -466,7 +472,7 @@ const OurPartners = () => {
                     </button>
                     <button
                       type="submit"
-                      disabled={isSending}
+                      disabled={isSending || !recaptchaToken}
                       className={`px-5 py-2 bg-gradient-to-r from-red-600 to-purple-600 text-white font-medium rounded-lg hover:from-red-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center ${
                         isSending ? "opacity-75 cursor-not-allowed" : ""
                       }`}

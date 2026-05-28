@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import RecaptchaField from "../../components/RecaptchaField";
 
 const AdminProfile = () => {
   const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({});
+  const [recaptchaToken, setRecaptchaToken] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -28,12 +30,17 @@ const AdminProfile = () => {
     const token = localStorage.getItem("token");
 
     axios
-      .put("/api/admin/profile", formData, {
+      .put("/api/admin/profile", {
+        ...formData,
+        recaptchaToken,
+        "g-recaptcha-response": recaptchaToken,
+      }, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
         setProfile(res.data);
         setIsEditing(false);
+        setRecaptchaToken("");
       })
       .catch((err) => console.error(err));
   };
@@ -133,6 +140,7 @@ const AdminProfile = () => {
                 />
               </div>
 
+              <RecaptchaField onChange={setRecaptchaToken} />
               <div className="flex justify-end space-x-3 mt-4">
                 <button
                   type="button"
@@ -143,6 +151,7 @@ const AdminProfile = () => {
                 </button>
                 <button
                   type="submit"
+                  disabled={!recaptchaToken}
                   className="px-4 py-2 bg-purple-600 text-white rounded-md shadow hover:bg-purple-700 transition"
                 >
                   Save Changes
