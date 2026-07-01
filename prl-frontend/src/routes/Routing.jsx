@@ -122,7 +122,7 @@ const router = createBrowserRouter([
       { path: "blogs/:slug", element: <BlogDetails /> },
 
       { path: "enquiry", element: <EnquiryForm /> },
-      {
+      { 
         path: "turn-key",
         element: <TurnkeyPage />,
       },

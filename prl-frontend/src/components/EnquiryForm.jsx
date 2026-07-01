@@ -65,7 +65,7 @@ const EnquiryForm = () => {
       } else {
         alert("Something went wrong. Please try again.");
       }
-    } catch (error) {
+    } catch {
       alert("Network error. Please check your connection.");
     } finally {
       setIsSubmitting(false);
@@ -80,15 +80,17 @@ const EnquiryForm = () => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/40">
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+    <div className="prl-enquiry-overlay fixed inset-0 z-50 flex items-start sm:items-center justify-center backdrop-blur-sm bg-black/40 overflow-y-auto px-3 py-4 sm:p-4">
+      <div className="prl-enquiry-modal relative bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden my-auto">
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 to-red-600 p-6">
+        <div className="bg-gradient-to-r from-purple-600 to-red-600 p-4 sm:p-6">
           <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold text-white">Parida Red Lion</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">
+              Parida Red Lion
+            </h2>
             <button
               onClick={closeModal}
-              className="text-white hover:scale-125 transition-transform text-2xl font-bold"
+              className="text-white hover:scale-125 transition-transform text-2xl font-bold leading-none"
             >
               ×
             </button>
@@ -97,7 +99,10 @@ const EnquiryForm = () => {
 
         {!isSubmitted ? (
           /* Form Section */
-          <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          <form
+            onSubmit={handleSubmit}
+            className="p-4 sm:p-6 space-y-3 sm:space-y-4"
+          >
             <p className="text-gray-600 text-sm">We'd love to hear from you!</p>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -109,7 +114,7 @@ const EnquiryForm = () => {
                 required
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none text-sm sm:text-base"
                 placeholder="Enter your full name"
               />
             </div>
@@ -123,7 +128,7 @@ const EnquiryForm = () => {
                 required
                 value={formData.email}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none text-sm sm:text-base"
                 placeholder="Enter your email"
               />
             </div>
@@ -136,7 +141,7 @@ const EnquiryForm = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none text-sm sm:text-base"
                 placeholder="Enter your phone number"
               />
             </div>
@@ -150,11 +155,13 @@ const EnquiryForm = () => {
                 rows="3"
                 value={formData.message}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 outline-none text-sm sm:text-base resize-none"
                 placeholder="Tell us about your enquiry..."
               />
             </div>
-            <RecaptchaField onChange={setRecaptchaToken} />
+            <div className="prl-enquiry-recaptcha">
+              <RecaptchaField onChange={setRecaptchaToken} />
+            </div>
             <button
               type="submit"
               disabled={isSubmitting || !recaptchaToken}
@@ -169,7 +176,7 @@ const EnquiryForm = () => {
           </form>
         ) : (
           /* Thank You + WhatsApp Section */
-          <div className="p-10 text-center animate-in fade-in zoom-in duration-300">
+          <div className="p-6 sm:p-10 text-center animate-in fade-in zoom-in duration-300">
             <div className="flex justify-center mb-4">
               <div className="bg-green-100 p-4 rounded-full">
                 <CheckCircle className="w-12 h-12 text-green-600" />
@@ -209,6 +216,44 @@ const EnquiryForm = () => {
           </p>
         </div>
       </div>
+      <style>{`
+        .prl-enquiry-modal {
+          max-height: calc(100dvh - 32px);
+          overflow-y: auto;
+          overscroll-behavior: contain;
+        }
+
+        .prl-enquiry-recaptcha {
+          max-width: 100%;
+          overflow-x: auto;
+          overflow-y: hidden;
+          padding-bottom: 2px;
+        }
+
+        .prl-enquiry-recaptcha > div {
+          max-width: 100%;
+        }
+
+        @media (max-width: 380px) {
+          .prl-enquiry-overlay {
+            padding-left: 10px;
+            padding-right: 10px;
+          }
+
+          .prl-enquiry-recaptcha {
+            transform: scale(0.86);
+            transform-origin: left center;
+            width: 116.28%;
+          }
+        }
+
+        @media (max-height: 680px) {
+          .prl-enquiry-modal {
+            margin-top: 0;
+            margin-bottom: 0;
+          }
+        }
+      `}</style>
     </div>
   );
 };

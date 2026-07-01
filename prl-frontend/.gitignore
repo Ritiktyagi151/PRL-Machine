@@ -2,3 +2,7 @@ node_modules
 dist.zip
 dist/
 dist/assets/vedios/
+.env.local
+ 
+.env.production
+.env.development

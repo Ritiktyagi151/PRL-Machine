@@ -112,12 +112,12 @@ const GetQuoteModal = ({ isOpen, onClose }) => {
   return (
     <div
       onClick={handleBackdropClick}
-      className={`fixed inset-0 z-[5000] backdrop-blur-sm bg-black/40 flex items-center justify-center p-4 transition-opacity duration-300 ${
+      className={`fixed inset-0 z-[5000] backdrop-blur-sm bg-black/40 flex items-start sm:items-center justify-center overflow-y-auto p-3 sm:p-4 transition-opacity duration-300 ${
         isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
       <div
-        className={`relative bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all duration-300 ${
+        className={`prl-quote-modal relative bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-y-auto my-auto transform transition-all duration-300 ${
           isOpen ? "scale-100" : "scale-95"
         }`}
         onClick={(e) => e.stopPropagation()}
@@ -259,7 +259,9 @@ const GetQuoteModal = ({ isOpen, onClose }) => {
               </div>
             </div>
 
-            <RecaptchaField onChange={setRecaptchaToken} />
+            <div className="prl-quote-recaptcha">
+              <RecaptchaField onChange={setRecaptchaToken} />
+            </div>
             <div className="flex justify-center pb-2">
               <button
                 type="submit"
@@ -282,6 +284,31 @@ const GetQuoteModal = ({ isOpen, onClose }) => {
           </form>
         </div>
       </div>
+      <style>{`
+        .prl-quote-modal {
+          max-height: calc(100dvh - 32px);
+          overscroll-behavior: contain;
+        }
+
+        .prl-quote-recaptcha {
+          max-width: 100%;
+          overflow-x: auto;
+          overflow-y: hidden;
+          padding-bottom: 8px;
+        }
+
+        .prl-quote-recaptcha > div {
+          max-width: 100%;
+        }
+
+        @media (max-width: 380px) {
+          .prl-quote-recaptcha {
+            transform: scale(0.86);
+            transform-origin: left center;
+            width: 116.28%;
+          }
+        }
+      `}</style>
     </div>
   );
 };
