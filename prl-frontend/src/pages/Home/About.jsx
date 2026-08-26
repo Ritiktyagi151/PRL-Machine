@@ -102,7 +102,7 @@ const AboutSection = () => {
                 </div>
               </motion.div>
 
-              <Link to="/ourcompany/about">
+              <Link to="our-company/about-us">
                 <motion.button
                   className="mt-6 px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
                   variants={itemVariants}
